@@ -1,0 +1,98 @@
+
+---
+#Two simple Approachs to Prediction#
+
+---
+
+앞의 Introduction에서는 가볍게 지도학습과 비지도학습을 설명하며 글을 시작하였다.
+
+교재의 앞부분에서 중점적으로 다룰 지도학습은 간단하게 입력값에 대한 목표치가 주어져있으며, 이를 가지고 있는 데이터를 이용해 예측하거나 분류하는 것이라고 말할 수 있다.
+
+2단원의 시작으로는 예측에 있어 간단하게 사용하는 두 가지 방법을 소개한다.
+
+* Least Squares
+
+* Nearest Neighbors rule
+
+
+##Least Squares##
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp; 대표적으로 우리가 알고있는 선형모델을 표현하면 아래와 같다.
+
+$$\hat{Y}=\hat{\beta_0}+\sum\limits_{j=1}^p{X_{j}\hat{\beta_{j}}}$$
+
+위의 식에서 $X^T = (X_1,X_2,..,X_{p})$ 의 형태를 띄는 벡터이다.
+
+
+ &nbsp;&nbsp;&nbsp;&nbsp; 여기서 $\hat{\beta_0}$는 *intercept*이며 이는 기계학습에서 *bias(편향)*이라 칭하기도한다. 우리는 편의상 $\hat{Y}$를 깔끔하게 표현하기 위해 ${X}$벡터 안에 constant variable 1을 집어 넣어 $\hat{\beta_0}$를 $\hat{\beta}$에 포함시켜 
+ $\hat{Y}={X}^T\hat{\beta}$로 표기한다. 이는 선형모델을 내적의 형태로 만들어 표기한다는 것에 있어 또 다른 편리함이 존재한다.
+ 
+ 위의 선형모델 식에 따르면 ${Y}$는 scalar지만, 일반적으로 K-vector라고 한다면, ${\beta}$는 $p\times{K}$의 행렬이 된다.
+ 
+ $({X},{\hat{Y}})$는 $p+1$차원의 입출력 공간에 존재하는 hyperplane을 나타내게 된다.
+ 
+&nbsp;&nbsp;&nbsp;&nbsp; 어떻게 하면 가지고 있는 trainig data를 선형모델에 잘 fitting 시킬 수 있을까? 다양한 방법들이 존재하지만, 위에서 언급했듯이 가장 대중적으로 사용하는 방식은 least squares method일 것이다.
+
+ 이 방법은 실제 ${y}$값과 선형 모델을 통해 추정한 ${\hat{y}}$ 간의 차이인 잔차의 제곱을 최소화하는 ${\beta}$를 찾는 원리를 이용하며, 이를 수식으로 표현하면 아래와 같다.
+ 
+ $$RSS({\beta})= \sum\limits_{i=1}^{N}({y_{i}}-{x_{i}}^T{\beta})^2$$
+ 
+ 
+ $RSS({\beta})$는 파라미터에 대해 2차항의 함수 꼴이기에 최소값이 언제나 존재하지만, 고유의 해를 갖진 않을 수도 있다. 
+ 
+ 해를 구하는 것을 행렬로 도식화 한다면 아래와 같이 표현할 수 있다.
+ 
+ $$RSS({\beta})=(\mathbf{y}-\mathbf{X}{\beta}^T(\mathbf{y}-\mathbf{X}{\beta})$$
+ 
+ 여기서 **X** 는 Nxp 행렬이며 각각의 행은 입력 벡터를 의미하고, **y**는훈련 데이터 셋의 출력값으로 N-vector를 갖는다. 위의 식을 {\beta}에 대해서 미분을 해보면 우리는  아래와 같은 normal equations을 얻을 수 있다.
+ 
+ $$\mathbf{X}^T(\mathbf{y}-\mathbf{X}{\beta})=0$$
+
+ 만약 $\mathbf{X}^T\mathbf{X}$가 nonsingular 즉 $det(\mathbf{X}^T\mathbf{X})=0$이라면 유니크한 값을 갖는 해는 ${\hat{\beta}}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$ 이며, i번째 입력값 ${x_{i}}$의 fitted value는 $\hat{y_{i}}=\hat{y}(x_{i})=x_{i}^T\hat{\beta}$가 된다.
+
+
+ 전체 fitted surface는 p개의 파라미터 $\hat{\beta}$로 이루어져있다. 직관적으로 볼 때 이는 우리가 지나치게 많은 데이터 셋을 가지고 있지 않아도 특정 모델에  fitting 시킬 수 있음을 보여준다.
+
+**Example**
+
+
+&nbsp;&nbsp;&nbsp;&nbsp; 선형 모델을 이용한 간단한 분류의 예시를 살펴보자.
+
+ ![](2_photo1.png)
+
+ &nbsp;&nbsp;&nbsp;&nbsp;이는 교재 figure 2.1에 수록된 산점도이다. 이는 $X_1$ 과 $X_2$ 쌍의 산점도를 나타내며, 출력되는 class variable G는 BLUE or ORANGE로 두 가지가 있다. 각 클래스 별로는 100개의 데이터가 존재하며, 선형모델을 적용하여 이 데이터에 fitting을 한다. 회귀분석을 위해 response Y를 BLUE면 0으로, ORANGE면 1로 표기하며, fitted values인 $\hat{Y}$는 예시에 제시된 규칙에 따라서 $\hat{Y}$가 0.5보다 크다면 fitted class variable인 $\hat{G}$를 ORANGE(=1)로, 그렇지 않으면 BLUE(=0)로 반환한다.
+ 
+ $\mathbf{R}^2$ 공간에서의 점들의 셋은 위에서 언급한 rule에 의해 두 가지로 분류되며, 이 때의 ${\{x: x^T{\hat{\beta}}=0.5}\}$ 의 hyperplane이 (여기서는 1차원의 직선을 의미한다.) *decision boundary*가 된다.
+ 
+이 경우에서 우리는 *decision boundary*를 기준으로 몇몇의 잘못 분류되어있는 점들을 확인할 수 있다. **이러한 오분류가 일어나는 것이 모델이 너무 엄격해서 일까 ? 아니면 이러한 몇몇 error들은 불가피한 오류인 것일까?** 우리가 가지고 있는 training data를 어떻게 얻게 되었는지를 언급하지 않은 상태에서 두 가지 가능한 시나리오를 생각해보자.(data가 어떻게 gathering되었는지 알 수 있다면 판단은 조금 달라진다는 것을 의미하는 것일까? 추후에 알아보자.)
+
+
+* Scenario 1 :
+
+각 범주에 속하는 training data는 서로 독립이며 다른 모평균을 갖는 이변량 가우시안 분포에서 생성되었다.
+
+
+* Scenario 2:
+
+각 범주에 속하는 training data는 각 분포의 모평균이 가우시안 분포를 따르는 10개의 low-variance 가우시안 분포의 혼합모델에서 생성되었다.
+
+&nbsp;&nbsp;&nbsp;&nbsp; 가우시안 분포의 혼합은 generative model로 잘 설명할 수 있다. 여기서 generative model이라 함은, 주어진 여러개의 가우시안 분포 중에서(위의 시나리오2에서는 10개의 가우시안분포.) 어떤 분포를 사용할지를 택하는 discrete한 변수를 생성한 뒤 정해진 density로부터 관측치를 생성하는 모델이라고 설명할 수 있다. 한 클래스마다 하나의 가우시안 분포를 적용하는 것은(=한 클래스에 속하는 관측치가 하나의 Normal을 따르는 확률변수에서 파생된 것이라면,) 뒤에 4장에서 다시 배우겠지만 1차원의 decision boundary가 최선의 방법이며, 이때 우리가 얻은 추정치가 최적의 결과일 것이다. 하지만 이러한 선형적인 decision boundary 케이스에서 두 범주 간 영역의 overlap은 불가피하며 예측해야하는 미래의 데이터 또한 이러한 overlap의 늪에서 자유로울 수 없을 것이다.
+
+ 만약 여러개의 범주가 빽빽하게 서로 각각의 다른 정규분포로부터 나온 확률변수에서 파생된 것이라면, 이야기는 조금 달라진다. 이 때는 직선으로 그은 decision boundary가 최적의 의사결정을 내리는데에 적절하지 않을 가능성이 높으며, 실제로도 그렇다. 이런 케이스에서의 최적의 decision boundary는 위와 다르게 더 nonlinear 할 것이며, disjoint하게 클래스 간의 구분을 잘 해줄 것이지만 이를 얻기란 매우매우 어려운 일이다.(설령 너무나도 잘 분류하고 싶어서 꼬불꼬불 구역을 나눈다 하더라도 과적합의 문제 또한 발생할 수 있겠지..)
+ 
+ 
+ &nbsp;&nbsp;&nbsp;&nbsp; 이 내용은 추후에 조금 더 다뤄보도록 하고 위에서 언급한 두번째 시나리오에 조금 더 적합한, 선형회귀와는 N극과 S극 마냥 반대선상에 있는 다른 분류방법을 보도록 하자.
+ 
+## Nearest-Neighbor Methods ##
+ 
+ 
+
+
+ 
+ 
+
+
+
+
