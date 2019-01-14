@@ -1,6 +1,8 @@
 # Swayer, Kim :)
 
 $\hat{\sigma}$
+$$\tilde{\epsilon}$$
+$$\epsilon_{11}$$
 
 $$\theta=\theta_0$$
 
