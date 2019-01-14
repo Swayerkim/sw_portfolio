@@ -64,7 +64,7 @@ $$\hat{Y}=\hat{\beta_0}+\sum\limits_{j=1}^p{X_{j}\hat{\beta_{j}}}$$
 
 &nbsp;&nbsp;&nbsp;&nbsp; 선형 모델을 이용한 간단한 분류의 예시를 살펴보자.
 
- ![](2_photo1.png)
+ ![](02_photo1.png)
 
  &nbsp;&nbsp;&nbsp;&nbsp;이는 교재 figure 2.1에 수록된 산점도이다. 이는 $X_1$ 과 $X_2$ 쌍의 산점도를 나타내며, 출력되는 class variable G는 BLUE or ORANGE로 두 가지가 있다. 각 클래스 별로는 100개의 데이터가 존재하며, 선형모델을 적용하여 이 데이터에 fitting을 한다. 회귀분석을 위해 response Y를 BLUE면 0으로, ORANGE면 1로 표기하며, fitted values인 $\hat{Y}$는 예시에 제시된 규칙에 따라서 $\hat{Y}$가 0.5보다 크다면 fitted class variable인 $\hat{G}$를 ORANGE(=1)로, 그렇지 않으면 BLUE(=0)로 반환한다.
  
