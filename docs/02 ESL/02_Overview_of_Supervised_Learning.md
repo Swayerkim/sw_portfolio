@@ -48,7 +48,7 @@ $$\hat{Y}=\hat{\beta_0}+\sum\limits_{j=1}^p{X_{j}\hat{\beta_{j}}}$$
  
  해를 구하는 것을 행렬로 도식화 한다면 아래와 같이 표현할 수 있다.
  
- $$RSS({\beta})=(\mathbf{y}-\mathbf{X}{\beta}^T(\mathbf{y}-\mathbf{X}{\beta})$$
+ $$RSS({\beta})=(\mathbf{y}-\mathbf{X}{\beta}^T)(\mathbf{y}-\mathbf{X}{\beta})$$
  
  여기서 **X** 는 Nxp 행렬이며 각각의 행은 입력 벡터를 의미하고, **y**는훈련 데이터 셋의 출력값으로 N-vector를 갖는다. 위의 식을 {\beta}에 대해서 미분을 해보면 우리는  아래와 같은 normal equations을 얻을 수 있다.
  
@@ -94,12 +94,48 @@ $$\hat{Y}=\hat{\beta_0}+\sum\limits_{j=1}^p{X_{j}\hat{\beta_{j}}}$$
 ## Nearest-Neighbor Methods ##
  
  
+ &nbsp;&nbsp;&nbsp;&nbsp;Nearest-Neighnor Methods는 입력공간에서의 x와 가장 가까운 거리에 있는 training set T 안에 있는 관측치들로 $\hat{Y}$를 형성하는 방법이다. 특히 k개의 최근접 이웃으로 fitting한 $\hat{Y}$는 아래와 같이 정의할 수 있다.
+ 
+ $$\hat{Y}(x)=\frac{1}{k}\sum\nolimits_{x_i \in N_{k}(x)}{y_{i}}$$
+ 
+ 여기서 $N_{k}(x)$란 training sample안에서 점 $x_{i}$과 제일 가까운 k개의 관측치를 의미한다. 가장 nearest한 거리는 어떻게 정의되는가? 이 방법에서 우리는 Euclidean distance를 가정하며, 이는 x에서 유클리디안 거리로 제일 가까운 k개의 관측치들을 찾고, 이들의 **종속변수**(Response)의 평균을 구하는 것이다.
+ 
+  ![](02_photo2.png)
+ 
+ &nbsp;&nbsp;&nbsp;&nbsp;앞에서 언급한 binary classification의 예제를 이번에는 Nearest-Neighbor Methods를 이용하여 접근해보고자 한다. 문제에서 k는 15로 지정하였으며, binary로 coded된 출력변수의 15개 평균으로 model fitting을 했다. 위의 방법은 관측된 값이 (0,1)로 binary class의 두 가지 결과값으로 나오기 때문에, 최근접 이웃의 방법을 따르면 우리가 얻게되는 $\hat{Y}$는 $x_{i}$주변의 15개의 관측치의 종속변수들 안에서 Orange의 비율을 나타낼 것이다.
+ 
+ &nbsp;&nbsp;&nbsp;&nbsp; 앞서 least squares 방법을 쓴 것에 비해 위의 방법은 오분류한 클래스들이 다소 적어 보인다. 그림만으로도 확인이 가능하듯이 이 예제에 한해서는 최소제곱법보다는 k=15의 최근접이웃방법을 적용하는 것이 classification에 더 좋은 모델임을 보여준다. 또 다른 그림을 보자.
+ 
+  ![](02_photo3.png)
+  
+ 
+  &nbsp;&nbsp;&nbsp;&nbsp; 위의 그림 k를 1로 설정하고 최근접이웃 방법을 사용한 모습이다. 일일이 확인해보면 모든 데이터들이 한개도 빠짐없이 바르게 분류되어있음을 확인할 수 있다. 우리는 이를 통해 몇가지 사실을 알았다.
+  
+* k최근접이웃 방법에서는 훈련데이터들의 에러가 대략 k에 대한 증가함수라는 것을 알 수 있다. 또한 k가 1이라면 error는 항상 0이다.
+  
+* k최근접이웃은 p개의 파라미터를 갖는 최소제곱법과 달리 오로지 k한개만의 모수를 갖고 이를 통해 모델이 결정된다.
+  
+ 우리는 효과적인 k의 값은 대개 p보다는 큰 $N/k$이며, 이는 k값이 증가함에 따라 감소함을 알 수 있다. 만약 이웃들간의 영역이 겹치지 않는다면 우리는 각 region마다 하나의 모수를 fitting할 것이기 때문이다.
+ 
+  이와 같은 특징을 갖는 최근접이웃의 방법은 우리가 앞서 제시한 두개의 시나리오 상황에서 특히 시나리오2에 더 적합한 분류기법이다.  정규분포를 따르는 자료에서 decision boundary가 불필요하게 noisy가 많았기 때문이다.
+  
+  
+*From Least Squares to Nearest Neighbors*
 
+&nbsp;&nbsp;&nbsp;&nbsp; 최소제곱법은 모델 setting이 아주 smooth하고, fitting에 있어서 안정적이다. 하지만 이는 선형 decision boudary가 타당하다는 아주 무거운 가정을 만족해야한다는 단점이 있다. 
 
+ 반대로 최근접이웃방법은 가정의 제약은 거의 없고 어떤 상황에서든 적절하게 k를 조정하여 사용할 수있다는 장점이 있다. 하지만 이는 decision boundary가 매우 복잡하게 비선형적인 form을 띄기 때문에, 적은 편향을 갖지만, 높은 분산을 지닌다.
+ 
+  **variance-bias trade off**의 문제로써, 두가지의 방법은 순서대로 **(low variance-high bias), (high variance-low bias)**를 갖는다.
  
  
+ 각각의 방법은 각자 적합한 상황이 있으며, 시나리오1에는 최소제곱법이, 시나리오2에서는 최근접이웃법이 적절할 것으로 보여진다.
 
 
+&nbsp;&nbsp;&nbsp;&nbsp; 오늘날 이 두가지 방법은 가장 대중적으로 쓰이는 대표적인 방법이다. 일례로 k=1 최근접이웃방법은 시장의 대부분에서 저차원의 문제를 해결하는데 사용되는 방법이다.  
+
+##Statistical Decision Thoery##
+ 
 
 
 
