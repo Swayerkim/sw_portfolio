@@ -269,6 +269,39 @@ $(document).ready(function () {
 </div>
 <div id="statistical-decision-thoery" class="section level2">
 <h2>Statistical Decision Thoery</h2>
+<p>이번 단원에서는 이 전에 언급했었던 두가지 모델 등을 포함한 몇몇의 모델을 발전시키는데 인사이트를 제공해줄 몇가지 이론 등을 발전시켜보고자 한다. 먼저 quantative한 output들에 대하여 생각해볼 것이며, random variables(확률변수)과 probability space(확률공간)에 대해서 논의를 할 것이다.</p>
+<p>먼저 <span class="math inline">\({X} \in \mathbf{R}^p\)</span>는 실수의 입력벡터이며, <span class="math inline">\({Y} \in \mathbf{R}\)</span>는 출력되는 확률변수이다. 또한 이둘의 결합분포는 <span class="math inline">\(Pr(X,Y)\)</span>로 표기한다.</p>
+<p>우리는 <span class="math inline">\(Y\)</span>를 예측하기 위해 주어진 입력변수 <span class="math inline">\(X\)</span>를 이용하여 <span class="math inline">\(f(X)\)</span>라는 함수를 찾고자한다. 이 이론은 예측에 있어서 error를 penalize하는 loss function <span class="math inline">\(L(Y,f(X)\)</span>를 필요로한다. 이에 대한 예시로 우리에게 가장 잘 알려진 <em>squared error loss</em>가 있다. (=<span class="math inline">\(L(Y,f(X)))= (Y-f(X))^2\)</span>).</p>
+<p>이는 우리가 f를 찾을 수 있게하며, 식을 전개하면 아래와 같다.</p>
+<p><span class="math display">\[EPE(f) = E(Y-f(X))^2 = \int[y-f(x)]^2f(x,y)dxdy\]</span> 이를 X에 대해 조건부식으로 표현하면</p>
+<p><span class="math display">\[EPE(f) = {E}_{X}{E}_{Y|X}([Y-f(X)]^2|X)\]</span></p>
+<p>가 되며 EPE를 pointwise하게 만족시키는 f(x)는 아래와 같이 표현할 수 있고 그 밑에 이어지는 식이 그때의 해(<span class="math inline">\(f(X)\)</span>)이다.</p>
+<p><span class="math display">\[f(x)=argmin_{c}E_{Y|X}([Y-c]^2|X=x)\]</span></p>
+<p><span class="math display">\[f(x)=E(Y|X=x)\]</span> 이 해는 조건부평균을 의미하며 또한 regression function으로 잘 알려져있다. 다시말해 average squared error가 최적의 예측척도로 여겨질 때, best prediction of <span class="math inline">\(Y\)</span> at any point <span class="math inline">\(X=x\)</span>는 Y의 X에 대한 조건부 평균이라는 것이다.</p>
+<p><strong>k-NN methods에서는 해의 추정치를 아래와 같이 표현한다.</strong></p>
+<p><span class="math display">\[\hat{f}(x)=Ave(y_{i}|x_{i} \in N_{k}(x))\]</span></p>
+<p>위 식에서는 두가지의 approximation이 존재하는데,</p>
+<ul>
+<li><p>기댓값은 샘플 데이터들의 평균으로 근사한다는 것과,</p></li>
+<li><p>한 점에서의 conditioning은 목표지점과 가까운 어떤 지역의 conditioning으로 relax된다는 것이다.</p></li>
+</ul>
+<p>만약 knn에서 샘플의 사이즈가 아주크고, k또한 크다면, 평균은 더 안정적으로 변할 것이고, 결합확률분포의 mild regularity conditions하에서 <span class="math inline">\(f(x)\)</span>가 <span class="math inline">\(E(Y|X=x)\)</span>로 근사한다. 하지만 종종 우리가 다루는 데이터들의 표본의 크기는 항상 크지가 않으며, 차원이 커지면 새롭게 발생하는 문제들도 존재한다. 이는 추후 뒷장에서 다뤄보도록 하자.</p>
+<p>     우리는 knn과 최소제곱법이 모두 조건부 기댓값을 통해 <span class="math inline">\(f(x)\)</span>를 찾아가는 것을 알았다. 하지만 최소제곱법에서는 두가지 조건을 가정해야한다.</p>
+<ul>
+<li><p>회귀함수 <span class="math inline">\(f(x)\)</span>가 globally linear function에 의해 잘 근사되어야한다는 것.</p></li>
+<li><p><span class="math inline">\(\beta=[E(XX^T)]^{-1}E(XY)\)</span></p></li>
+</ul>
+<p>knn 방법은 <span class="math inline">\(f(x)\)</span>가 locally constant function에 의해서 잘 근사되어야한다는 가정을 필요로한다.</p>
+<p>     <span class="math inline">\(L_2\)</span> loss function 대신 <span class="math inline">\(L_1: E|Y-f(X)|\)</span>를 쓸 수는 없는걸까? 이에 대한 해답은 아래와 같다.</p>
+<p><span class="math display">\[\hat{f}(x)=median(Y|X=x)\]</span> 이는 location에 대한 다른 측정방법이며 조건부 평균에 비해서는 조금더 robust한 estimates이다. 하지만 이러한 loss function에 대한 접근은 미분을 함에 있어서 불연속점을 갖고있기 때문에 널리 사용될 수 있는 방법은 아니다. 외부의 변화에 더 robust한 loss function들은 뒷 장에서 추후에 추가 설명을 할 것이다. 하지만 그럼에도 역시 squared error methods가 가장 널리 알려져있고 편리한 방법일 것이다.</p>
+<p>     출력변수가 categorical output이라면 어떨까? 이는 수치형 자료일 때와 같은 paradigm을 공유하며, 오직 예측오차를 penalize하는 loss function만 다르면 된다. loss function은 <span class="math inline">\(K\times{K}\)</span>의 matrix <span class="math inline">\(\mathbf{L}\)</span>이며, 이는 대각원소가 0이고 모든 원소가 nonnegative한 행렬이다. 여기서 <span class="math inline">\(L(k,l)\)</span>은 K class에 속하는 관측치를 L class에 분류하였을 때 드는 cost를 의미한다.</p>
+<p>우리는 대개 loss funtion으로 <span class="math inline">\(zero-one\)</span> loss function을 사용하며, 이때 expected prediction error는 아래와 같다.</p>
+<p><span class="math display">\[EPE=E(L(G,\hat{G}(X))]\]</span></p>
+<p>이를 앞에와 똑같은 방법으로 X에 대해 조건부 기대값을 걸면</p>
+<p><span class="math display">\[EPE=E_{X}\sum\limits_{k=1}^{K}L[G_{k},\hat{G}(X)]Pr(G_{k}|X)\]</span> 로 표현된다.</p>
+<p>똑같이 EPE pointwise를 최소화하게 만족하는 <span class="math inline">\(\hat{G}(x)\)</span>는 <span class="math inline">\(argmin_{{g}\in {G}}\sum\limits_{k=1}^KL(G_{k},g)Pr(G_{k}|X=x)\)</span>이고 0-1 loss function에서 이를 간략하게 아래처럼 표현할 수 있다.</p>
+<p><span class="math display">\[\hat{G}(x)=argmin_{{g}\in {G}}[1-Pr(g|X=x)]\]</span> 또는, <span class="math inline">\(\hat{G}(x)=G_{k}\)</span> if <span class="math inline">\(Pr(G_{k}|X=x)=max_g\in{G}Pr(g|X=x)\)</span>로 표기가능하다.</p>
+<p>위의 해는 <em>Bayes classifier</em>로 알려져 있으며, 이는 조건부 이산분포 <span class="math inline">\(Pr(G|X)\)</span>를 이용하여 가장 probable한 class에 분류하는 것이다. 베이즈 분류기의 error rate는 <em>Bayes rate</em>로 불린다.</p>
 </div>
 </div>
 
