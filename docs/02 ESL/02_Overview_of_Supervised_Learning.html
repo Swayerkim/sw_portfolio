@@ -302,6 +302,92 @@ $(document).ready(function () {
 <p>똑같이 EPE pointwise를 최소화하게 만족하는 <span class="math inline">\(\hat{G}(x)\)</span>는 <span class="math inline">\(argmin_{{g}\in {G}}\sum\limits_{k=1}^KL(G_{k},g)Pr(G_{k}|X=x)\)</span>이고 0-1 loss function에서 이를 간략하게 아래처럼 표현할 수 있다.</p>
 <p><span class="math display">\[\hat{G}(x)=argmin_{{g}\in {G}}[1-Pr(g|X=x)]\]</span> 또는, <span class="math inline">\(\hat{G}(x)=G_{k}\)</span> if <span class="math inline">\(Pr(G_{k}|X=x)=max_g\in{G}Pr(g|X=x)\)</span>로 표기가능하다.</p>
 <p>위의 해는 <em>Bayes classifier</em>로 알려져 있으며, 이는 조건부 이산분포 <span class="math inline">\(Pr(G|X)\)</span>를 이용하여 가장 probable한 class에 분류하는 것이다. 베이즈 분류기의 error rate는 <em>Bayes rate</em>로 불린다.</p>
+<p>     다시 k-최근접이웃 분류기를 돌아보면, 우리는 이 분류방법이 직접적으로 위의 해에 근사한다는 것을 알 수 있다. 이는 앞에서 확인하였듯이, 주변 이웃을 구성하는 클래스들 안에서 다수결로 예측을 시행하며, 한 지점의 조건부 확률은 주변 점의 이웃들의 조건부 확률로 완화되는 것을 알 수 있다. 또한 그때의 확률은 training-sample의 proportions으로 측정된다.</p>
+<p>Binary classification 문제에서 우리는 error의 loss function이 <span class="math inline">\(\hat{f}(X)=E(Y|X)=Pr(G=G_{1}|X)\)</span> , if <span class="math inline">\(G_{1}\)</span> corresponded to Y=1가 되는 것을 알고, 이 것이 K-class로 확장된다면 손실함수는 <span class="math inline">\(E(Y_{k}|X)=Pr(G=G_{k}|X)\)</span>가 된다. 이 수식은 더미변수를 활용한 회귀의 과정이 베이즈분류기의 또다른 방법을 보여주는 것을 의미한다.</p>
+<p>하지만 실제 문제를 처리할 때 선형모델을 사용하면서 <span class="math inline">\(\hat{f}(X)\)</span>는 무조건 양의 값을 가져야하진 않으며, 이럴 때 우리는 이를 확률의 추정치로 사용할 때 어려움에 당도할 수도 있다. 이러한 문제는 추후 챕터 4장에서 다뤄보도록 하자.</p>
+</div>
+<div id="local-methods-in-high-dimensions" class="section level2">
+<h2>Local Methods in High Dimensions</h2>
+<p>     knn averaging을 통해 표본의 크기가 점점 커져도 우리는 언제나 이상적인 최적의 조건부 평균값으로 근사할수있을까? 아쉽게도 이러한 생각은 고차원의 문제에서 <strong>가볍게 깨져버리는 기대</strong>이며 이러한 현상을 우리는 차원의 저주(<em>curse of dimensionality</em>)라고 칭한다. 이에 대한 예시를 몇개만 살펴보겠다.</p>
+<p>p차원의 hypercube안에서 균등하게 분포되어 있는 input에 대한 최근접이웃 절차를 살펴보자. 관측치에서 fraction r을 포착하기 위해 타겟 포인트에 대한 hypercubical neighborhood를 보낸다고 생각해보자. 이는 결국 <span class="math inline">\(\frac{r}{volume}\)</span>이며, expected dege legnth는 <span class="math inline">\(e_{p}(r)=r^{1/p}\)</span>가 될 것이다. 10차원의 예시에서 r을 조정하며 예시를 들자면, <span class="math inline">\(e_{10}(0.01)=0.63\)</span>, <span class="math inline">\(e_{10}(0.1)=0.8\)</span>이 되며 각 입력변수에 대한 전체 range는 1.0이다. 이는 다시말해 우리가 1%와 10%로 각각입력변수의 local average를 포착하기 위해 커버해야하는 입력변수의 범위가 63%와 80%나 필요하다는 것을 의미한다. 이러한 이웃은 더이상 <strong>local</strong>하지 않다. 이러한 문제를 없애기 위하여 차원을 줄인다고 한다면 이는 더 적은 관측치로 평균값을 내게 되므로, 분산은 더욱 더 커지는 문제가 발생한다.</p>
+<p>또다른 고차원에서의 sparse sampling의 결과로는 모든 표본 지점들이 표본의 경계에 가깝다는 점이다. 이는 다시 말해 차원이 높아질수록 공간의 사이즈는 기하급수적으로 커지는데에 반해 오히려 sample point들이 한 쪽 구석으로 몰려 이루어지게된다는 것을 의미한다.</p>
+<p>이는 대부분의 데이터들이 다른 data point들 간의 거리보다 표본공간의 경계와 더 가깝다는 것을 의미하고 training sample의 경계에서는 더욱 더 예측을 어렵게한다는 문제점을 낳는다.</p>
+<div id="---" class="section level4">
+<h4>여기는 넘 어려워서 이따가하자</h4>
+</div>
+</div>
+<div id="statistical-models-supervised-learning-and-function-approximation" class="section level2">
+<h2>Statistical Models, Supervised Learning and Function Approximation</h2>
+<p>     우리의 목표는 input과 output간의 예측적인 관계를 보여주는 함수 <span class="math inline">\(f(x)\)</span>에 잘 근사하는 <span class="math inline">\(\hat{f}(x)\)</span>를 찾는 것이다. 우리는 Section 2.4를 통해 이론적으로 squared error loss가 양적변수에 대하여 회귀함수 <span class="math inline">\(f(x)=E(Y|X=x)\)</span>를 도출하는 것을 배웠다. knn methods는 이러한 조건부 기댓값을 직접적으로 추정해주지만 적어도 아래의 조건에서는 만족하지 않는다는 것을 보여준다.</p>
+<p>** 입력공간의 차원이 너무 높다면, 최근접이웃방법은 타겟 포인트에 가까워지지 못하며 큰 error를 발생시킨다.</p>
+<p>** 만약 특별한 구조가 존재한다면, 이는 추정치에 대한 편향과 분산을 줄이는데 사용된다.</p>
+<div id="a-statistical-model-for-the-joint-distribution-prxy" class="section level4">
+<h4>A Statistical Model for the Joint Distribution Pr(X,Y)</h4>
+<p><span class="math display">\[Y=f(X)+\epsilon\]</span></p>
+<p>이러한 식이 있다고 가정해보자. (여기서 임의 오차 <span class="math inline">\(\epsilon\)</span>은 <span class="math inline">\(E(\epsilon)=0\)</span>이며, X에 대해 독립이다.)</p>
+<p>이러한 가법오차모델은 실제로 유용한 근사식이다. 실제로 대부분 시스템 안에서의 입출력쌍 <span class="math inline">\((X,Y)\)</span>는 determinisitic 한 <span class="math inline">\(Y=f(X)\)</span>의 관계를 만족하지 않는다. 일반적으로 이 둘의 관계에서는 측정되지 안흔 변수들이 존재하고 이들이 Y에 영향을 미치며, 측정오차 또한 포함된다.</p>
+<p>가법 모델의 가정은 이러한 deterministic 한 관계 외의 error <span class="math inline">\(\epsilon\)</span>을 잡아낼 수 있다는 것을 전제로 한다.</p>
+<p>특정 몇몇의 문제들은 deterministic 한 관계를 갖고 만족하는 모습을 갖는다. 하지만 이러한 문제들으 다루는 것이 아닌 상황이라면 우리가 오차항에 기반한 모델을 사용하는 것이 적절할까? 에 대해 생각을 해볼 수 있다.</p>
+<p>     error에 대한 독립성, 등분산성 정규성등의 가정이 엄격하게 필요한 것은 아니지만, 앞서 배웠던 EPE criterion의 예를 생각해보면 이러한 가정은 상당히 합당하다. 이러한 모델에서는 최소제곱법을 이용하여 모델을 estimation하는 것이 합당해보인다.</p>
+<p>우리는 독립성 가정의 제약을 간단한 modifications을 통해 해결할 수도 있다. 일례로 <span class="math inline">\(Var(Y|X=x)=\sigma(x)\)</span>를 생각해보자. 우리는 Y를 X에 대한 조건부를 걸어 Y의 분산과 평균이 X에 종속적인 관계가 되도록 변형할 수 있다. 일반 적으로 조건부 분포 <span class="math inline">\(Pr(Y|X)\)</span>는 X에 종속적일 수 있지만, 가법오차모델에서 이 부분은 배제하여 생각한다.</p>
+<p>가법모형은 통상적으로 질적 출력변수 <span class="math inline">\(G\)</span>에 대해서는 잘 사용되지 않는다. 이러한 케이스에서 목표함수 <span class="math inline">\(p(X)\)</span>는 조건부 밀도 <span class="math inline">\(Pr(G|X)\)</span>이며 직접적으로 모델링할 수 있다. 그 예로 binary class 데이터에서 자료들이 독립적인 binary trials에서 오고 두 범주에 속할 확률을 각각 <span class="math inline">\(p(X)\)</span> ,<span class="math inline">\(1-p(X)\)</span>로 두는 것이 합리적일 것이다.</p>
+<p>그러므로 Y가 0-1 로 나뉘어진 질적변수 G인 케이스에서는 <span class="math inline">\(E(Y|X=x)=p(x)\)</span>이 되지만, 분산은 <span class="math inline">\(Var(Y|X=x)=p(x)[1-p(x)]\)</span>로 x에 대해 종속적이다.</p>
+</div>
+<div id="supervised-learning" class="section level4">
+<h4>Supervised Learning</h4>
+<p>     머신러닝의 관점에서 함수적합의 패러다임은 training set과 input output이 존재하는 시스템에서 일정한 알고리즘에 의해 근사된다.</p>
+<p>이러한 알고리즘은 입출력간의 관계를 보여주는 <span class="math inline">\(\hat{f}\)</span>를 원자료와 생성된 출력값 간의 차이인 <span class="math inline">\(y_{i}-\hat{f}(x_{i})\)</span>를 통해 변형할 수 있는 특징을 가지고 있고, 이를 <em>learning by example</em>이라고 칭한다.</p>
+<p>####Function Approximation</p>
+<p>     학습 패러다임에 대한 접근은 수학, 통계학의 분야에서는 함수근사와 추정으로 여겨진다.</p>
+<p>우리가 조우하게 되는 많은 근사들은 데이터에 따라 적합하게 변형되는 모수 <span class="math inline">\(\theta\)</span>의 set을 갖는다. 그 예로 선형모델 <span class="math inline">\(f(x)=x^T\beta\)</span>는 모수 <span class="math inline">\(\theta=\beta\)</span>를 갖는다. 또다른 유용한 근사분류기법은 <em>linear basis expansions</em>으로 표현할 수 있다. <span class="math display">\[f_{\theta}(x)=\sum\limits_{k=1}^Kh_{k}(x)\theta_{k}\]</span></p>
+<p>여기서 말하는 <span class="math inline">\(h_{k}\)</span>는 적절한 함수의 집합 혹은 입력벡터 x의 변환형태이다. 전통적인 예로 polynomial 과 trigonometric expansions 등이 있고 이 때의 <span class="math inline">\(h_{k}\)</span>는 <span class="math inline">\(x_{1}^2, x_1x_2^2, cos(x_1)\)</span> 등이 있다. 우리는 또한 비선형형태의 확장 또한 사용할 수가 있는데, 인공신경망 모델에서 일반적으로 쓰이는 sigmoid 변환을 예로 들 수 있으며, 이러한 form은 아래와 같다.</p>
+<p><span class="math display">\[h_{k}(x)=\frac{1}{1+exp(-x^T\beta_{k})}\]</span></p>
+<p>우리는 최소제곱법을 사용하면서 선형모델에서 <span class="math inline">\(RSS(\beta)\)</span>를 최소화 하여 모수 <span class="math inline">\(\theta\)</span>의 함수로 취급하고 모수를 추정하는데 사용할 수 있다.</p>
+<p>선형 모델에서는 우리는 minimization problem을 통해 단순한 closed form의 해를 구할 수 있다. 이는 basis function 방법론에서도 통용되며, 숨겨진 또다른 모수를 갖지않는한 똑같이 적용된다. 그렇지 않은 경우라면 우리는 iterative methods나 numerical optimazation을 통해 해를 구해야 한다.</p>
+<p>최소제곱법은 아주 편리하고 대중적이지만, 항상 판단의 척도가 되는 것은 아니다.</p>
+<p>더 general한 추정의 원리의 예로는 <em>maximum likelihood estimation</em>이 있다. <span class="math display">\[L(\theta)=\prod_{i=1}^Nf(x_{i};\theta)\]</span> <span class="math display">\[l(\theta)=\sum\limits_{i=1}^Nlogf(x_{i};\theta)\]</span> MLE를 얻는 원리는 다음과 같다. 가장 합리적인 모수 <span class="math inline">\(\theta\)</span>는 관찰된 표본을 얻을 확률이 가장높을 경우이다.</p>
+<p>가법오차모델 <span class="math inline">\(Y=f_{\theta}(X)+{\epsilon}\)</span>에서의 최소제곱을 통해 얻은 estimator가 우리는 조건부 likelihood를 이용한 MLE와 같다.</p>
+<p><span class="math display">\[Pr(Y|X,\theta)=N(f_{\theta}(X),\sigma^2)\]</span></p>
+<p>고로 추가적인 정규성 가정을 더하는 것은 제한적으로 보일지라도, 결과는 같다. 이 데이터에서 log-likelihood는 아래와 같다.</p>
+<p><span class="math display">\[L(\theta)=-\frac{N}{2}log(2{\pi})-Nlog{\sigma}-\frac{1}{2\sigma^2}\sum\limits_{i=1}^N(y_{i}-f_{\theta}(x_{i}))^2\]</span></p>
+<p>위의 식에서 <span class="math inline">\(\theta\)</span>를 포함하는 항은 오직 마지막 항이며, 이는 <span class="math inline">\(RSS(\theta)\)</span>의 scalar negative miltiplier이다.</p>
+<p>조금 더 흥미로운 예제로는 질적 출력변수 <span class="math inline">\(G\)</span>에 대한 회귀함수 <span class="math inline">\(Pr(G=G_{k}|X=x)\)</span>에 대한 mutinomial likelihood이다. 우리가 주어진 X에 대하여 각 클래스가 속할 조건부확률이 <span class="math inline">\(Pr(G=G_{k}|X=x)=p_{k,\theta}(x), k=1,...,K\)</span> 로 표기되는 모델을 갖고있다고 생각해보자. 이 때의 위 식의 log-likelihood(cross entropy)는 아래와 같이 표현된다. (미안한데 진짜 뭐가 흥미로운지 하나도 모르겠다..)</p>
+<p><span class="math display">\[L(\theta)=\sum\limits_{i=1}^Nlogp_{g_{i},\theta}(x_{i})\]</span></p>
+</div>
+</div>
+<div id="structured-regression-models" class="section level2">
+<h2>Structured Regression Models</h2>
+<p>     우리는 최근접이웃이나 다른 local methods가 직접적으로 특정 점에서의 함수를 추정한다는 것에 초점을 맞추고 있지만, 이는 가끔 차원으로 인해 어려움을 맞딱들인다는 사실을 배웠다. 이러한 접근법은 저차원의 문제에서는 부적절할 수도 있으며, 오히려 더 구조화고 제약된 조건을 걸어 모델을 짜는 것이 데이터를 더 효율적으로 사용하는 방법일 수도 있다.</p>
+<p><span class="math display">\[RSS(f)=\sum\limits_{i=1}^N(y_{i}-f(x_{i}))^2\]</span></p>
+<p>위의 식을 최소화 하는 해를 구하는 것은 training points <span class="math inline">\(({x_{i}},y_{i})\)</span>를 지나는 함수 <span class="math inline">\({\hat{f}}\)</span>가 무한히 존재할 수도있다. 이러한 해들 중 몇몇은 test points에서 아주 형편없는 predictors가 될 것이다. 만약 관측치 쌍의 갯수가 많다면 이러한 리스크는 제한될 수도 잇다. 우리가 조금 더 효율적으로 이 문제를 접근하려면 N을 무작정 늘리는 것이 아닌, 유한한 N안에서 최소화 문제에 조금 더 제약을 걸어 보다 작은 함수의 집합을 얻어야한다. <strong>이러한 해들에 대한 제약이 이 책의 주요 토픽이다.</strong></p>
+<p>여기서 하나 명확히 해야할 것은 우리가 유일한 해를 얻기 위해 제약을 거는 것이 해의 복잡성으로 인해 나오는 모호성을 없앨 수는 없다는 것이다.</p>
+</div>
+<div id="classes-of-restricted-estimators" class="section level2">
+<h2>Classes of Restricted Estimators</h2>
+<p>비모수회귀나 다양한 학습 방법들은 우리가 추가하는 제약이 어떤 nature를 갖느냐에 따라 다르게 분류된다. 이 챕터에서는 넓은 의미로 3가지로 분류하여 설명을 한다.</p>
+<div id="roughness-penalty-and-bayesian-methods" class="section level4">
+<h4>Roughness Penalty and Bayesian Methods</h4>
+<p>먼저 <span class="math inline">\(RSS(f)\)</span>를 penalize하여 컨트롤하는 함수가 있다.</p>
+<p>이는 1차원의 입력변수에 대한 cubic smoothing spline method이다.</p>
+<p><span class="math display">\[PRSS(f;\lambda)=RSS(f) + {\lambda}J(f)\]</span></p>
+<p><span class="math display">\[PRSS(f;\lambda)=\sum\limits_{i=1}^N(y_{i}-f(x_{i}))^2 + {\lambda}\int[f^{''}(x)]^2dx\]</span></p>
+<p>roughness penalty는 <span class="math inline">\(f\)</span>의 큰 2차미분 값들에 영향을 미치며, penalty의 정도는 <span class="math inline">\(\lambda \geq 0\)</span>인 <span class="math inline">\(\lambda\)</span>에 의해 표현된다. <span class="math inline">\(\lambda=0\)</span> 는 penalty가 존재하지 않음을 의미하며, <span class="math inline">\(\lambda = \infty\)</span> 의 경우는 오로지 x내의 선형함수만을 허용하게 된다.</p>
+<p>Penalty function J는 어떤 차원에서든 특별한 버전으로 만들어지고 특별한 구조를 짤 수 있다.</p>
+<p>Penalty function 또는 regularization methods는 이런 종류의 함수의 smooth behavior에 대한 사전적 믿음을 나타내며, 이는 Bayesian framework내에서 적용가능하다.</p>
+<p>penalty J는 log-prior에 해당하며, 함수 <span class="math inline">\(PRSS(f;\lambda)\)</span>는 log-posterior distribution을, <span class="math inline">\(PRSS(f;\lambda)\)</span>를 최소화하는 것은 posterior mode를 찾는 것과 상응한다. 이에 대한 심화내용은 뒤의 챕터 5와 챕터 8 에서 후술할 것이다.</p>
+</div>
+<div id="kernal-methods-and-local-regression" class="section level4">
+<h4>Kernal Methods and Local Regression</h4>
+<p>     이 방법은 local neighborhood의 nature를 특정지음으로써 회귀함수 혹은 조건부 기댓값에 대한 추정치를 제공하는 방법이다.</p>
+<p>local neighborhood는 <em>kernel function</em> <span class="math inline">\(K_{\lambda}(x_0,x)\)</span>에 의해 specify 되는데, 이 함수는 <span class="math inline">\(x_{0}\)</span>주변의 x점들에 가중치를 부여하는 함수이다.</p>
+<p>가우시안 커널은 일례로 정규확률밀도함수에 기반하여 가중함수를 갖게 되는데 그 식은 아래와 같다.</p>
+<p><span class="math display">\[K_{\lambda}(x_0,x)=\frac{1}{\lambda}exp[-\frac{||x-x_0||^2}{2{\lambda}}]\]</span></p>
+<p>이는 <span class="math inline">\(x_0\)</span>으로부터 squared Euclidean 거리를 통해 멀어지는 지점들에 대해 지수적으로 가중치를 부여하는 원리이다.</p>
+<p>여기서 파라미터 <span class="math inline">\(\lambda\)</span>는 정규밀도의 분산을 의미하며, 이웃의 너비를 결정한다. 가장 간결한 kernel estimate의 form은 <strong>Nadaraya-Watson weighted average</strong>이며 식은 아래와 같다.</p>
+<p><span class="math display">\[\hat{f}(x_0)=\frac{\sum\limits_{i=1}^NK_{\lambda}(x_0,x_{i})y_{i}}{\sum\limits_{i=1}^NK_{\lambda}(x_0,x_{i})}\]</span></p>
+<p>일반적으로 우리는 <span class="math inline">\(f(x_0)\)</span>의 local 회귀 추정치를 <span class="math inline">\(f_{\hat{\theta}}(x_0)\)</span> 로 표기하고, <span class="math inline">\(\hat{\theta}\)</span>를 최소화하는 식은</p>
+<p><span class="math display">\[RSS(f_{\theta},x_0)=\sum\limits_{i=1}^NK_{\lambda}(x_0,x_{i})(y_{i}-f_{\theta}(x_{i}))^2\]</span> 이다.</p>
+</div>
 </div>
 </div>
 
