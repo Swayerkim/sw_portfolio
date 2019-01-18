@@ -356,7 +356,7 @@ $(document).ready(function () {
 <p>선형 모델에서는 우리는 minimization problem을 통해 단순한 closed form의 해를 구할 수 있다. 이는 basis function 방법론에서도 통용되며, 숨겨진 또다른 모수를 갖지않는한 똑같이 적용된다. 그렇지 않은 경우라면 우리는 iterative methods나 numerical optimazation을 통해 해를 구해야 한다.</p>
 <p>최소제곱법은 아주 편리하고 대중적이지만, 항상 판단의 척도가 되는 것은 아니다.</p>
 <p>더 general한 추정의 원리의 예로는 <em>maximum likelihood estimation</em>이 있다. <span class="math display">\[L(\theta)=\prod_{i=1}^Nf(x_{i};\theta)\]</span> <span class="math display">\[l(\theta)=\sum\limits_{i=1}^Nlogf(x_{i};\theta)\]</span> MLE를 얻는 원리는 다음과 같다. 가장 합리적인 모수 <span class="math inline">\(\theta\)</span>는 관찰된 표본을 얻을 확률이 가장높을 경우이다.</p>
-<p>가법오차모델 <span class="math inline">\(Y=f_{\theta}(X)+{\epsilon}\)</span>에서의 최소제곱을 통해 얻은 estimator가 우리는 조건부 likelihood를 이용한 MLE와 같다.</p>
+<p>가법오차모델 <span class="math inline">\(Y=f_{\theta}(X)+{\epsilon}\)</span>에서의 최소제곱을 통해 얻은 estimators는 조건부 likelihood를 이용했을 때의 최대우도(maximum likelihood)와 같다.</p>
 <p><span class="math display">\[Pr(Y|X,\theta)=N(f_{\theta}(X),\sigma^2)\]</span></p>
 <p>고로 추가적인 정규성 가정을 더하는 것은 제한적으로 보일지라도, 결과는 같다. 이 데이터에서 log-likelihood는 아래와 같다.</p>
 <p><span class="math display">\[L(\theta)=-\frac{N}{2}log(2{\pi})-Nlog{\sigma}-\frac{1}{2\sigma^2}\sum\limits_{i=1}^N(y_{i}-f_{\theta}(x_{i}))^2\]</span></p>

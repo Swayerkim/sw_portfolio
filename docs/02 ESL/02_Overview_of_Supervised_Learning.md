@@ -300,7 +300,7 @@ $$Y=f(X)+\epsilon$$
   $$l(\theta)=\sum\limits_{i=1}^Nlogf(x_{i};\theta)$$
  MLE를 얻는 원리는 다음과 같다. 가장 합리적인 모수 $\theta$는 관찰된 표본을 얻을 확률이 가장높을 경우이다.  
  
- 가법오차모델 $Y=f_{\theta}(X)+{\epsilon}$에서의 최소제곱을 통해 얻은 estimator가 우리는 조건부 likelihood를 이용한 MLE와 같다.
+ 가법오차모델 $Y=f_{\theta}(X)+{\epsilon}$에서의 최소제곱을 통해 얻은 estimators는 조건부 likelihood를 이용했을 때의 최대우도(maximum likelihood)와 같다.
  
  $$Pr(Y|X,\theta)=N(f_{\theta}(X),\sigma^2)$$
  
