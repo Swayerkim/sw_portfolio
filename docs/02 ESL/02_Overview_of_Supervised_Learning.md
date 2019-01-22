@@ -1,4 +1,8 @@
-
+---
+title: "R Notebook"
+output: 
+  html_document:
+    keep_md:  true
 ---
 #Two simple Approachs to Prediction#
 
