@@ -1,13 +1,96 @@
 ---
+title: "R Notebook"
+output: 
+  html_document:
+    keep_md:  true
+---
+
+
 
 #Ybigta 교육세션 ML 심화(1)
 
 ___
 
+##Regression
+
+---
+
+###Simple Linear Regression
+
+&nbsp;&nbsp;&nbsp;&nbsp;단순선형회귀는 singele predictor variable인  X와 quantitative response Y에 대한 관계를 매우 직관적으로 설명하는 방법이다. 이는 즉 X와 Y간에 선형적인 관계가 있다는 것을 가정하며 시작한다. 수학적으로 우리는 이를 아래와 같이 표기한다.
+
+$$Y\approx {\beta}_0 + {\beta}_1X$$
+여기의 ${\beta}_0$와 ${\beta}_1$은 두개의 unknown constants이며 각각 순서대로 intercept 와 slope terms을 의미한다. 이 둘은 parameters 혹은 coefficients로도 불린다. 우리는 이러한 함수의 관계를 추정하기 위해서 추정치인 $\hat{\beta}_0$ $\hat{\beta}_1$를 우리의 training data를 통해 얻을 수 있고, 이를 통해 미래의 어떠한 정량적 값들을 예측하는 것이다. 이를 도식화 하면 아래와 같다.
+
+$$\hat{y}=\hat{\beta}_0 + \hat{\beta}_1x$$
+
+&nbsp;&nbsp;&nbsp;&nbsp;우리의 목표는 실제 X와 Y의 관계를 추정하여 추후에 들어오는 미래 데이터를 미리 예측하는 것이다. 하지만 모든 일에는 예상치 못하는 변수가 있고, 아무리 훈련 데이터간의 관계를 잘 추정하였다하더라도 이 것이 미래에도 지금 갖고있는 데이터처럼 일이 발생할 것이라는 것으로 이어지지 않는다. 
+
+
+앞서 위에서 우리는 Y와 X의 관계를 근사적으로 표현해보았지만, 이 둘간의 **true** relationshipd은 아마도 이런 모양일 것이다.
+
+$$Y={\beta}_0+{\beta}_1X+{\epsilon}$$
+
+위에 맨처음에 보여준 식과는 다르게 뒤에 요상한 엡실론이 포함되었다. 지도학습의 관접해서 우리는  Y를 추정할때 $Y=f(X)+{\epsilon}$의 식을 두어 표기하는데, 회귀에서 unknown function인  $f(X)$가 ${\beta}_0+{\beta}_1X$에 대응된다. 여기서 error ${\epsilon}$은 실제 Y와 X의 관계가 선형적 관계가 아닐수도 있다는 것을 나타내며, 혹은 Y의 변동을 야기하는 다른 변수일수도, 아니면 측정에서의 오류일수도 있음을 보여준다. 우리는 그래서 단순선형회귀에서 이러한 error term이 X에 대해서 독립이며 $N(0,{\sigma}^2)$에서 나온 iid한 놈이라고 가정을 한다. 
+
+이 단순선형회귀에서 $X_{i}$는 확률변수가 아닌 상수이다. 이는 실험자에 의해 통제된 값이며 통제된 환경에서 설정되었음을 나타낸다. 반대로 $Y_{i}$는 이러한 $X_{i}$들에 대응하는 확률변수이다. 여기서부터 사실 X를 통제한다는 것이 비현실적인 가정이며, prediction의 관점에서 그 가치가 떨어지는 가정이라고 할 수있다.
+
+
+우리가 선형회귀를 하면서 중요한 것은 X와 Y의 관계를 잘 설명하면서 예측한 값과 실제값간의 차이를 최소로하는 모델을 찾는 것이 목표이다. 이를 가능하게하는 방법으로는 가장 일반적인 approach인 RSS를 최소화하는 것이 있다. 
+
+ ![](99photo_6.png)
+ 
+ 위의 그림을 보자. 빨간색 점들은 우리가 갖고있는 $y_{i}$값이며 직선이 표현하고 있는 것은 추정한 $\hat{y}_{i}$들의 나열이다. 그렇다면 잔차 $e_{i}$는 $y_{i}-\hat{y}_{i}$를 의미하고 이는 *i*번째 관찰된 response value와 *i*번째 우리가 추정한 선형모델의 response value간의 차이를 나타낸다. 우리는 이를 RSS라고 칭하며 아래와 같이 표현가능하다.
+ 
+ $$RSS=e_1^2+e_2^2+...+e_{n}^2$$
+ 
+ 또는 $$RSS=\sum\limits_{k=1}^n(y_{k}-\hat{\beta}_0-\hat{\beta}_1x_{k})^2$$
+ 
+로 표현할 수 있다. 최소제곱법은 이러한 잔차제곱합 RSS를 최소화 하는 $\hat{\beta}_0$과 $\hat{\beta}_1$를 구하는 것인데, 이러한 해를 구하면 베타의 추정치들은 아래와 같다.
+
+ ![](99photo_7.png)
+ 
+ 
+####Interpretation of the Coefficient Estimates
+
+추정한 회귀계수들의 의미를 살펴보면 아래와 같이 요약할 수 있다.
+
+* slope ${\beta}_1$은 독립변수 X가 한단위 증가할 때의 종속변수 Y의 평균적 변화량을 의미한다.
+
+* 절편계수 ${\beta}_0$은 의미를 갖지않고, 선형회귀식을 보정하는 역할이다.
+
+* 회귀계수의 추정과정을 살펴보면 이들은 주어진 X와 Y에 대해 완전히 의존하며, 이는 즉 다른 X값들이 반영되면 다른 결과값을 도출함을 의미한다.
+
+####Assessing the accuracy of the Coefficient Estimates
+
+우리는 추정한 회귀계수들이 실제의 회귀계수값과 얼마나 비슷한지, 얼마나 멀리떨어져있을지에 대해서 궁금증을 가질 것이다. 이때는 회귀계수 ${\beta}_0$, ${\beta}_1$의 표준오차(Standard error)를 통한 신뢰구간 추정을 통해 접근해볼 수 있다.
+
+$\hat{\beta}_0$, $\hat{\beta}_1$의 표준오차를 구하기전에 이들의 분포는 아래와 같이 표현할 수 있다.
+$$\hat{\beta}_0 \sim N({\beta}_0,Var(\hat{\beta}_0)), \hat{\beta}_0 \sim N({\beta}_1,Var(\hat{\beta}_1))$$
+ 이중 $\hat{\beta}_1$에 대해서만 $Var(\beta_1)$을 구해보자.
+ 
+ $${\epsilon} \sim N(0,{\sigma}^2)$$
+ $$\sum\limits_{i=1}^n(x_{i}-\bar{x})(y_{i}-\bar{y}) = \sum\limits_{i=1}^n(x_{i}-\bar{x})y_{i}$$
+ 를 이용하자. $\sum\limits_{i=1}^n(x_{i}-\bar{x})(y_{i}-\bar{y})$는 $S_{xy}$로 표현가능.
+ 
+ 먼저 $k_{i}= \frac{(x_{i}-\bar{x})}{S_{xx}}$로 두자. 그렇다면 아래와 같은 식전개를 통해 $Var({\beta}_1)$를 얻을 수 있다.
+ 
+ $$V(\hat{\beta}_1) = V(\sum{k_{i}}y_{i})=\sum{k_{i}}V(y_{i})=\sum{k^2}{\sigma}^2=\frac{\sum(x_{i}-\bar{x})^2{\sigma}^2}{S_{xx}}=\frac{\sigma^2}{S_{xx}}$$
+ $Var(y_{i})={\sigma}^2$인 이유는,${\epsilon} \sim N(0,{\sigma}^2)$으로 정의했고, ${\epsilon}$끼리 서로 독립이므로 $y_{i}$도 서로 독립이고 분산이 ${\sigma}^2$이 된다.
+
+이와 같이 비슷한 방법을 통해 ${\beta}_0$에 대해서도 분산의 추정치를 구하여 표준오차를 구하면 두 회귀계수는 아래와 같이 표현할 수 있다.
+
+$SE(\hat{\beta}_0)= \sqrt{{\sigma}^2[\frac{1}{n}+\frac{\bar{x}^2}{\sum\limits_{i=1}^n(x_{i}-\bar{x})^2}]}$, $SE(\hat{\beta}_1)=\sqrt{\frac{\sigma^2}{\sum\limits_{i=1}^n(x_{i}-\bar{x})^2}}$
+
+표준오차 SE를 ${\beta}_0$과 ${\beta}_1$에 대해 신뢰구간을 표현하면 아래와 같이 쓸 수 있다.
+
+$$[\hat{\beta}\pm{t}_{n-2,{\alpha}/2} SE(\hat{\beta})]$$
+신뢰구간의 의미는 특정한 값을 가지는 알 수 없는 parameter의 값을 특정 %의 확률로 포함하는 구간을 의미하는데, 이는 조금 더 엄밀히 말하면 **같은 방법으로 일정한 개수만큼 모집단에서 100개의 표본 데이터셋을 추출했을 때 함께 계산되는 100개의 신뢰구간들 중 parameter를 포함한 신뢰구간들의 개수가 nn% x 100개 정도는 된다**의 의미를 갖는다.
+
+
 ##The Basics of Decision Trees
 
 &nbsp;&nbsp;&nbsp;&nbsp;Tree-based model은 단순하며 해석에 용이한 지도학습의 방법 중 하나이다. 순서는 Decision tree를 Regression과 classification 두 가지로 나누어 설명하며, 의사결정나무모형 이후에 Bagging과 random forests, boosting을 간단하게 설명하도록 할 것이다.
-
 
 ###Regression Trees
 
@@ -166,3 +249,50 @@ N이 매우 커지면 위 식은 $1-\frac{1}{e}$로 수렴하는데 이는 약 0
  
 
 ###Random Forest 
+
+&nbsp;&nbsp;&nbsp;&nbsp; 랜덤포레스트 기법은 트리에 bagging을 적용한 방법을 트리간의 상관관계를 제거하는 매커니즘을 이용하여 예측정확도를 향상시키는 기법이다.
+ 
+ 랜덤포레스트를 짤 때, 트리의 각 split에서 알고리즘은 가능한 대부분의 predictors들을 고려하는 것을 허용하지는 않는다. p개의 predictors들이 있다면 이들을 전부사용하지 않고 일부만 사용하여 트리를 짜는 것이다.(보통 total number of predictors의 갯수에 제곱근을 취한 갯수만큼을 사용한다.) 이는 정확도를 위해 회귀와 분류를 수행함에 있어서 이상한 소리처럼 들리겠지만, 사실은 상당히 합당하다.
+ 
+ 만약 data set에서 매우 강력한 설명변수가 있다고 가정해보자. 이러한 data set을 통해 bagging을 수행하면 대부분 또는 모든 트리가 이 강한 설명변수를 top split에 놓아 사용할 것이고, 이는 결국 대부분의 bagged tree가 비슷한 모양을 갖게되는 결과를 낳는다. 더군다나 이럴 경우에 bagged tree에서 나오는 predictions은 매우 **highly correlated**되어있다. 불행하게도 많은 상관관계가 높은 quantities 들을 averaging 하는 것은 그렇지 않을 때의 결과보다 형편없는 reduction in variance를 갖는다. 이는 즉 bagging 기법은 단일 트리 setting 에서 상당한 분산감소효과를 가져오지 않는다는 것을 의미한다.
+ 
+ 랜덤포레스트는 각 split에 사용하는 변수를 predictor space 전체로 사용하는 것이 아닌, predictor의 부분집합을 사용하여 이러한 문제를 극복한다. 
+ 이러한 과정을 우리는 tree를 decorrelationg 한다고 생각할 수 있는데, 먼저 랜덤포레스트도 bagging과 유사하게 bootstrap을 통해 샘플을 추출하고, 사전에 모형적합에 이용할 변수의 수 m만큼을 p개의 변수들 중에서 random하게 뽑아 트리생성에 사용한다. 하나의 트리가 만들어지면 또 다른 트리를 형성할 때 만약 어떠한 강력한 설명변수가 있다고 해도 random하게 m개의 표본변수를 뽑아 수행하기 때문에, 다른 변수들이 split형성에 많은 기회를 갖게 되는 것이다.
+ 
+&nbsp;&nbsp;&nbsp;&nbsp; bagging과 랜덤포레스트의 가장 큰 차이점은 predictor 부분집합의 사이즈에 관하여 가장 큰 차이점을 갖는다. 만약 랜덤포레스트에서 *m=p*로 놓는다면, 트리 분할에 모든 predictor의 전체집합을 사용한다는 의미이므로 이때는 bagging과 랜덤포레스트가 같은 결과를 낳는다. 랜덤포레스트는 일반적으로 $m=\sqrt{p}$개의 predictors를 사용하며, 이는 test error와 OOB error에 대해 bagging보다 나은 결과를 갖는다.
+
+
+###Boosting 
+
+&nbsp;&nbsp;&nbsp;&nbsp;앞에서는 bagging과 random forest에 대해서 살펴보았는데, 이번에는 prediction을 향상시키는 또 다른 방법인 boosting에 대해서 논의해보자.
+
+bagging을 생각해보면 우리는 original training set을 bootstrap sampling을 통해 여러개로 카피하고, 각각의 복사본은 single predictive model을 만들기 위해 각각 트리를 형성한 후, 이에 대한 결과값(MSE, Gini index등..)을 결합하여 예측을 수행하였다. 이론적으로 bootstrap을 통해 생성된 트리들은 다른 트리들과 독립일 것이다. 부스팅은 이와 비슷하지만, 트리들이 독립적이지 않고 서로 sequentially하게 연결되어있는 것이 앞의 방법과 가장 큰 차이점이다.
+
+
+ ![](99photo_5.png)
+ 
+ 위의 그림이 부스팅알고리즘을 도식화 한 것이다. 풀어서 설명하면 먼저 original data를 이용하여 d개의 terminal node를 갖는 tree model을 fitting한 후, 그 예측 결과와 실제 값의 차이를 산출하는데 이때 learning rate $\lambda$를 선택해 예측값에 learning rate를 곱한 값만큼을 제외한다. 그리고 다음 트리를 만드는 round에서 기존 outcome $Y$가 아닌 모형의 잔차를 이용하여 새로운 트리를 생성한다. 그리고 이러한 과정을 B번 반복하는 것이다.
+ 
+ 위에서 사용된 부스팅에는 세가지 파라미터가 있고 이는 아래와 같다.
+ 
+ * The number of tree : $B$
+ 
+ - 배깅과 랜덤포레스트와는 다르게 부스팅은 B가 매우 커질 수록 과적합이 될 가능성이 존재하는데, 고로 B값은 교차검증을 통해 결정한다.
+ 
+ * learning rate(=shrinkage parameter) : $\lambda$
+ 
+ - 이는 모형의 학습속도를 조절하는 것으로 보통 0.01, 0.001일 쓰지만 데이터에 따라 그 값을 달리한다. 만약 람다 값이 매우 작을 경우에는 모형이 적절하게 학습되기 위해 B가 매우 커야한다.
+ 
+ * tree의 terminal node수 : $d$
+ 
+ - 보통 d=1일 때 학습이 좋은 예측을 이끌며 이럴 경우 트리를 *stump model*이라 칭한다. d는 가법모형에서interaction effect를 반영하는 것과 유사하기 때문에 interaction depth로 불리기도 한다.
+ 
+부스팅에서는 기존의 트리모델이 다음 트리에 sequential하게 영향을 주기 때문에 일반적으로 적은수의 terminal node를 사용하더라도 좋은 결과를 나타낼 수 있다.
+
+###고생하셨습니당
+ 
+ 
+ 
+ 
+ 
+ 
