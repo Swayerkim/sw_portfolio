@@ -1,9 +1,4 @@
 ---
-title: "R Notebook"
-output: 
-  html_document:
-    keep_md:  true
----
 
 
 
@@ -88,7 +83,72 @@ $$[\hat{\beta}\pm{t}_{n-2,{\alpha}/2} SE(\hat{\beta})]$$
 신뢰구간의 의미는 특정한 값을 가지는 알 수 없는 parameter의 값을 특정 %의 확률로 포함하는 구간을 의미하는데, 이는 조금 더 엄밀히 말하면 **같은 방법으로 일정한 개수만큼 모집단에서 100개의 표본 데이터셋을 추출했을 때 함께 계산되는 100개의 신뢰구간들 중 parameter를 포함한 신뢰구간들의 개수가 nn% x 100개 정도는 된다**의 의미를 갖는다.
 
 
-##The Basics of Decision Trees
+&nbsp;&nbsp;&nbsp;&nbsp;표준오차는 또한 회귀계수에 대한 가설검정을 위해 사용되기도 한다. 
+$H_0$ : There is no relationship between X and Y
+
+$H_{a}$ : There is some relationship between X and Y
+
+이 가장 흔하게 사용되는 가설검정의 form이다.
+
+수하적으로 표현하면 이는 
+
+$$H_0 : {\beta}_1=0$$
+
+$$H_{a} : {\beta}_1 \neq 0$$
+이다. 만약 여기서 ${\beta}_1$=0이면, 이 모델은 $Y={\beta}_0+{\epsilon}$으로 reduced form의 형태를 띄며, X는 Y와 관련되지 않은 predictor가 된다. 가설검정을 위해서는 t-통계량을 사용하여 이는 아래와 같은 식을 갖고,
+
+$$t=\frac{{\hat\beta}_1-0}{SE(\hat{\beta}_1)} \sim t(n-2)$$
+$H_0$하에서 $\hat{\beta}_1$이 따르는 분포는 위와 같고 이를 통해 얻은 t 통계량 값이 critical value의 바깥, 즉 기각역에 속하면 우리는 귀무가설 $H_0$를 기각한다. 이는 우리가 $\hat{\beta}_1$이 0이라고 가정하여 문제를 접근한 후, 그 중심값보다 상당히 먼 곳에(기각역에 속하는 영역) $\hat{\beta}_1$의 통계량이 위치하는 것은 기존에 생각한 $H_0$로 여긴 분포를 갖는게 아닌 아예 다른 분포를 갖는다는 것을 의미한다. 곧 이는 $\hat{\beta}_1$이 0이 아닌 유의한 어떠한 값을 가짐을 보여준다.
+
+####Assessing the Accuracy of the Model
+
+&nbsp;&nbsp;&nbsp;&nbsp;앞에서 우리가 단순선형회귀모형의 계수를 추정하고 기울기의 계수가 유의한지 test를 했으니, 이번에는 모델의 성능이 얼마나 정확한지에 대해서 평가를 해보는 시간을 가져보자! 이 책에서는 두가지를  대표적으로 소개하는데, **멋쟁이12기최연수**님의 자료를 참고하여 한가지를 더 넣어보았다.
+
+* Residual Standard Error(RSE)
+
+* RMSE(평균제곱근오차) **멋쟁이최연수님의아이디어**
+
+* R-squared
+
+먼저 RSE를 살펴보자. 우리가 true regression line을 추정할 수 있다고 가정해보자. 그렇다면 우리는 Y를 완벽하게 예측할 수 있을까? 
+
+아쉽게도 우리는 Y의 관계식에 random한 error term이 있다는 것을 잊으면 안된다. 이 ${\epsilon} \sim N(0,{\sigma}^2)$는 irreducible하고 어쩔 수 없는 오차를 수반한다.
+RSE는 결국 이러한 ${\epsilon}$의 표준편차에 대한 추정치를 의미하며 평균적으로 종속변수 Y가 true regression line에서 얼마나 떨어져있는가를 보여주는 추정치이다.
+
+$$RSE=\sqrt{\frac{1}{n-2}RSS}=\sqrt{\frac{1}{n-2}\sum\limits_{i=1}^n(y_{i}-\hat{y}_{i})^2}$$
+
+&nbsp;&nbsp;&nbsp;&nbsp;평균제곱근오차는 RSS를 자유도(n-2)대신 n으로 나눈 것이다.
+n이 매우크다면 RSE와 RMSE의 차이가 미미하겠지만, RMSE는  prediction관점에서 많이 사용된다.
+
+$$RMSE=\sqrt{\frac{1}{n}RSS}$$
+
+이 두 RSE와 RMSE는 모델 잘 fitting이 되었는지를 측정하는 것으로 여겨진다.
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;R-squared는 총 변동 중에 설명된 변동의 비율을 보여주는 지표다. RSE 와 RMSE 가 절대적인 값으로 모델의 오차에 대한 정보를 제공한다면,
+$R^2$는상대적인 값으로써 𝑌의 단위에 상관없이 변동에 대한 설명 비율로 모델의 설명력에 대한 정보를 제공하는 것에 위의 두개와 차이점을 갖는다.
+
+$$R^2= \frac{SST-SSR}{SST}=1-\frac{SSR}{SST}$$
+위의 식처럼 표현되고 
+$$SST = \sum(y_{i}-\bar{y}^2)$$ 은 Total sum of squares(총 변동),
+
+$$SSR=\sum(y_{i}-\hat{y}^2)$$은 Residual sum of squares(설명되지않은 변동),
+
+$$SSE=\sum(\hat{y}_{i}-\bar{y}^2)$$은 Explained sum of squares(설명된 변동)
+을 의미한다.
+
+ ![](99photo_8.png)
+
+
+사진으로 쉽게 표현하면 위와 같이 표현할 수 있다.(**연수야 고마워!**)
+
+
+
+###Multiple Linear Regression
+
+
+
+#The Basics of Decision Trees
 
 &nbsp;&nbsp;&nbsp;&nbsp;Tree-based model은 단순하며 해석에 용이한 지도학습의 방법 중 하나이다. 순서는 Decision tree를 Regression과 classification 두 가지로 나누어 설명하며, 의사결정나무모형 이후에 Bagging과 random forests, boosting을 간단하게 설명하도록 할 것이다.
 
