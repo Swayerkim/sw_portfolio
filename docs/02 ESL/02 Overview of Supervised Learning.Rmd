@@ -175,6 +175,42 @@ $$f(x)=E(Y|X=x)$$
  이 해는 조건부평균을 의미하며 또한 regression function으로 잘 알려져있다.
  다시말해 average squared error가 최적의 예측척도로 여겨질 때, best prediction of $Y$ at any point $X=x$는 Y의 X에 대한 조건부 평균이라는 것이다.
  
+ 수리통계학적인 기법을 사용해서 우리는 위에서 언급한 조건부평균이 최소자승예측자라는 것을 보일 수 있다. 이를 수식으로 표현하면 아래와 같다.
+ 
+ 
+$For\ any\ function\ of\ X,\ say\ u(x),$
+
+$$E[(Y-u(X))^2|X] \geq E[(Y-E[Y|X])^2|X]$$
+
+$i.e.,\ E[Y|X] is\ equal\ to\ argmin_{u(X)}E[(Y-u)^2|X].$ 
+
+이를 증명하면 아래와 같이 식전개를 할 수있다.
+
+$$E[(Y-u(X))^2|X]=E[Y-\textbf{E[Y|X]}+\textbf{E[Y|X]}-u(X))^2|X]$$
+
+$$=E[{(Y-E[Y|X])+(E[Y|X]-u(X))}^2|X]$$
+$$=E[(Y-E(Y|X])^2|X)]+E[(E[Y|X]-u(X))^2|X]$$
+
+$$+2E[(Y-E[Y|X])(E[Y|X]-u(X))|X]$$
+
+$$=E[(Y-E[Y|X])^2|X]+(E[Y|X]-u(X))^2$$
+
+$$\because E[(Y-E[Y|X])(E[Y|X]-u(X))|X]=(E[Y|X]-u(X))E[Y-E[Y|X]|X]=0$$
+여기서 마지막 cross term이 0이 되는 이유는 $E[Y-E[Y|X]|X]$에 힌트가 있다. $E[Y|X]$의 조건부평균은 random variable의 형태이지만 이 식의 앞에 X에 대한 조건부 평균이 한번 더 씌여있는 것 때문인데, 이럴경우에 E[Y|X]는 constant꼴을 갖는다. (Given X=x이기 때문에) 고로 식전개를 하면 $E[Y|X]-E[Y|X]$꼴이므로 0이된다. 
+
+또는 다르게 생각하여 E[Y|X]는 X에대한 함수형태로 나오기때문에 이를 g(X)로 정의하여 문제를 풀 수도 있다.
+
+그렇다면 식은 $E[Y-g(X)|X]$의 형태가 되며 이를 전개하면 $E[Y|X]-g(X)=0, \because g(X)=E[Y|X]$가 되어 위와 같은 식을 얻을 수 있다.
+
+부등호를 정리하면 아래와 같이 표현되며,
+
+$$E[(Y-u(X))^2|X] \geq E[(Y-E[Y|X])^2|X]$$
+
+그러므로 임의의 $X=x$점에 대한 best prediction of $Y$는 조건부 평균이 된다는 것을 알 수 있다.
+
+
+
+ 
  **k-NN methods에서는 해의 추정치를 아래와 같이 표현한다.**
  
  $$\hat{f}(x)=Ave(y_{i}|x_{i} \in N_{k}(x))$$
