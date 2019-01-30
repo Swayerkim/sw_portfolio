@@ -226,6 +226,30 @@ $$E[(Y-u(X))^2|X] \geq E[(Y-E[Y|X])^2|X]$$
 
  **만약 knn에서 샘플의 사이즈가 아주크고, k또한 크다면, 평균은 더 안정적으로 변할 것이고, 결합확률분포의 mild regularity conditions하에서 $f(x)$가 $E(Y|X=x)$로 근사한다**. 하지만 종종 우리가 다루는 데이터들의 표본의 크기는 항상 크지가 않으며, 차원이 커지면 새롭게 발생하는 문제들도 존재한다. 이는 추후 뒷장에서 다뤄보도록 하자.
  
+ 이전 단계에서 OLS estimator가 linearity 가정 하에서 $E[Y|X=x]$에 대한 consistent estimator라는 것을 보였다. KNN  method에 대해서도 이가 성립하는지 증명을 해보자.
+ 
+ mild regularity conditions이 타당하다 가정을 하고 $k,N \rightarrow \infty,\ \frac{k}{N} \rightarrow 0$ 이라면, 
+ 
+ $$avg(Y|X \in N_{k}(x)) \xrightarrow{P} E[Y|X=x]$$
+ 
+ 임을 Empirical explanation을 통해 증명해보자.
+ 
+ KNN 방법을 풀어헤쳐쓰면 아래와 같은 점들이 모여있는 것으로 생각할 수 있다.
+ 
+ $$(x+\Delta_1,y_1),\ (x+\Delta_2,y_2),\  (x+\Delta_{k-1},y_{k-1}),\ (x+\Delta_{k},y_k)$$
+
+ 또한 이 점들에 대해서 아래와 같은 식을 만족한다. 
+ 
+ $$(||x-a|| \geq ||max_{j}(\Delta_{j}))||, a\in N_{k}(x)^c, j=1,...,k)$$
+ 
+여기서 $avg(Y|X \in N_k(x)) \equiv \frac{y_1+..+y_{k}}{k} \xrightarrow{P} E[Y]$
+이 식이 약대수의 법칙에 의해 equivalent하다고 볼 수 있을까? 아쉽게도 그렇지 않다.
+
+이러한 식 도출의 과정은 $\frac{k}{N} \rightarrow \infty$라는 가정을 무시해서 나오는 결과이다. 만약 $k \rightarrow \infty$라는 가정만 있고 data set의 사이즈에 대한 가정이 없다면 위의 식은 맞을지도 모른다.
+
+ 이렇게 생각해보자. 우리는 x에 대한 조건부 평균 Y를 구하는 것인데, x에 종속적이게 대응하는 Y의 점들 k개를 생각해볼 수 있다. 여기서 k가 무한대로 간다면 우리는 거의 모든 x의 점들에 대응하는 Y를 고려하고 이러한 y들의 x에 대한 조건부평균을 구하는 것인데, 모든 x에 대하여 Y를 구했기 때문에 그냥 Y에 대한 평균을 구하는 것과 확률적으로 일치할 것이다. 하지만 k의 사이즈에 비해 기하급수적으로 data set의 사이즈가 커진다면 이는 data set에서 k개의 관측치가 차지하는 공간을 모든 x에 대한 y의 대응값으로 생각할 수 **없기**때문에 이때는 X에 대한 Y의 조건부평균으로 보는 것이 합당할 것이다. 이를 간단한 시뮬레이션을 통해 확인해보도록 하겠다.
+ 
+ 
  
 &nbsp;&nbsp;&nbsp;&nbsp; 우리는 knn과 최소제곱법이 모두 조건부 기댓값을 통해 $f(x)$를 찾아가는 것을 알았다. 하지만 최소제곱법에서는 두가지 조건을 가정해야한다.
 
