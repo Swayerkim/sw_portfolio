@@ -1,0 +1,142 @@
+---
+title: "R Notebook"
+output: 
+  html_document:
+    keep_md:  true
+---
+
+---
+
+#03 Linear Methods for Regression
+
+
+##Subset Selection
+
+&nbsp;&nbsp;&nbsp;&nbsp; 최소제곱법을 통한 추정이 종종 만족스럽지 않은 이유는 두가지가 있다.
+
+ * prediction accuracy
+
+ * interpretation
+ 
+ 최소제곱법은 낮은 bias를 갖지만 높은 분산을 갖기도 한다.
+ 
+ **prediction accuracy**는 때때로 shrinking 이나 몇 회귀계수들을 0으로 축소시키는 방법을 통해 개선되기도 하는데, 이는 낮은 bias를 포기하는대신 predicted value의 분산을 줄임으로써 전체적인 모델정확성을 향상시킨다.
+ 
+ 만약 많은 predictors가 존재한다면 우리는 종종 예측에 좀 더 강한 영향을 주는 smaller subset으로 모델을 꾸리려 할 것이다. 
+ 
+ 큰 그림을 위해 우리는 기꺼이 몇몇 영향력이 적은 detail한 부분들을 버리기도 한다.
+ 
+ 이번 section에서는 몇가지의 variable subset selection 방법을 살펴보도록 할 것이다. 
+ 
+ 이러한 여러 방법들은 결국 model selection의 한 과정이며 이는 선형 모델에만 국한되어있지않고, 추후에 다른 모델에서의 적용을 다룰 것이다. 
+ 
+ 이제부터 몇가지 choosing subset method를 살펴보자.
+ 
+ 
+
+####1. Best-Subset Selection
+
+ Best subset regression은 가능한 모든 모델을 고려하여 그 중 가장 좋은 모델이 무엇인지를 subset size k를 통해 찾아주는 방법이다. $k \in  \{0,1,2,..,p\}$
+ 
+ 간단한 예시를 통해 위의 subset selection 방법을 확인해보자.
+ 
+```{r}
+library(ISLR)
+names(Hitters)
+Hitters <- na.omit(Hitters)
+
+#Best Subset Selection method!
+#Best Subset Selection이 search하는 predictor 갯수의 디폴트값은 8
+#변수의 갯수가 많지 않으니 max로 탐색해보자
+
+
+library(leaps)
+bss <- regsubsets(Salary~.,Hitters,nvmax=length(names(Hitters))-1)
+summary(bss)
+bss.table <- summary(bss)
+names(bss.table)
+
+
+par(mfrow=c(2,2))
+plot(bss.table$rss,xlab="# of Variables",ylab="RSS",type="l")
+plot(bss.table$adjr2,xlab="# of Variables", ylab ="Adjusted R-square",type="l")
+points(which.max(bss.table$adjr2),bss.table$adjr2[which.max(bss.table$adjr2)],col="red",cex=2,pch=20)
+plot(bss.table$cp,xlab="# of Variables", ylab ="Cp",type="l")
+points(which.min(bss.table$cp),bss.table$cp[which.min(bss.table$cp)],col="red",cex=2,pch=20)
+plot(bss.table$bic,xlab="# of Variables", ylab ="BIC",type="l")
+points(which.min(bss.table$bic),bss.table$bic[which.min(bss.table$bic)],col="red",cex=2,pch=20)
+
+```
+ 
+ 
+ 
+ 위는 ISLR 패키지의 Hitters 데이터를 가져왔으며 best subset selection의 방법을 사용하기 위해 leaps 패키지의 regsubsets함수를 사용하였다. 
+ 
+ 첫번째 플롯을 확인해보면 RSS는 subset k의 사이즈가 커질수록 감소하는 모습을 보이는데, 이는 우리가 무작정 변수의 갯수를 늘리는 것이 가장 좋은 subset selection이라는 것을 의미하지 않는다. 
+ 
+ training RSS는 full model을 사용하여 회귀를 돌렸을 때 가장 낮은 값을 갖기 때문에 RSS만으로는 좋은 모델이라 결론짓기 어렵다. 
+ 
+ 또한 이는 과적합으로 연결되어 test RSS는 정반대의 결과를 가져올 수 있다.
+ 
+ 그리하여 나머지 수정결정계수와 mallow's Cp, BIC 지표를 추가로 확인하여 결정계수의 최고점과 Cp, BIC의 최소점을 찍어 그때의 size k를 빨간 점으로 표시하였다.
+ 
+ 
+```{r}
+coef(bss,5)
+```
+
+ 위와 같이 특정 size k에서의 회귀계수 또한 확인할 수 있다.
+
+### 2&3. Forward, backward Stepwise Selection
+
+ Best Subset Selection기법은 predictors의 갯수가 40개 이상이 넘어가면 매우 비효율적이며 계산이 불가능하다는 단점이 있다. 
+ 
+ 그리하여 이에 대한 대안으로 사용되는 것이 전진선택법과 후진제거법 등이 있다. 
+ 
+ 전진선택법은 intercept만 갖고 있는 reduced model에서 시작하여 model fit을 개선시킬 수 있는 predictor들을 추가하는 방법이며, 후진제거법은 full model에서 시작하여 전진선택법과 반대의 방법으로 모델을 형성한다.
+ 
+ 
+ 
+```{r}
+
+library(ggplot2)
+library(tidyverse)
+
+bss.f <- regsubsets(Salary~.,Hitters,nvmax=length(names(Hitters))-1,method="forward")
+bss.b <- regsubsets(Salary~.,Hitters,nvmax=length(names(Hitters))-1,method="backward")
+
+
+bss.f.table <- summary(bss.f)
+bss.b.table <- summary(bss.b)
+names(bss.f.table)
+x <- seq(1,19,1)
+y1 <- bss.table$bic
+y2 <- bss.f.table$bic
+y3 <- (bss.b.table$bic)
+df <- data.frame(x,y1,y2,y3)
+
+df2=gather(df,key,value,-x)
+g<- ggplot(df2,aes(x=x,y=value,color=key))+ geom_jitter()
+g<-g+ scale_colour_hue(labels=c('bss','forward','backward'))
+g <- g+ylab("BIC")+xlab("Number of Variables")
+g
+
+```
+ 
+ 
+###4 Forward-Stagewise Regression
+
+이 방법은 위에서 소개한 Forward stepwise보다는 좀 더 제약이 많다. 
+
+Forward stepwise와 비슷하게 이 또한 intercept만 있는 모델에서 시작하지만 이때의 intercept 가 $\bar{Y}$이다. Centered된 predictors의 계수를 시작이 0이도록 하는 것이다. 
+
+각 단계에서 알고리즘은 지금의 잔차와 가장 상관관계가 높은 변수를 확인해 이에 대한 잔차와 단순선형회귀를 하여 얻은 계수를 사용한다.
+
+이 작업은 잔차가 어느 변수와도 유의한 관계를 가지지 않을때 까지 계속된다.
+
+이 방법은 Stepwise 방법과는 달리 한번 모델에 포함된 변수들은 이후에 제거되지 않는다.
+
+
+ 
+
+
