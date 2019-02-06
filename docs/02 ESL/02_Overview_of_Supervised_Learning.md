@@ -318,7 +318,7 @@ ggplot(frame.range.bar)+geom_boxplot(aes(x=ind,y=values)) + labs(title="Diameter
  
  $$\begin{bmatrix} Y \\ X \end{bmatrix} \sim N_2(\begin{bmatrix} 0 \\ 0 \end{bmatrix},\begin{bmatrix} 1 & 0.7 \\ 0.7 & 1 \end{bmatrix}  )$$
  
- 위의 식에서 Y는 출력변수이고 X는 predictor variable이다. X와 Y를 위와 같이 가정했을 때 $$Y|X = x \sim N(\mu_{y}+\sum_{yx}\sum_{xx}^{-1}(x-\mu_x),\sum_{yy}-\sum_{yx}\sum_{xx}^{-1}\sum_{xy})$$
+ 위의 식에서 Y는 출력변수이고 X는 predictor variable이다. X와 Y를 위와 같이 가정했을 때 $$Y|X = x \sim N(\mu_{y}+\sum_{yx}{\sum_{xx}}^{-1}(x-\mu_x),\sum_{yy}-\sum_{yx}{\sum_{xx}}^{-1}\sum_{xy})$$
  
  $Y|X=x$는 위와 같은 분포를 따르고, $i.e.,\ Y|X=0.5 \sim N(0.35,0.51)$의 분포를 갖고 이를 코드안에 넣어서 예제를 만들어 보았다. 그림에서 보이다시피 sample size가 커질수록 $Loss(N.x) = |avg(Y|X \in N_k(x))- E[Y|\hat{X}=x]|$가 0에 수렴하고 boxplot의 폭 또한 작아지는 것을 확인할 수 있다. 또한 $N_k(x)$의 직경 또한 0에 수렴함을 확인할 수 있다.
  
