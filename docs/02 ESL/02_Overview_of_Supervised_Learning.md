@@ -246,14 +246,92 @@ $$E[(Y-u(X))^2|X] \geq E[(Y-E[Y|X])^2|X]$$
  이렇게 생각해보자. 우리는 x에 대한 조건부 평균 Y를 구하는 것인데, x에 종속적이게 대응하는 Y의 점들 k개를 생각해볼 수 있다. 여기서 k가 무한대로 간다면 우리는 거의 모든 x의 점들에 대응하는 Y를 고려하고 이러한 y들의 x에 대한 조건부평균을 구하는 것인데, 모든 x에 대하여 Y를 구했기 때문에 그냥 Y에 대한 평균을 구하는 것과 확률적으로 일치할 것이다. 하지만 k의 사이즈에 비해 기하급수적으로 data set의 사이즈가 커진다면 이는 data set에서 k개의 관측치가 차지하는 공간을 모든 x에 대한 y의 대응값으로 생각할 수 **없기**때문에 이때는 X에 대한 Y의 조건부평균으로 보는 것이 합당할 것이다. 이를 간단한 시뮬레이션을 통해 확인해보도록 하겠다.
  
 
- ![](02_photo4.png)
+
+```r
+library(ggplot2)
+
+knn <- function(data,k,x){
+	od=order(abs(data[,2]-x))
+	new.data <- data[od,]
+	Nk <- new.data[1:k,]
+Nk.range <- diff(range(Nk[,2]))
+Nk.avg <- mean(Nk[,1])
+res <- c(Nk.range,Nk.avg)
+return(res)
+}
+L <- c(10,50,100,200,500,1000,2000) ; A <- chol(matrix(c(1,0.7,0.7,1),nrow=2))
+y.bar <- matrix(rep(0,100*length(L)),nrow=100)
+range.bar <- matrix(rep(0,100*length(L)),nrow=100)
+	for(l in 1:length(L)){
+		k <- L[l] 
+		for(i in 1:100){
+			temp.y <- c()
+			temp.r <- c()
+			for(j in 1:30){
+				X1 <- rnorm(k^2,0,1)
+				Y1 <- rnorm(k^2,0,1)
+				YX <- t(A)%*%rbind(Y1,X1)
+				KNN <-knn(t(YX),k,0.5)
+				C <- mean(rnorm(k,0.35,sqrt(.51)))
+				temp.y <- append(temp.y,abs(KNN[2]-C))
+				temp.r <- append(temp.r,KNN[1])
+				}
+			y.bar[i,l] <- mean(temp.y)
+			range.bar[i,l] <- mean(temp.r)
+		}
+	}
+boxplot(y.bar,names=L,main='error')
+```
+
+![](02_Overview_of_Supervised_Learning_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+
+```r
+frame.y.bar <- stack(as.data.frame(y.bar))
+frame.y.bar[,2] <- factor(frame.y.bar[,2],label=L)
+range(y.bar[,ncol(y.bar)])
+```
+
+```
+## [1] 0.01207920 0.02312542
+```
+
+```r
+p <- ggplot(frame.y.bar) + geom_boxplot(aes(x=ind,y=values))
+p+labs(title="Errors",x="Sample Size",y="errors")+ theme_classic()
+```
+
+![](02_Overview_of_Supervised_Learning_files/figure-html/unnamed-chunk-1-2.png)<!-- -->
+
+```r
+frame.range.bar <- stack(as.data.frame(range.bar))
+frame.range.bar[,2] <- factor(frame.range.bar[,2],label=L)
+ggplot(frame.range.bar)+geom_boxplot(aes(x=ind,y=values)) + labs(title="Diameter of N_k",x="Sample Size", y="errors")+theme_classic()
+```
+
+![](02_Overview_of_Supervised_Learning_files/figure-html/unnamed-chunk-1-3.png)<!-- -->
  
- 통계전산과 선형대수를 소홀하게 들은 필자로써.. 학회에서 함께 ESL을 스터디하는 멋쟁이 **이형성**친구가 구현한 코드를 인용하였다.
+ 
+ 통계전산과 선형대수를 소홀하게 들은 필자로서.. 학회에서 함께 ESL을 스터디하는 멋쟁이 **이형성**친구가 구현한 코드를 인용하였다.
  
  
  코드를 살펴보면 먼저 knn이라는 이름으로 새로운 함수를 정의하였는데, 불러오는 데이터의 꼴을 1,2열이 각각 sample y,x에 대응하도록 만들어 놓고 짠 함수에 넣는 원리이다. 우리는 knn method를 사용하기 위하여 k개의 sample을 뽑을 때, 특정 포인트 지점에서 가장 가까운 k개를 뽑아야하므로 data의 2열인 sample x들과 지정한 포인트 x=0.5인 값의 차의 절대값을 order함수를 이용하여 인덱스를 추출하는 방법을 사용했다. sort등의 함수를 쓰지않은 이유는 그 차이로 비교를 하게 y,x가 대응하는 한 행을 세트로 뽑아야하기 때문이다. 
  
- $$\begin{bmatrix} Y \\ X \end{bmatrix}$$
+ $$\begin{bmatrix} Y \\ X \end{bmatrix} \sim N_2(\begin{bmatrix} 0 \\ 0 \end{bmatrix},\begin{bmatrix} 1 & 0.7 \\ 0.7 & 1 \end{bmatrix}  )$$
+ 
+ 위의 식에서 Y는 출력변수이고 X는 predictor variable이다. X와 Y를 위와 같이 가정했을 때 $$Y|X = x \sim N(\mu_{y}+\sum_{yx}\sum_{xx}^{-1}(x-\mu_x),\sum_{yy}-\sum_{yx}\sum_{xx}^{-1}\sum_{xy})$$
+ 
+ $Y|X=x$는 위와 같은 분포를 따르고, $i.e.,\ Y|X=0.5 \sim N(0.35,0.51)$의 분포를 갖고 이를 코드안에 넣어서 예제를 만들어 보았다. 그림에서 보이다시피 sample size가 커질수록 $Loss(N.x) = |avg(Y|X \in N_k(x))- E[Y|\hat{X}=x]|$가 0에 수렴하고 boxplot의 폭 또한 작아지는 것을 확인할 수 있다. 또한 $N_k(x)$의 직경 또한 0에 수렴함을 확인할 수 있다.
+ 
+ 이 둘을 정리한다면 아래와 같은 결론을 내릴 수 있다.
+ 
+ $$E[Y|\hat{X}=x] \xrightarrow{P} E[Y|X=x] (\because WLLN) $$
+ 
+ $$E[Y|\hat{X}=x] -avg(Y|X \in N_k(x))\xrightarrow{P} 0$$
+ 
+ $$\therefore avg(Y|X \in N_k(x)) \xrightarrow{P} E[Y|X=x] (\because Arithmetics \ of\ convergence\ in\ probability)$$
+ 
+ $i.e.\ , K-NN\ estimator\ is\ another\ consistent\ estimator\ for\ conditional\ expectation(Not\ E[Y])$
+ 
  
 &nbsp;&nbsp;&nbsp;&nbsp; 우리는 knn과 최소제곱법이 모두 조건부 기댓값을 통해 $f(x)$를 찾아가는 것을 알았다. 하지만 최소제곱법에서는 두가지 조건을 가정해야한다.
 
