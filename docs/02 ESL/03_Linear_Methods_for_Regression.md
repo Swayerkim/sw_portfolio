@@ -526,7 +526,7 @@ for (j in 1:ncol(X)){
 	Xbeta_ridge[,j] <- ((diag(D)[j]^2)/(diag(D)[j]^2+500))*U[,j]%*%t(U[,j])%*%Y
 	}
 	
-as.matrix(Xbeta_ridge[,1]+Xbeta_ridge[,2])	
+as.matrix(rowSums(Xbeta_ridge))
 ```
 
 ```
@@ -550,55 +550,3 @@ U%*%D%*%solve(D^2+lambda)%*%D%*%t(U)%*%Y
 ## [4,] 0.03365766
 ## [5,] 0.46379444
 ```
- 
- 
- 게다가 $\lambda \geq0$이면, 우리는 $\frac{d_j^2}{(d_j^2+\lambda)} \leq 1$을 갖는다.
- 
- 선형 회귀처럼 ridge 회귀는 $\mathbf{y}$의 좌표들을 정규직교기저(orthonormal basis) $\mathbf{U}$에 대해 계산하게 된다.
- 
-  이는 좌표들에 $\frac{d_j^2}{(d_j^2+\lambda)}$를 곱함으로써 계수를 축소시키는 것인데, 더 작은 $d_j^2$를 갖는 기저 벡터들의 좌표에 더 큰 positive한 shrinkage가 적용됨을 의미한다.
- 
- 중심화된 행렬$\mathbf{X}$의 SVD는 $\mathbf{X}$내의 변수들의 주성분을 표현하는 또 다른 방법이다. sample covariance matrix는 $\mathbf{S}=\frac{\mathbf{X}^T\mathbf{X}}{N}$으로 표현가능하며, 고윳값분해 form을 참고하여 정리하면 우리는 아래와 같은 식을 도출할 수 있다.(이미 위에 ridge solution 도출에 참고한 내용)
- 
- $$\mathbf{X}^T\mathbf{X}=\mathbf{V}\mathbf{D}^2\mathbf{V}^T$$
-이는 $\mathbf{X}^T{\mathbf{X}}$의 eigen decomposition이며 아이겐백터 $v_j$들은 $\mathbf{X}$의 direction의  principal components로 불린다.
-
-첫번째 주성분 방향 $v_1$은 $\mathbf{z}_1=\mathbf{X}v_1$으로 표현가능하며, $\mathbf{X}$의 열의 모든 정규화된 선형 결합 중에서 가장 큰 표본분산을 갖는다. 
-
-이 표본 분산은 쉽게 아래와 같이 표기된다.
-
-$$Var(\mathbf{z}_1)=Var(\mathbf{X}v_1)=\frac{d_1^2}{N}$$
-
-그리고 여기서 $\mathbf{z}_1=\mathbf{u}_1d_1$이다. 도출된 변수 $\mathbf{z}_1$은 $\mathbf{X}$의 첫번째 주성분으로 불리며, 고로 $\mathbf{u}_1$는 normalized된 첫번째 주성분이라고 볼 수 있다.
-
-따라서 작은 singular value $d_j$는 $\mathbf{X}$의 열공간의 방향 중 작은 분산을 갖는 direction과 대응되고, ridge regression은 이러한 작은 분산을 가진 방향을 더욱 더 축소시킨다.
-
-즉 ridge regression은 작은 분산을 갖는 축에 대한 계수를 축소시키는 방법을 통해, 그러한 direction이 있다면 여기서 높은 분산을 갖는 기울기(=주성분순위가 높은)가 추정되지 않게끔 보호하는 계산을 수행한다.
-
-위와 같은 원리를 통한 연산이 포함한 가정은 input값의 변동성을 가장 많이 설명하는 축에서 output의 변동 또한 가장 클 것이라는 것이다. 이는 필수적이진 않지만 충분히 합리적인 가정이다.
-
-$$df(\lambda)=tr[\mathbf{X}(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathbf{X}^T],=tr[\mathbf{H}_{\lambda}]$$
- 
- $$=\sum_{j=1}^p\frac{d_j^2}{d_j^2+\lambda}$$
- 
- 이는 앞에 그림에서 설명한 effective degrees of freedom을 수식으로 표현한 것이다.
- 
-### Lasso regression
- 
- **Lasso regression** 또한 Ridge regression과 같은 shrinkage method이지만, 한가지 차이점이 있다. 
- 
- 이는 $L_2$가 아닌 $L_1$ Regularization을 사용한다는 점인데, 이를 이용하여 Lasso식을 표현하면 아래와 같다.
- 
- $${\hat{\beta}^{lasso}}=argmin_{\beta}\sum_{i=1}^N(y_{i}-{\beta}_0-\sum_{j=1}^px_{ij}{\beta}_j)^2$$
- 
- $$subject\ to\ \sum_{j=1}^p|{\beta}_j|\leq t$$
-ridge regression때와 같이 우리는 intercept $\beta_0$를 predictors들을 표준화하는 과정을 통해서 재모수화하여 $\bar{y}$로 추정치를 얻을 수 있다.
-
-Lasso problem은 *Lagrangian form*으로 아래와 같이 표현도 가능하다.
-
-$${\hat{\beta}^{lasso}}=argmin_{\beta}\{\frac{1}{2}\sum_{i=1}^N(y_i-{\beta}_0-\sum_{i=1}^px_{ij}{\beta}_j)^2+{\lambda}\sum_{j=1}^p|{\beta}_j|\}$$
-
-대체된 $L_1$ lasso penalty는 해가 $y_i$에 대해 **비선형**인 형태로 만들며, ridge regression처럼 closed form의 형태가 존재하지 않는다.
-
-이러한 제약식으로 인해 t를 충분히 작게하는 것은 몇몇 계수들을 완전히 0으로 만들어버린다.
- 
