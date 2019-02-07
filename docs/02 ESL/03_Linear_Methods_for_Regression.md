@@ -1,11 +1,10 @@
 
-
 ---
 
-#03 Linear Methods for Regression
+# Linear Methods for Regression
 
 
-##Subset Selection
+##3.3 Subset Selection
 
 &nbsp;&nbsp;&nbsp;&nbsp; 최소제곱법을 통한 추정이 종종 만족스럽지 않은 이유는 두가지가 있다.
 
@@ -256,6 +255,154 @@ Forward stepwise와 비슷하게 이 또한 intercept만 있는 모델에서 시
 이 방법은 Stepwise 방법과는 달리 한번 모델에 포함된 변수들은 이후에 제거되지 않는다.
 
 
+##Shrinkage Methods 
+
+&nbsp;&nbsp;&nbsp;&nbsp;가끔은 predictors들의 부분집합을 남기고 나머지 부분들을 버림으로써 subset selection 방법은 full model을 사용했을 때 보다 더 낮은 prediction error를 갖고 용이한 해석을 이끌기도 한다. 
+
+하지만 이는 **discrete process**인데, (변수를 버리거나 남기거나 하는 것은) 이는 종종 high variance를 갖고, prediction error of the full model을 줄이지 못하기도 한다.
+
+Shrinkage methods는 좀더 continuous하며, 높은 변동성에 크게 제약을 받지 않는 방법이기에, 이번 소단원에서는 이에 대해서 다뤄보겠다.
+
+###Ridge Regression
+
+&nbsp;&nbsp;&nbsp;&nbsp; Ridge regression은 coeeicients의 size에 **penalty**를 걸어 이들을 축소시키는 방법이다.
+
+Ridge 회귀는 고로 penalized된 residual sum of squares를 최소화 하는 방향으로 모델을 만들게 되는데 이를 수식으로 표현하면 아래와 같다.
+
+
+$${\hat{\beta}}^{ridge}=argmin_{\beta}\{\sum_{i=1}^N(y_{i}-{\beta}_0-\sum_{j=1}^px_{ij}{\beta}_{j})^2+{\lambda}\sum_{j=1}^p{\beta}_{j}^2\}$$
+
+여기서 ${\lambda} \geq 0$은 축소의 정도를 결정하는 complexity parameter인데, 이 람다의 값이 커질수록 계수를 0으로 보내는 축소가 더 많이 이루어진다.
+
+위 식은 아래와 같이도 표현할 수 있다.
+
+$${\hat{\beta}}^{ridge}=argmin_{\beta}\sum_{i=1}^N(y_{i}-{\beta}_0-\sum_{j=1}^px_{ij}{\beta}_{j})^2,$$
+
+$$subject\ to\ \sum_{j=1}^p{\beta}_{j}^2 \leq t $$
+
+각 식에서 ${\lambda}$와 $t$의 값은 1:1대응이 성립한다.
+
+
+식을 확인해보면 우리는 intercept 항에 대해서는 penalization이 진행되지 않았다는
+ 것을 확인할 수 있는데, 이는 target $y_{i}$에 c만큼의 상수를 더해주는 것이 예측값이 c만큼 이동한다는 의미와 다르기 때문이다.
  
+ 
+ ${\lambda}$를 통해 얻은 penalized RSS의 해는 centered된 predictors를 사용한 재모수화로 두 부분으로 쪼개지는데, 이는 $x_{ij}$가 $x_{ij}-\bar{x}_{j}$로 대체됨을 의미힌다.
+ 
+ 여기서 intercept ${\beta}_0$를 $\bar{Y}$로 추정하며, 나머지 계수들은 intercept가 없는 ridge regression 으로 centered된  $x_{ij}$들을 추정하게 된다.
+ 
+ 이러한 중심화가 수행되었다고 가정했을때, input matrix $\mathbf{X}$는 $p+1$개가 아닌 $p$개의 열을 갖는다.
+ 
+ 이러한 식과 그때의 해를 행렬로 표현하면 아래와 같다.
+ 
+ $$RSS({\lambda})=(\mathbf{y}-\mathbf{X}{\beta})^T(\mathbf{y}-\mathbf{X}{\beta})+{\lambda}{\beta}^T{\beta}$$
+ 
+ $${\hat{\beta}}^{ridge}=(\mathbf{X}^T{\mathbf{X}}+{\lambda}\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}$$
+ 
+ $\mathbf{I}$는 $p\times{p}$의 항등행렬이다. 
+ 
+ 우리는 quadratic penalty ${\beta}^T{\beta}$를 사용하였기 때문에, ridge regression 의 해는 $\mathbf{y}$에 대한 선형 함수가 된다.
+ 
+ 이 해는 역행렬을 구하기 전에 $\mathbf{X}^T\mathbf{X}$의 대각원소에 양의 상수를 더한다.
+ 
+ 이는 문제를 **nonsingular**하게 해주며 $\mathbf{X}^T\mathbf{X}$가 full rank가 아니어도 괜찮게 해준다.
+ 
+ 아래에 첨부한 그림은 prostate cancer 예제를 통해 얻은 그림인데, 이는  
+ $df({\lambda})$에 따라 ridge 회귀계수의 추정치가 변화하는 것을 보여준다.
+ 
+ 
+ $df({\lambda})$는 penalty ${\lambda}$에 대한 함수로  *effective degress of freedom*을 보여준다.
+ 
+ ![](03_photo1.png)
+ 
+ 
+ 만약 입력변수들이 orthonormal 하다면, ridge의 추정치는 최소제곱법 추정치의 scaled version이 된다.
+ 
+ ${\hat{\beta}}^{ridge}=\frac{\hat{\beta}}{1+{\lambda}}$
 
 
+&nbsp;&nbsp;&nbsp;&nbsp;중심화된 입력행렬 $\mathbf{X}$의 고유값분해(*singular value decomposition*, SVD)를 통해 우리는 ridge regression의 특성에 대해 추가적인 insight를 얻을 수 있다.
+
+이러한 분해는 다양한 통계적 방법에 대한 분석에 매우 용이한 방법이다.
+
+$N\times{p}$  $\mathbf{X}$행렬의 고유값분해는 아래와 같은 form을 갖는다.
+
+$$\mathbf{X}=\mathbf{U}\mathbf{D}\mathbf{V}^T$$
+
+여기서 $\mathbf{U}$와 $\mathbf{V}$는 $N\times{p}$, $p\times{p}$의 직교행렬이고, $\mathbf{U}$의 열은 $\mathbf{X}$의 열공간을 span하며, $\mathbf{V}$의 열들이 행공간을 span한다.
+
+$\mathbf{D}$는 $p\times{p}$의 대각행렬이며, 대각원소들은 $d_1\geq{d_2}\geq...\geq{d_{p}}\geq0$인 $\mathbf{X}$의 singular value들이다.
+
+만약 한개라도 $d_j=0$이라면, $\mathbf{X}$는 singular이다.
+
+SVD를 통해 우리는 least squares fitted vector를 아래와 같이 표현할 수 있다.
+
+$$\mathbf{X}{\hat{\beta}^{ls}}=\mathbf{X}{(\mathbf{X}^T\mathbf{X})}^{-1}\mathbf{X}^T\mathbf{y}$$
+
+$$=\mathbf{X}(\mathbf{V}\mathbf{D}^2\mathbf{V}^T)^{-1}\mathbf{X}^T\mathbf{y}$$
+
+$$=\mathbf{X}\mathbf{V}\mathbf{D}^{-2}\mathbf{V}^T\mathbf{X}^T\mathbf{y}$$
+
+$$=\mathbf{U}\mathbf{D}\mathbf{V}^T\mathbf{V}\mathbf{D}^{-2}\mathbf{V}^T\mathbf{X}^T\mathbf{y}$$
+
+$$=\mathbf{U}\mathbf{D}^{-1}\mathbf{V}^T\mathbf{X}^T\mathbf{y}$$
+
+$$=\mathbf{U}\mathbf{D}^{-1}\mathbf{V}^T\mathbf{V}\mathbf{D}\mathbf{U}^T\mathbf{y}=\mathbf{U}\mathbf{U}^T\mathbf{y}$$
+
+로 표현가능하다.
+
+여기서 $\mathbf{U}^T\mathbf{y}$는 orthonormal basis $\mathbf{U}$에 대한 $\mathbf{y}$의 좌표들이다.
+
+이 증명은 $\mathbf{U}$와 $\mathbf{V}$의 열들이 orthogonal하다는 성질과 각 열들이 $\mathbf{X}\mathbf{X}^T$와 $\mathbf{X}^T\mathbf{X}$의 eigenvector라는 성질을 이용하여 식전개를 한 것이다.
+
+그렇다면 이제 ridge solutions은 아래와 같이 구할 수 있다.
+
+$$\mathbf{X}{\hat{\beta}}^{ridge}=\mathbf{X}(\mathbf{X}^T\mathbf{X}+{\lambda}\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}$$
+
+$$=\mathbf{U}\mathbf{D}\mathbf{V}^T(\mathbf{V}\mathbf{D}^{-2}\mathbf{V}^T+\frac{{1}}{\lambda}\mathbf{I})\mathbf{V}\mathbf{D}\mathbf{U}^T\mathbf{y}$$
+
+$$=\mathbf{U}\mathbf{U}^T\mathbf{y}+\frac{1}{\lambda}\mathbf{U}\mathbf{D}^2\mathbf{U}^T\mathbf{y}$$
+
+$$=\mathbf{U}(\mathbf{I}+\frac{1}{\lambda}\mathbf{D}^2)\mathbf{U}^T\mathbf{y}$$
+
+$$=\mathbf{U}\mathbf{D}(\mathbf{D}^{-2}+\frac{1}{\lambda})\mathbf{D}\mathbf{U}^T\mathbf{y}$$
+
+$$=\mathbf{U}\mathbf{D}(\mathbf{D}^2+\lambda\mathbf{I})^{-1}\mathbf{D}\mathbf{U}^T\mathbf{y}$$
+
+$$=\sum_{j=1}^p\mathbf{u}_{j}\frac{d_j^2}{d_j^2+\lambda}\mathbf{u}_j^T\mathbf{y}$$
+ 
+ 여기서 $\mathbf{u}_j$들은 $\mathbf{U}$의 열들이다. 
+ 
+ 게다가 $\lambda \geq0$이면, 우리는 $\frac{d_j^2}{(d_j^2+\lambda)} \leq 1$을 갖는다.
+ 
+ 선형 회귀처럼 ridge 회귀는 $\mathbf{y}$의 좌표들을 정규직교기저(orthonormal basis) $\mathbf{U}$에 대해 계산하게 된다.
+ 
+  이는 좌표들에 $\frac{d_j^2}{(d_j^2+\lambda)}$를 곱함으로써 계수를 축소시키는 것인데, 더 작은 $d_j^2$를 갖는 기저 벡터들의 좌표에 더 큰 positive한 shrinkage가 적용됨을 의미한다.
+ 
+ 중심화된 행렬$\mathbf{X}$의 SVD는 $\mathbf{X}$내의 변수들의 주성분을 표현하는 또 다른 방법이다. sample covariance matrix는 $\mathbf{S}=\frac{\mathbf{X}^T\mathbf{X}}{N}$으로 표현가능하며, 고윳값분해 form을 참고하여 정리하면 우리는 아래와 같은 식을 도출할 수 있다.(이미 위에 ridge solution 도출에 참고한 내용)
+ 
+ $$\mathbf{X}^T\mathbf{X}=\mathbf{V}\mathbf{D}^2\mathbf{V}^T$$
+이는 $\mathbf{X}^T{\mathbf{X}}$의 eigen decomposition이며 아이겐백터 $v_j$들은 $\mathbf{X}$의 direction의  principal components로 불린다.
+
+첫번째 주성분 방향 $v_1$은 $\mathbf{z}_1=\mathbf{X}v_1$으로 표현가능하며, $\mathbf{X}$의 열의 모든 정규화된 선형 결합 중에서 가장 큰 표본분산을 갖는다. 
+
+이 표본 분산은 쉽게 아래와 같이 표기된다.
+
+$$Var(\mathbf{z}_1)=Var(\mathbf{X}v_1)=\frac{d_1^2}{N}$$
+
+그리고 여기서 $\mathbf{z}_1=\mathbf{u}_1d_1$이다. 도출된 변수 $\mathbf{z}_1$은 $\mathbf{X}$의 첫번째 주성분으로 불리며, 고로 $\mathbf{u}_1$는 normalized된 첫번째 주성분이라고 볼 수 있다.
+
+따라서 작은 singular value $d_j$는 $\mathbf{X}$의 열공간의 방향 중 작은 분산을 갖는 direction과 대응되고, ridge regression은 이러한 작은 분산을 가진 방향을 더욱 더 축소시킨다.
+
+즉 ridge regression은 작은 분산을 갖는 축에 대한 계수를 축소시키는 방법을 통해, 그러한 direction이 있다면 여기서 높은 분산을 갖는 기울기(=주성분순위가 높은)가 추정되지 않게끔 보호하는 계산을 수행한다.
+
+위와 같은 원리를 통한 연산이 포함한 가정은 input값의 변동성을 가장 많이 설명하는 축에서 output의 변동 또한 가장 클 것이라는 것이다. 이는 필수적이진 않지만 충분히 합리적인 가정이다.
+
+$$df(\lambda)=tr[\mathbf{X}(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathbf{X}^T],=tr[\mathbf{H}_{\lambda}]$$
+ 
+ $$=\sum_{j=1}^p\frac{d_j^2}{d_j^2+\lambda}$$
+ 
+ 이는 앞에 그림에서 설명한 effective degrees of freedom을 수식으로 표현한 것이다.
+ 
+ 
+ 
