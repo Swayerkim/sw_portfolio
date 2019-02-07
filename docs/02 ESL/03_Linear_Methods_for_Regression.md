@@ -1,5 +1,4 @@
 
-
 ---
 
 # Linear Methods for Regression
@@ -405,5 +404,16 @@ $$df(\lambda)=tr[\mathbf{X}(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathb
  
  이는 앞에 그림에서 설명한 effective degrees of freedom을 수식으로 표현한 것이다.
  
+ ###Lasso regression
  
+ **Lasso regression** 또한 Ridge regression과 같은 shrinkage method이지만, 한가지 차이점이 있다. 
+ 
+ 이는 $L_2$가 아닌 $L_1$ Regularization을 사용한다는 점인데, 이를 이용하여 Lasso식을 표현하면 아래와 같다.
+ 
+ $${\hat{\beta}^{lasso}}=argmin_{\beta}\sum_{i=1}^N(y_{i}-{\beta}_0-\sum_{j=1}^px_{ij}{\beta}_j)^2$$
+ 
+ $$subject\ to\ \sum_{j=1}^p|{\beta}_j|\leq t$$
+ridge regression때와 같이 우리는 intercept $\beta_0$를 predictors들을 표준화하는 과정을 통해서 재모수화하여 $\bar{y}$로 추정치를 얻을 수 있다.
+
+
  
