@@ -1,4 +1,5 @@
 
+
 ---
 
 # Linear Methods for Regression
@@ -373,6 +374,184 @@ $$=\sum_{j=1}^p\mathbf{u}_{j}\frac{d_j^2}{d_j^2+\lambda}\mathbf{u}_j^T\mathbf{y}
  
  여기서 $\mathbf{u}_j$들은 $\mathbf{U}$의 열들이다. 
  
+
+```r
+#Do SVD!
+
+library(MASS)
+```
+
+```
+## 
+## Attaching package: 'MASS'
+```
+
+```
+## The following object is masked from 'package:dplyr':
+## 
+##     select
+```
+
+```r
+X <- matrix(c(3,7,0,1,9,3,5,0,0,7),ncol = 2, nrow = 5)
+XtX <- t(X)%*%X
+eigen(XtX)
+```
+
+```
+## eigen() decomposition
+## $values
+## [1] 222.2305288   0.7694712
+## 
+## $vectors
+##            [,1]       [,2]
+## [1,] -0.7929002  0.6093515
+## [2,] -0.6093515 -0.7929002
+```
+
+```r
+V <- eigen(XtX)$vectors
+Vt <- t(V)
+singular_values <- sqrt(eigen(XtX)$values)
+singular_values
+```
+
+```
+## [1] 14.9073985  0.8771951
+```
+
+```r
+D <- diag(singular_values)
+U = vector()       
+for(i in 1:length(V[1,])){
+    U = append(U,1/singular_values[i]*X %*% V[,i])
+  }
+U = matrix(U,ncol = length(V[1,]))
+
+SVD <- function(X){  
+      XtX = t(X)%*%X
+      V =eigen(XtX)$vectors
+      Vt = t(V)
+      
+      singular_values =sqrt(eigen(XtX)$values)
+      D=diag(singular_values)
+
+      U=vector() 
+	for(i in 1:length(V[1,])){
+	U = append(U,1/singular_values[i]*X %*% V[,i])
+}
+      U=matrix(U,ncol = length(V[1,]))      
+      return(list(U=U,D=D,Vt=Vt))
+}
+
+U <- SVD(X)$U
+D <- SVD(X)$D
+Vt<- SVD(X)$Vt
+
+U%*%D%*%Vt
+```
+
+```
+##      [,1] [,2]
+## [1,]    3    3
+## [2,]    7    5
+## [3,]    0    0
+## [4,]    1    0
+## [5,]    9    7
+```
+
+```r
+X
+```
+
+```
+##      [,1] [,2]
+## [1,]    3    3
+## [2,]    7    5
+## [3,]    0    0
+## [4,]    1    0
+## [5,]    9    7
+```
+
+```r
+Y <- c(1,0,5,3,2)
+
+# \mathbf{X}{\hat{\beta}}^{ls} = UU^Ty check
+
+X%*%solve(XtX)%*%t(X)%*%Y
+```
+
+```
+##            [,1]
+## [1,] -0.2631579
+## [2,]  1.5847953
+## [3,]  0.0000000
+## [4,]  1.0116959
+## [5,]  1.4093567
+```
+
+```r
+U%*%t(U)%*%Y
+```
+
+```
+##            [,1]
+## [1,] -0.2631579
+## [2,]  1.5847953
+## [3,]  0.0000000
+## [4,]  1.0116959
+## [5,]  1.4093567
+```
+
+```r
+#ridge case
+lambda <- 500*diag(2)
+
+U%*%D%*%solve(D^2+lambda)%*%D%*%t(U)%*%Y
+```
+
+```
+##            [,1]
+## [1,] 0.16991962
+## [2,] 0.35051469
+## [3,] 0.00000000
+## [4,] 0.03365766
+## [5,] 0.46379444
+```
+
+```r
+Xbeta_ridge <- matrix(0,5,2)
+
+for (j in 1:ncol(X)){
+	Xbeta_ridge[,j] <- ((diag(D)[j]^2)/(diag(D)[j]^2+500))*U[,j]%*%t(U[,j])%*%Y
+	}
+	
+as.matrix(Xbeta_ridge[,1]+Xbeta_ridge[,2])	
+```
+
+```
+##            [,1]
+## [1,] 0.16991962
+## [2,] 0.35051469
+## [3,] 0.00000000
+## [4,] 0.03365766
+## [5,] 0.46379444
+```
+
+```r
+U%*%D%*%solve(D^2+lambda)%*%D%*%t(U)%*%Y	
+```
+
+```
+##            [,1]
+## [1,] 0.16991962
+## [2,] 0.35051469
+## [3,] 0.00000000
+## [4,] 0.03365766
+## [5,] 0.46379444
+```
+ 
+ 
  게다가 $\lambda \geq0$이면, 우리는 $\frac{d_j^2}{(d_j^2+\lambda)} \leq 1$을 갖는다.
  
  선형 회귀처럼 ridge 회귀는 $\mathbf{y}$의 좌표들을 정규직교기저(orthonormal basis) $\mathbf{U}$에 대해 계산하게 된다.
@@ -404,7 +583,7 @@ $$df(\lambda)=tr[\mathbf{X}(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathb
  
  이는 앞에 그림에서 설명한 effective degrees of freedom을 수식으로 표현한 것이다.
  
- ###Lasso regression
+### Lasso regression
  
  **Lasso regression** 또한 Ridge regression과 같은 shrinkage method이지만, 한가지 차이점이 있다. 
  
@@ -415,5 +594,11 @@ $$df(\lambda)=tr[\mathbf{X}(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathb
  $$subject\ to\ \sum_{j=1}^p|{\beta}_j|\leq t$$
 ridge regression때와 같이 우리는 intercept $\beta_0$를 predictors들을 표준화하는 과정을 통해서 재모수화하여 $\bar{y}$로 추정치를 얻을 수 있다.
 
+Lasso problem은 *Lagrangian form*으로 아래와 같이 표현도 가능하다.
 
+$${\hat{\beta}^{lasso}}=argmin_{\beta}\{\frac{1}{2}\sum_{i=1}^N(y_i-{\beta}_0-\sum_{i=1}^px_{ij}{\beta}_j)^2+{\lambda}\sum_{j=1}^p|{\beta}_j|\}$$
+
+대체된 $L_1$ lasso penalty는 해가 $y_i$에 대해 **비선형**인 형태로 만들며, ridge regression처럼 closed form의 형태가 존재하지 않는다.
+
+이러한 제약식으로 인해 t를 충분히 작게하는 것은 몇몇 계수들을 완전히 0으로 만들어버린다.
  
