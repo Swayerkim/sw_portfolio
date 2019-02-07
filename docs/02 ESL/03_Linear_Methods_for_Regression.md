@@ -1,4 +1,3 @@
-
 ---
 
 # Linear Methods for Regression
