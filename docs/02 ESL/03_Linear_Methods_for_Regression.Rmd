@@ -316,3 +316,47 @@ for (j in 1:ncol(X)){
 	
 as.matrix(rowSums(Xbeta_ridge))
 U%*%D%*%solve(D^2+lambda)%*%D%*%t(U)%*%Y	
+
+```
+
+
+##Lasso Regression
+
+Lasso Regression 또한 Ridge와 같은 shrinkage method이다.
+
+차이가 있다면 Lasso는 $L_2$가 아닌 $L_1$ Regularization을 수행한 것이다.
+
+Lasso를 통해 얻은 베타의 추정치를 식으로 표현하면 아래와 같이 표현할 수 있다.
+
+$${\hat{\beta}}^{lasso}=argmin_{\beta}\sum_{i=1}^N(y_{i}-{\beta}_0-\sum_{j=1}^px_{ij}{\beta}_j)^2$$
+
+$$subject\ to\ \sum_{j=1}^p|{\beta}_j|\leq t$$
+
+또 Lasso에서는 Ridge에서처럼 input predictors들을 표준화하여 ${\beta}_0$에 대한 추정치를 $\bar{y}$로 얻어 절편 계수없이 모델적합을 시행할 수 있다.
+
+위의 식을 우리는 **Lagrangian form**의 형태로도 표현가능한데, 이 식이 좀 더 이해가 수월한듯하다.
+
+$${\hat{\beta}}^{lasso}=argmin_{\beta}\{\sum_{i=1}^N(y_{i}-{\beta}_0-\sum_{j=1}^px_{ij}{\beta}_j)^2+{\lambda}\sum_{j=1}^p|{\beta}_j|\}$$
+
+대체된 $L_1$ penalty는 해가 $y_i$에 대해 비선형인 식을 만들며, 고로 ridge와 다르게 closed form의 형태가 존재하지 않는다.
+
+이러한 제약식으로 인해 t를 충분히 작게 줄이는 것은 몇몇 coefficients들을 정확하게 0으로 만들 것이다.
+
+
+![](03_photo2.png)
+
+위 그림을 통해 우리는 타원모양의 능선을 갖는 RSS와 그 중심에서 Full LSE를 얻는 것을 알 수 있다.
+
+ridge의 제약식은 constraint region을 원모양을 만들고(Predictor가 두개인 case),
+
+lasso일때는 마름모 형태를 띈다. 이는 모양을 띄는 이유는 두 방법의 regularization form이 다르기 떄문이다.
+
+$$|{\beta}_1|+|{\beta}_2| \leq t \ , {\beta}_1^2+{\beta}_2^2 \leq t^2$$
+
+lasso의 경우는 각져있는 모서리가 있기에 해가 그 곳에서 발생하면 하나의 parameter는 0이 되는 것을 확인할 수 있다. 차원이 다차원으로 확장된다면 더 많은 모서리와 면들이 존재하기 때문에 더 많은 접점이 만들어지고 더 많은 계수를 0으로 보낼 기회가 늘어난다.
+
+
+
+
+
+
