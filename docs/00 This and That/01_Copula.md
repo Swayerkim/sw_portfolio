@@ -1,4 +1,9 @@
-
+---
+title: "R Notebook"
+output: 
+  html_document:
+    keep_md:  true
+---
 # What is Copula?
 
 &nbsp;&nbsp;&nbsp;&nbsp; 코퓰러(Copula)는 무엇인가? 
@@ -268,6 +273,7 @@ hist(X[,3])
  샘플링된 값들의 히스토그램을 살펴보면, 육안으로 확인하여도 가우시안 코퓰러 U와 생성된 3변량정규확률변수 X의 marginal distribution이 각각 균등분포와 정규분포의 form에 유사하다는 것을 확인할 수 있다.
 
  Inverse cdf를 통해 우리가 다른 여러 목표 분포를 유도하고싶다면, 언제든지 그 모수들만 지정을 해주어서 새롭게 뽑아낼 수 있다.
+ 
  
 ## 끗~ 
  
