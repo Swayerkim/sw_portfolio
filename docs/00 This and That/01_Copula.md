@@ -1,9 +1,4 @@
----
-title: "R Notebook"
-output: 
-  html_document:
-    keep_md:  true
----
+
 # What is Copula?
 
 &nbsp;&nbsp;&nbsp;&nbsp; 코퓰러(Copula)는 무엇인가? 
@@ -274,6 +269,76 @@ hist(X[,3])
 
  Inverse cdf를 통해 우리가 다른 여러 목표 분포를 유도하고싶다면, 언제든지 그 모수들만 지정을 해주어서 새롭게 뽑아낼 수 있다.
  
+ 일례로 지수분포 $Exp(\lambda)$의 inverse cdf는 $F^{-1}(p;\lambda)= -\frac{1}{\lambda}log(1-p)$로 표현할 수 있는데, 이를 위에서 짠 함수에 대입하여 $\lambda=(1,0.7,0.3)$인 지수분포 $X_1,X_2,X_3$를 생성해보겠다.
  
+
+```r
+lambda1 <-1
+lambda2 <-0.7
+lambda3 <- 0.3
+
+X1 <- -(1/lambda1)*log(1-U[,1])
+X2 <- -(1/lambda2)*log(1-U[,2])
+X3 <- -(1/lambda3)*log(1-U[,3])
+
+multivariate_exp_random_sample <- cbind(X1,X2,X3)
+
+cor(multivariate_exp_random_sample)
+```
+
+```
+##          X1       X2       X3
+## X1 1.000000 0.671786 0.566118
+## X2 0.671786 1.000000 0.463459
+## X3 0.566118 0.463459 1.000000
+```
+
+```r
+par(mfrow=c(1,3))
+hist(X1)
+hist(X2)
+hist(X3)
+```
+
+![](01_Copula_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
+```r
+library(MASS)
+fitdistr(X1,"exponential")
+```
+
+```
+##       rate   
+##   0.97348415 
+##  (0.01376714)
+```
+
+```r
+fitdistr(X2,"exponential")
+```
+
+```
+##       rate    
+##   0.673762741 
+##  (0.009528444)
+```
+
+```r
+fitdistr(X3,"exponential")
+```
+
+```
+##       rate    
+##   0.296073253 
+##  (0.004187108)
+```
+ 
+
+수치를 확인할 수 있듯이 기존에 설정했던 종속구조를 잘 유지하는 것처럼 보이고, 새롭게 생성한 분포의 히스토그램을 볼때 목표분포와 잘 적합하는 것처럼 보인다.
+
+또한 이들의 모수를 근사적으로 추정해보아도 원하는 $\lambda$값과 매우 유사한 값을 모수로 갖는다는 것을 확인할 수 있다.
+
+
+
 ## 끗~ 
  
