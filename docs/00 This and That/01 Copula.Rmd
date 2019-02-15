@@ -96,3 +96,122 @@ cor(X_t)
 표준정규확률변수를 random하게 충분히 많이 뽑고 이를 Choleski Decomposition을 통해 새롭게 서로 종속구조를 갖는 bivariate normal random sample $X$를 만들어보았다.
 
 마지막에 확인할 수 있듯이 이때의 correlation matrix를 그려보면 $\begin{bmatrix} 1 & 0.7 \\ 0.7 & 1 \end{bmatrix}$과 매우 유사하게 나옴을 확인할 수 있다. (여기서는 처음부터 표준정규확률변수를 통해 covariance matrix를 scaling했기 때문에 공분산행렬과 상관계수행렬은 sample size가 커질수록 한쪽으로 근사한다.)
+
+
+ 다시 정리를 해본다면, Gaussian Copula를 통해 bivariate normal random sample을 만드는 것은 아래와 같은 단계를 거친다고 할 수 있다.
+ 
+ 1. Generate $Z_1, Z_2, ..., Z_{n} \sim indep\ N(0,1)$
+ 
+ 2.  $\mathbf{Y}=\mathbf{A}\mathbf{Z},\ (\mathbf{Y} \sim N(\mu,\mathbf{\sum})),\ Choleski\ decomposition\ \mathbf{\sum}=\mathbf{A}\mathbf{A^{'}}$
+ 
+ 3. $Compute\ {\phi}(W_{i}),\ i=1,..,n$
+ 
+ 4. Set $X_{i}= {F_{i}^{-1}}(\phi(W_{i}))$
+ 
+ 이는 위에서 간단하게 시뮬레이션을 통해 확인했던 방법과는 약간 다른 방법이다.
+ 
+ 위에서는 미리 공분산행렬을 스케일링한 후에 촐레스키 분해를 통해 종속구조를 갖는 이변량확률변수 $X_{i}$를 만들었지만, 앞에서 소개한 방식은 cdf의 분포는 Uniform 분포를 갖는다는 점을 착안하여 상관관계 행렬을 초기값으로 시작하여 cdf로의 변환을 통해 이변량균등 random sample을 만든 후, 이를 목표 분포의 inverse cdf로 변환하여 원하는 $X_{i}$의 종속구조를 갖는 다른분포의 이변량 random sample을 만드는 방법이다.
+ 
+ 이를 간단히 시뮬레이션을 해보자.
+ 
+ 과 동기 연수가 구현한 함수를 참고하여 이변량뿐 아니라, 그 이상의 다변량확률변수를 sampling까지 할 수 있도록 함수를 짜보았다. 
+ 
+ 이러한 함수를 통해 확률변수들을 샘플링할 때, correlation matrix의 비대각성분인 ${\rho}_{ij},\ i\neq{j}$들을 일일히 입력하지않고도 함수를 짤 수 있지 않을까 했지만, 필자의 머리의 한계로 인해.. $n\times{n}\ matrix$에서 상관계수행렬의 비대각 성분의 갯수는 $\frac{n(n+1)}{2}$이기에 이 갯수만큼 $\rho$들을 벡터형태로 입력하여 이변량이상의 확률변수를 샘플링하는 조금은 수동적인 방법으로만 함수를 구현하였다.
+ 
+```{r}
+copula <- function(n,mu,var){
+#C is correlation matrix
+C <- matrix(0,3,3)
+# function안에서 일일히 rho를 입력해줘야하는 것이 아쉬울 따름이다.. 
+#상관계수행렬을 만들기위해 사용한 for문의 특성에 따라 rho로 지정하는 벡터원소의 순서는 4x4 행렬기준으로
+#rho_12, rho_13, rho_23, rho_14, rho_24, rho_34 식의 순서이다.
+rho <- c(0.7,0.6,0.5)
+
+C[upper.tri(C)] <- rho
+C <- C+t(C)
+for (i in 1:nrow(C)) {
+for (j in 1:ncol(C)) {
+if(i==j){C[i,j]=1}
+}}
+
+	m <- ncol(C)
+	A <- t(chol(C))
+#U is Gaussian Copula & U1, U2 distributed Uniform 	
+	U <- matrix(nrow=n,ncol=m)
+	colnames(U)=paste0('U',1:m)
+	W <- matrix(nrow=n,ncol=m)
+	colnames(W)=paste0('W',1:m)
+	
+	for (i in 1:n){
+		Z <- rnorm(m,0,1)
+		W <- A%*%Z
+		U[i,] <- pnorm(W)
+}
+
+result <- list()
+result[['Gaussian Copula']] <- U	
+X <- matrix(nrow=n,ncol=m)
+colnames(X) <- paste0('X',1:m)
+#Using inverse cdf, transform U to objective distribution
+for (j in 1:m){
+	X[,j] <- qnorm(U[,j],mean=mu[j], sd=sqrt(var[j]))
+}
+result[['Generated Multivariate Normal Random Sample']]  <- X
+return(result)
+}
+
+n <- 5000
+mu <- c(5,10,15)
+var <- c(9,15,30)
+
+result <- copula(n=n,mu=mu,var=var)
+U <- result[[1]]
+X <- result[[2]]
+
+cor(U)
+
+
+mydf<- as.data.frame(X)
+mydf2 <- as.data.frame(U)
+library(scatterplot3d)
+library(ggplot2)
+
+
+p2 <- scatterplot3d(mydf2[,1:3],pch=16, color="steelblue",grid=T,box=F,angle=55, main="Generated Gaussian Copula")
+my.lm2 <- lm(mydf2[,3]~mydf2[,1]+mydf2[,2])
+p2$plane3d(my.lm2)
+
+
+```
+ 
+ U의 상관계수행렬을 살펴보면 초기에 설정했던 값과 매우 유사한 값이 나옴을 확인 할 수 있다. 
+ 
+```{r}
+p <- scatterplot3d(mydf[,1:3],pch=16, color="steelblue",grid=T,box=F,angle=55, main='Generated 3-variate Normal Random Sample')
+my.lm <- lm(mydf[,3]~mydf[,1]+mydf[,2])
+p$plane3d(my.lm)
+
+cor(X)
+cov(X)
+apply(X,2,mean)
+```
+ 
+X 또한 상관계수행렬, 공분산행렬, 평균이 목표분포의 모수와 매우 유사하게 근사함을 확인할 수 있다.
+
+```{r}
+par(mfrow=c(2,3))
+hist(U[,1])
+hist(U[,2])
+hist(U[,3])
+hist(X[,1])
+hist(X[,2])
+hist(X[,3])
+
+```
+
+ 샘플링된 값들의 히스토그램을 살펴보면, 육안으로 확인하여도 가우시안 코퓰러 U와 생성된 3변량정규확률변수 X의 marginal distribution이 각각 균등분포와 정규분포의 form에 유사하다는 것을 확인할 수 있다.
+
+ Inverse cdf를 통해 우리가 다른 여러 목표 분포를 유도하고싶다면, 언제든지 그 모수들만 지정을 해주어서 새롭게 뽑아낼 수 있다.
+ 
+## 끗~ 
+ 
