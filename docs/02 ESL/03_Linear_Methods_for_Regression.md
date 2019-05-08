@@ -1,5 +1,4 @@
 
-
 ---
 
 # Linear Methods for Regression
@@ -374,7 +373,7 @@ $$=\sum_{j=1}^p\mathbf{u}_{j}\frac{d_j^2}{d_j^2+\lambda}\mathbf{u}_j^T\mathbf{y}
  
  여기서 $\mathbf{u}_j$들은 $\mathbf{U}$의 열들이다. 
  
- $\lambda \geq 0$ 일때 우리는 $d_j^2/(d_j^2+\lambda) \leq 0 $임을 알 수 있다.
+ $\lambda \geq 0$ 일때 우리는 $d_j^2/(d_j^2+\lambda) \leq 0$임을 알 수 있다.
  
  선형 회귀 처럼 ridge회귀는 $\mathbf{y}$의 좌표들을 정규직교기저 $\mathbf{U}$에 대해 계산하게 된다.
  
@@ -382,7 +381,7 @@ $$=\sum_{j=1}^p\mathbf{u}_{j}\frac{d_j^2}{d_j^2+\lambda}\mathbf{u}_j^T\mathbf{y}
  
  이는 즉 더 작은 $d_j^2$를 갖는 기저 벡터들의 좌표에 더 큰 양의 축소가 적용되는 것이다.
  
- $d_j^2$가 작다는 말은 무슨 말인가? 중심화된 행렬 $\mathbf{X}$의 $\mathbf{SVD}$는 $\mathbf{X}$내의 변수들의 ##principal components##를 표현하는 또 다른 방법이다.
+ $d_j^2$가 작다는 말은 무슨 말인가? 중심화된 행렬 $\mathbf{X}$의 $\mathbf{SVD}$는 $\mathbf{X}$내의 변수들의 **principal components**를 표현하는 또 다른 방법이다.
  
  sample covariance matrix는 $\mathbf{S}=\mathbf{X^TX}/n$이며, SVD에 의해 $\mathbf{X^TX}=\mathbf{VD^2V^T}$를 얻게 되며, 이는 $\mathbf{X^TX}$의 eigen decomposition이며, eigenvector들의 $v_j$는 $\mathbf{X}$의 principal components directions이다. 첫번째 주성분 방향 $v_1$은 $\mathbf{z}_1=\mathbf{X}v_1$이 모든 $\mathbf{X}$의 열들의 선형 조합들을 normalize한 것들 중 가장 큰 sample variance를 갖는 성질을 갖는다. 이러한 sample variance는  $Var(\mathbf{Z}_1)=Var(\mathbf{X}v_1)=\frac{d_1^2}{n}$를 만족하고, 실제로 $\mathbf{z}_1=\mathbf{X}v_1=\mathbf{u}_1d_1$임 또한 보일 수 있다.
  
