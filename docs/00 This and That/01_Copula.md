@@ -1,9 +1,4 @@
----
-title: "R Notebook"
-output: 
-  html_document:
-    keep_md:  true
----
+
 # What is Copula?
 
 &nbsp;&nbsp;&nbsp;&nbsp; 코퓰러(Copula)는 무엇인가? 
@@ -20,7 +15,6 @@ output:
 $$X=\begin{bmatrix} X_1 \\ X_2 \end{bmatrix} \sim N_2(\begin{bmatrix} {\mu_1} \\ \mu_2 \end{bmatrix},\begin{bmatrix} \sum_{11} & {\sum_{12}} \\ {\sum_{21}} & \sum_{22} \end{bmatrix})$$
 
 
-$Sales = -357.5921+0.6068*Black-2.4284*Price+68.2673*logIncome+\epsilon$
 
  위와 같은 bivariate random variable의 모양을 생각해보자.
  

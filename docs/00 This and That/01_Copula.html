@@ -198,7 +198,6 @@ $(document).ready(function () {
 <p>우리가 random variable들 간의 종속 구조를 설명하고 싶을때, 혹은 그러한 구조를 갖고 있는 다변량확률변수들을 표현하고 싶을 때 우리는 copula를 활용해볼 수 있다.</p>
 <p>다변량확률변수를 다루면서 우리는 이를 이루고 있는 각각의 marginal random variable만으로는 전체 다변량확률변수를 100% 설명할 수 없다.</p>
 <p><span class="math display">\[X=\begin{bmatrix} X_1 \\ X_2 \end{bmatrix} \sim N_2(\begin{bmatrix} {\mu_1} \\ \mu_2 \end{bmatrix},\begin{bmatrix} \sum_{11} &amp; {\sum_{12}} \\ {\sum_{21}} &amp; \sum_{22} \end{bmatrix})\]</span></p>
-<p><span class="math inline">\(Sales = -357.5921+0.6068*Black-2.4284*Price+68.2673*logIncome+\epsilon\)</span></p>
 <p>위와 같은 bivariate random variable의 모양을 생각해보자.</p>
 <p>우리는 Lienar Operater <span class="math inline">\(\mathbf{A}= [I_m\ 0]\)</span> (<span class="math inline">\(in\ this\ case,\ m=2\)</span>)를 이용하여 간단한 증명을 통해 Marginal randomvariable <span class="math inline">\(X_1\)</span>이 $X_1 N_1(<em>1,</em>{11}) $의 분포를 따르는 것을 확인 할 수 있지만, 이러한 marginal 분포 <span class="math inline">\(X_1\)</span>과 <span class="math inline">\(X_2\)</span>로는 전체 이변량정규확률변수를 설명하지 못한다.</p>
 <p><span class="math inline">\(X_1\)</span>과 <span class="math inline">\(X_2\)</span>간의 상관관계에 대한 정보가 있을 때 우리는 전체 확률변수에 대해 설명할 수 있는데, 이러한 여러개의 변수간(여기서는 <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span> 두개)의 종속관계에 대한 정보를 제공해주는 것이 Copula이다.</p>
