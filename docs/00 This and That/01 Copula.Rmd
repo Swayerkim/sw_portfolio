@@ -19,6 +19,9 @@ output:
 
 $$X=\begin{bmatrix} X_1 \\ X_2 \end{bmatrix} \sim N_2(\begin{bmatrix} {\mu_1} \\ \mu_2 \end{bmatrix},\begin{bmatrix} \sum_{11} & {\sum_{12}} \\ {\sum_{21}} & \sum_{22} \end{bmatrix})$$
 
+
+$Sales = -357.5921+0.6068*Black-2.4284*Price+68.2673*logIncome+\epsilon$
+
  위와 같은 bivariate random variable의 모양을 생각해보자.
  
  우리는 Lienar Operater $\mathbf{A}= [I_m\ 0]$ ($in\ this\ case,\ m=2$)를 이용하여 간단한 증명을 통해 Marginal randomvariable $X_1$이 $X_1 \sim N_1(\mu_1,\sum_{11}) $의 분포를 따르는 것을 확인 할 수 있지만, 이러한 marginal 분포 $X_1$과 $X_2$로는 전체 이변량정규확률변수를 설명하지 못한다. 
