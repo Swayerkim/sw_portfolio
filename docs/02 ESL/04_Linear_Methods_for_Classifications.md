@@ -1,3 +1,5 @@
+
+
 #04 Linear Methods for Classifications
 
 
@@ -71,7 +73,7 @@ $log\frac{Pr(G=1|X=x)}{Pr(G=2|X=x)}=\beta_0+\beta^Tx$
  
  $$\hat{Y}=X(X^TX)^{-1}X^TY$$
 
-각 종속 열 $y_k$에 대한 계쑤 벡터가 있고, $(p+1) \times K$의 계수 행렬 $\hat{B}=(X^TX)^{-1}X^TY$이 존재한다. 따라서 X는 p개의 독립변수가 있을 때 절편 계수를 포함하는 p+1개의 열을 갖는 model matrix이다.
+각 종속 열 $y_k$에 대한 계수 벡터가 있고, $(p+1) \times K$의 계수 행렬 $\hat{B}=(X^TX)^{-1}X^TY$이 존재한다. 따라서 X는 p개의 독립변수가 있을 때 절편 계수를 포함하는 p+1개의 열을 갖는 model matrix이다.
 
 입력값 x를 갖는 새로운 관측치에 대한 분류는 아래와 같다.
 
@@ -143,8 +145,9 @@ LDA는 우리가 범주들이 같은 공분산 행렬을 갖는다는 특수한 
 $$log\frac{Pr(G=k|X=x)}{Pr(G=l|X=x)}=log\frac{f_k(x)}{f_l(x)}+log\frac{\pi_k}{\pi_l}$$
 
 $$=log(exp(-\frac{1}{2}(x-\mu_k)^T{\sum}^{-1}(x-\mu_k)+log\frac{\pi_k}{\pi_l}
+\frac{1}{2}(x-mu_l)^T{\sum}^{-1}(x-\mu_l)))$$
 
-+\frac{1}{2}(x-mu_l)^T{\sum}^{-1}(x-\mu_l)))$$
+
 
 $$=log\frac{\pi_k}{\pi_l}-\frac{1}{2}(\mu_k+\mu_l)^T{\sum}^{-1}(\mu_k-\mu_l)+x^T{\sum}^{-1}(\mu_k-\mu_l)$$
 
@@ -188,6 +191,15 @@ $X|K = 3  \sim N_2(\begin{bmatrix} 4 \\ 0 \end{bmatrix},\begin{bmatrix} 1 & 0.4 
 ```r
 ## generating 3 bivariate normal distributions with a common covariance matrix using gaussian copula
 library(ggplot2)
+```
+
+```
+## Warning: As of rlang 0.4.0, dplyr must be at least version 0.8.0.
+## ✖ dplyr 0.7.8 is too old for rlang 0.4.1.
+## ℹ Please update dplyr with `install.packages("dplyr")`.
+```
+
+```r
 set.seed(2013122059)
 # defining function using gaussian copula
 generator_gc=function(n,mu,rho,diag){

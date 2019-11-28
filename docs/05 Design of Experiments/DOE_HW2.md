@@ -1,4 +1,9 @@
-
+---
+title: "R Notebook"
+output: 
+  html_document:
+    keep_md:  true
+---
 #Design of Experiments HW2
 
 ##1.Example 4.3를 풀고 R결과물과 직접 계산한 결과물을 비교하라.
