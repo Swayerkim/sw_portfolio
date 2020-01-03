@@ -183,7 +183,7 @@ Monte Carlo Integration을 사용하면 위의 적분을 아래와 같이 표현
 
 $$\int_a^bg(x)dx = (b-a)\int_a^bg(x)\cdot \frac{1}{b-a}dx= (b-a)E[g(x)],\ where\ X\sim Unif(a,b)$$
 
-우리는 $X_1, X-2,..,X_n$들의 랜덤샘플을 uniform(a,b)의 분포에서 추출하여 생성할 수 있으며, $Y_i = (b-a)g(X_i)$를 계산하면 된다.
+우리는 $X_1, X_2,..,X_n$들의 랜덤샘플을 uniform(a,b)의 분포에서 추출하여 생성할 수 있으며, $Y_i = (b-a)g(X_i)$를 계산하면 된다.
 
 그렇다면, $\bar{Y}$는  $\int_a^bg(x)dx$의 consistent estimator가 된다.
 

@@ -287,7 +287,7 @@ mean_convergence</code></pre>
 <p>몬테카를로 방법은 적분과정에서도 적용될 수 있다. 우리가 <span class="math inline">\(\int_a^bg(x)dx\)</span>를 구하려 할 때, 함수 g의 anti-derivative가 존재하지 않거나 이를 알 수 없는 경우가 이에 해당한다.</p>
 <p>Monte Carlo Integration을 사용하면 위의 적분을 아래와 같이 표현할 수 있다.</p>
 <p><span class="math display">\[\int_a^bg(x)dx = (b-a)\int_a^bg(x)\cdot \frac{1}{b-a}dx= (b-a)E[g(x)],\ where\ X\sim Unif(a,b)\]</span></p>
-<p>우리는 <span class="math inline">\(X_1, X-2,..,X_n\)</span>들의 랜덤샘플을 uniform(a,b)의 분포에서 추출하여 생성할 수 있으며, <span class="math inline">\(Y_i = (b-a)g(X_i)\)</span>를 계산하면 된다.</p>
+<p>우리는 <span class="math inline">\(X_1, X_2,..,X_n\)</span>들의 랜덤샘플을 uniform(a,b)의 분포에서 추출하여 생성할 수 있으며, <span class="math inline">\(Y_i = (b-a)g(X_i)\)</span>를 계산하면 된다.</p>
 <p>그렇다면, <span class="math inline">\(\bar{Y}\)</span>는 <span class="math inline">\(\int_a^bg(x)dx\)</span>의 consistent estimator가 된다.</p>
 <p>$*   E[g(X_1)] by WLLN $</p>
 </div>
