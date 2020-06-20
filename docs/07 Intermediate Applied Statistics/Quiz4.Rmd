@@ -1,0 +1,48 @@
+---
+title: "R Notebook"
+output: 
+  html_document:
+    keep_md:  true
+---
+
+##Intermediate Applied Statistics Quiz4
+
+####1.(a)
+
+Traffic Control Measure 설치 전 후의 관측한 Years가 다르기 떄문에 이 기간을 고려할 수 없으므로, $\bar{m_{i1}},\ \bar{m_{i2}}$간의 비교는 적절하지 않다.
+
+####1.(b)
+
+
+two-way ANOVA 역시 Trafiic Control Measure 설치 전 후의 Years간의 비교를 고려할 수 없으므로, 적절하지 않은 접근 방법이다.
+
+####1.(c)
+
+Poisson Regression model을 적용한다면 아래와 같은 식을 얻을 수 있다.
+
+$log{\lambda_{ij}}=\lambda_0+l_i+\tau_j$
+
+$L(\lambda_0,l,\tau;y_{ij})= \prod\frac{e^{-\lambda_{ij}(\lambda_{ij})^{y_{ij}}}}{y_{ij}!}$
+
+$logL= -\sum{e^{(\lambda_0+l_i+\tau_j)}}+\sum{y_{ij}(\lambda_0+l_i+\tau_j)}-\sum log(y_{ij}!)$
+
+
+```{r}
+data <- matrix(0,16,3)
+
+
+data[,1] <- c(0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1)
+data[,2] <- c(1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8)
+data[,3] <- c(13,6,30,30,10,15,7,13,0,2,4,0,0,6,1,2)
+data <- data.frame(data)
+names(data) <- c("Traffic_Measure","Locations","Accidents")
+data
+
+fit <- glm(Accidents~Traffic_Measure+Locations,family=poisson(link='log'),data=data)
+summary(fit)
+exp(-2.112)
+```
+
+
+parameter를 추정하면 위와 같은 식을 얻을 수 있으며, 계수의 해석은 
+Traffic control measure 설치 후의 accident rate가 0.12 감소함을 의미한다.
