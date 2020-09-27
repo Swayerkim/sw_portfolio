@@ -75,7 +75,7 @@ $$=E(U_i,U_j)-E(U_i)E(U_j)=Cov(U_i,U_j)$$.
 
 $$P(child\ is\ Xx| child\ has\ brown\ eyes\ \&\ parents\ have\ brown\ eyes )$$
 
-$$\frac{0\cdot(1-p)^4+\frac{1}{2}\cdot4p(1-p)^3+\frac{1}{2}\cdot4p^2(1-p)^2}
+$$=\frac{0\cdot(1-p)^4+\frac{1}{2}\cdot4p(1-p)^3+\frac{1}{2}\cdot4p^2(1-p)^2}
 {1\cdot(1-p)^4+1\cdot4p(1-p)^3+\frac{3}{4}4p^2(1-p)^2}$$
 
 $$=\frac{2p(1-p)+2p^2}{(1-p)^2+4p(1-p)+3p^2} = \frac{2p}{1+2p}$$
