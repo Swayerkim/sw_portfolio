@@ -83,10 +83,12 @@ $$\frac{0\cdot(1-p)^4+\frac{1}{2}\cdot4p(1-p)^3+\frac{1}{2}\cdot4p^2(1-p)^2}
 
 $$=\frac{2p(1-p)+2p^2}{(1-p)^2+4p(1-p)+3p^2} = \frac{2p}{1+2p}$$
 
-$$P(Judy\ is\ Xx|n\ children\ all\ have\ brown\ eyes\ \&\ all\ previous\ information) = 
+$$P(Judy\ is\ Xx|n\ children\ all\ have\ brown\ eyes\ \&\ all\ previous\ information)$$
+$$= 
 \frac{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n}{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n}+\frac{1}{1+2p}\cdot1$$
 
-$$P(Judy's\ child\ is\ Xx| all\ the\ given\ information)=\frac{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n}{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n+\frac{1}{1+2p}}(\frac{2}{3})+\frac{\frac{1}{1+2p}}{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n+\frac{1}{1+2p}}(\frac{1}{2})$$
+$$P(Judy's\ child\ is\ Xx| all\ the\ given\ information)$$
+$$=\frac{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n}{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n+\frac{1}{1+2p}}(\frac{2}{3})+\frac{\frac{1}{1+2p}}{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n+\frac{1}{1+2p}}(\frac{1}{2})$$
 
 $$P(Grandchild\ is\ xx| all\ the\ given\ information)$$
 
