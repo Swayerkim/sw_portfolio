@@ -150,11 +150,13 @@ $$=\frac{1}{100-(-100)+1}\frac{49}{20597} = \frac{1}{201}\frac{49}{20597}$$.
 
 By using (a), 
 
-$$P(at\ least\ one\ election\ is\ tied) = 1- (1-P(election\ is\ tied\ within\ 100\ votes))^{435} \approx 435 \times\frac{49}{201\times20597}= 0.00514$$
+$$P(at\ least\ one\ election\ is\ tied)$$
+$$= 1- (1-P(election\ is\ tied\ within\ 100\ votes))^{435} \approx 435 \times\frac{49}{201\times20597}= 0.00514$$
 
 #### 1.6
 
-$$P(identical\ twins| twin\ brother) = \frac{P(identical\ twins)P(twin\ brother|identical\ twins)}{\sum_{twins}P(twins)P(twin\ brother|twins)} = \frac{\frac{1}{300}\frac{1}{2}}{\frac{1}{300}\frac{1}{2}+\frac{1}{125}\frac{1}{4}}=\frac{5}{11}$$
+$$P(identical\ twins| twin\ brother)$$
+$$= \frac{P(identical\ twins)P(twin\ brother|identical\ twins)}{\sum_{twins}P(twins)P(twin\ brother|twins)} = \frac{\frac{1}{300}\frac{1}{2}}{\frac{1}{300}\frac{1}{2}+\frac{1}{125}\frac{1}{4}}=\frac{5}{11}$$
 
 #### 1.8
 
