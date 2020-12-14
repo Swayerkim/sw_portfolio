@@ -1,11 +1,4 @@
----
-title: "R Notebook"
-output: 
-  html_document:
-    keep_md:  true
----
- 
- 
+
 # Bayes Statistics HW4
 
 ## 4-2 
@@ -191,7 +184,10 @@ samp_B <- samp_B + runif(nsamp, B[1] - B[2], B[2] - B[1])
 #Compute LD50 conditional beta >0
 bpi <- samp_B > 0
 samp_ld50 <- -samp_A[bpi]/samp_B[bpi]
+```
 
+
+```r
 xl <- c(-1.5, 7)
 yl <- c(-5, 35)
 pos <- ggplot(data = data.frame(cA ,cB, p), aes(x = cA, y = cB)) +
@@ -222,7 +218,10 @@ dmvnorm <- function(x, mu, sig)
   exp(-0.5*(length(x)*log(2*pi) + log(det(sig)) + (x-mu)%*%solve(sig, x-mu)))
 
 p <- apply(cbind(cA, cB), 1, dmvnorm, w, S)
+```
 
+
+```r
 # sample from the multivariate normal 
 normsamp <- mvrnorm(nsamp, w, S)
 bpi <- normsamp[,2] > 0
@@ -250,7 +249,6 @@ his_norm <- ggplot() +
 grid.arrange(pos, sam, his, pos_norm, sam_norm, his_norm, ncol = 3)
 ```
 
-![](HW4_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
-
+![](HW4_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 

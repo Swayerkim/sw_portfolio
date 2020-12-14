@@ -191,6 +191,11 @@ samp_B <- samp_B + runif(nsamp, B[1] - B[2], B[2] - B[1])
 bpi <- samp_B > 0
 samp_ld50 <- -samp_A[bpi]/samp_B[bpi]
 
+
+```
+
+```{r}
+
 xl <- c(-1.5, 7)
 yl <- c(-5, 35)
 pos <- ggplot(data = data.frame(cA ,cB, p), aes(x = cA, y = cB)) +
@@ -222,6 +227,9 @@ dmvnorm <- function(x, mu, sig)
 
 p <- apply(cbind(cA, cB), 1, dmvnorm, w, S)
 
+```
+
+```{r}
 # sample from the multivariate normal 
 normsamp <- mvrnorm(nsamp, w, S)
 bpi <- normsamp[,2] > 0
@@ -248,9 +256,6 @@ his_norm <- ggplot() +
 
 grid.arrange(pos, sam, his, pos_norm, sam_norm, his_norm, ncol = 3)
 
-
-
 ```
-
 
 
