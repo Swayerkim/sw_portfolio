@@ -1,8 +1,18 @@
-site_name: Swayer
-theme: readthedocs
-
 nav:
   - Home: index.md
   - Likelihood: likelihood.md
   - CPA Data Analysis:
       - Likelihood: CPA Data Analysis/likelihood.md
+  - 00 This and That: "00 This and That/index.md"
+  - 01 Mathematical Statistics: "01 Mathematical Statistics/index.md"
+  - 02 ESL: "02 ESL/index.md"
+  - 03 Theoretical Statistics: "03 Theoretical Statistics/index.md"
+  - 04 Multivariate Statistics: "04 Multivariate Statistics/index.md"
+  - 05 Design of Experiments: "05 Design of Experiments/index.md"
+  - 06 Simulation Practice and Theory: "06 Simulation Practice and Theory/index.md"
+  - 07 Intermediate Applied Statistics: "07 Intermediate Applied Statistics/index.md"
+  - 08 Statistical Learning Theory: "08 Statistical Learning Theory/index.md"
+  - 09 Graduate Mathematical Statistics: "09 Graduate Mathematical Statistics/index.md"
+  - 10 Bayesian Statistics: "10 Bayesian Statistics/index.md"
+  - 99 Ybigta ML: "99 Ybigta ML/index.md"
+  - 과제: 과제.md
