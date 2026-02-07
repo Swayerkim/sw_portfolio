@@ -1,30 +1,20 @@
-site_name: Swayer
-theme: readthedocs
-
-extra_javascript:
-  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js
-
-markdown_extensions:
-  - pymdownx.arithmatex:
-      generic: true
 
 nav:
   - Home: index.md
   - CPA Data Analysis:
-      - Likelihood: 000 CPA Data Analysis/likelihood.md
+      - Likelihood: "000 CPA Data Analysis/likelihood.md"
+
+nav:
+  - Home: index.md
+  - CPA Data Analysis:
+      - Likelihood: "000 CPA Data Analysis/likelihood.md"
+site_name: sw_portfolio
+theme: readthedocs
 
 nav:
   - Home: index.md
   - Likelihood: likelihood.md
-nav:  - Home: index.md  - Likelihood: likelihood.md
 
-git add .
-git commit -m "add likelihood"
-git push
-
-git add .git commit -m "add likelihood"git push
-mkdocs.yml
-mkdocs.yml
-^X
-
-
+markdown_extensions:
+  - toc:
+      permalink: true
