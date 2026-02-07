@@ -1,0 +1,13 @@
+
+# Python virtual environment
+.venv/
+
+# MkDocs build output
+site/
+
+# VSCode
+.vscode/
+
+# Python cache
+__pycache__/
+*.pyc
