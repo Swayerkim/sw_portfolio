@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>R Notebook - Swayer</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "R Notebook";
+        var mkdocs_page_input_path = "10 Bayesian Statistics/HW4.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Swayer
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CPA Data Analysis</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../000%20CPA%20Data%20Analysis/likelihood/">Likelihood</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Swayer</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">R Notebook</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="bayes-statistics-hw4">Bayes Statistics HW4</h1>
+<h2 id="4-2">4-2</h2>
+<p><span class="arithmatex">\(p(y_i|\theta) \propto (logit^{-1}(\alpha+\beta x_i))^{y_i}(1-logit^{-1}(\alpha+\beta x_i))^{n_i-y_i}\)</span></p>
+<p><span class="arithmatex">\(l_i = logp(y_i|\theta) = constant+y_ilog(logit^{-1}(\alpha+\beta x_i))+(n_i-y_i)log(1-logit^{-1}(\alpha+\beta x_i))\)</span> </p>
+<p><span class="arithmatex">\(\frac{d^2l_i}{d\alpha^2} = -\frac{n_iexp(\alpha+\beta x_i)}{(1+exp(\alpha+\beta x_i))^2}\)</span></p>
+<p><span class="arithmatex">\(\frac{d^2l_i}{d\alpha d\beta} = -\frac{n_i x_iexp(\alpha+\beta x_i)}{(1+exp(\alpha+\beta x_i))^2}\)</span></p>
+<p><span class="arithmatex">\(\frac{d^2l_i}{d\beta^2} = -\frac{n_i x_i^2exp(\alpha+\beta x_i)}{(1+exp(\alpha+\beta x_i))^2}\)</span></p>
+<p>The prior density on (<span class="arithmatex">\(\alpha\)</span>,<span class="arithmatex">\(\beta\)</span>) is uniform, so <span class="arithmatex">\(logp(\theta|y) = constant+\sum_{i=1}^4l_i\)</span>, and </p>
+<div class="arithmatex">\[\begin{equation*}
+I(\hat\theta) = 
+\begin{pmatrix}
+\sum_{i=1}^4\frac{n_iexp(\alpha+\beta x_i)}{(1+exp(\alpha+\beta x_i))^2} &amp; \sum_{i=1}^4\frac{n_i x_iexp(\alpha+\beta x_i)}{(1+exp(\alpha+\beta x_i))^2} \\
+\sum_{i=1}^4\frac{n_i x_iexp(\alpha+\beta x_i)}{(1+exp(\alpha+\beta x_i))^2} &amp; \sum_{i=1}^4\frac{n_i x_i^2exp(\alpha+\beta x_i)}{(1+exp(\alpha+\beta x_i))^2}  \\ 
+\end{pmatrix}
+|(\alpha,\beta)=(\hat\alpha,\hat\beta)
+\end{equation*}\]</div>
+<p>where <span class="arithmatex">\(\hat\theta = (\hat\alpha,\hat\beta)\)</span> is the posterior mode.</p>
+<p>Denoteing I as </p>
+<p>\begin{equation<em>}
+\begin{pmatrix}
+a &amp; c \
+c &amp; b \
+\end{pmatrix}
+\end{equation</em>}, the normal approximation variances of <span class="arithmatex">\(\alpha\)</span> and <span class="arithmatex">\(\beta\)</span> are the diagonal elements of  <span class="arithmatex">\(I^{-1}:\frac{b}{ab-c^2}\)</span>, and <span class="arithmatex">\(\frac{a}{ab-c^2}\)</span>, respectively.</p>
+<h2 id="4-3">4-3.</h2>
+<p>Let <span class="arithmatex">\(\theta = LD50\)</span> ; also introduce <span class="arithmatex">\(\nu=\beta\)</span>.  Formula (4.1) suggests that the (asymptotic) posterior median and mode should coincide, and the (asymptotic) posterior standard variance should be the inverse of observed information, evaluated at the
+posterior mode.</p>
+<p>With some effort , it is possible to obtain decent numerical estimates for the posterior mode and standard deviation associated with this data set; we will take these values as proxies for their asymptotic analogues.</p>
+<p>One way to proceed is : Observe that <span class="arithmatex">\(p(\theta|y) = \int p(\theta,\nu|y)d\nu\)</span>, where <span class="arithmatex">\(\alpha = -\theta\nu\)</span> and <span class="arithmatex">\(\beta = \nu\)</span>, and <span class="arithmatex">\(|\nu|\)</span> is the Jacobian related with the change in coordinates.</p>
+<p>Fixing <span class="arithmatex">\(\theta\)</span> equal to a value around −0.12, which appears to be near the posterior mode, we may compute <span class="arithmatex">\(\int p(\alpha,\beta|y)|\nu|d\nu\)</span> numericaally. The region of integration is infinite, but the integrand decays rapidly after <span class="arithmatex">\(\nu\)</span> passes 50, so that it suffices to estimate the integral assuming that <span class="arithmatex">\(\nu\)</span> runs from 0 to, say, 70.</p>
+<p>This procedure can be repeated fgor several values of <span class="arithmatex">\(\theta\)</span> near -0.12. The values may be compared directly to find the posterior mode for <span class="arithmatex">\(\theta\)</span>. To three decimal places, we obtain -0.114.</p>
+<p>One can fix a small value of <span class="arithmatex">\(h\)</span>, such as <span class="arithmatex">\(h=0.002\)</span>, and compute <span class="arithmatex">\(d^2/d\theta^2logp(\theta|y)\)</span>, evaluated at <span class="arithmatex">\(\theta\)</span> equal to the posterior mode, bt the expression [<span class="arithmatex">\(logp(-0.114+h|y)-2logp(-0.114|y)+logp(-0.114-h|y)\)</span>]/<span class="arithmatex">\(h^2\)</span>.</p>
+<h2 id="4-4">4-4.</h2>
+<p>As <span class="arithmatex">\(n \rightarrow \infty\)</span>, the posterior variance approaches zero - that is, the posterior distribution becomes thick near a single point. Any one-to-one continuous transformation on the
+real numbers is locally linear in the neighborhood of that point.</p>
+<h2 id="4-6">4-6.</h2>
+<h3 id="4-6a">4-6a</h3>
+<p>$<span class="arithmatex">\(\frac{d}{da}E(L(a|y))=\frac{d}{da}\int(\theta-a)^2p(\theta|y)d\theta = -\int(\theta-a)p(\theta|y)d\theta = -2(E(\theta|y)-a)=0\ if\ a=E(\theta|y)\)</span>$.</p>
+<p>This calculus shows that <span class="arithmatex">\(L(a|y)\)</span> has zero derivative at <span class="arithmatex">\(a=E(\theta|y)\)</span>. Also the second derivative is positive so this is minimum value.</p>
+<h3 id="4-6b">4-6b</h3>
+<p>Can apply the argument from 4-6c with <span class="arithmatex">\(k_o=k_1=1\)</span>.</p>
+<h3 id="4-6c">4-6c</h3>
+<div class="arithmatex">\[\frac{d}{da}E(L(a|y))=\frac{d}{da}(\int_{-\infty}^a k_1(a-\theta)p(\theta|y)d\theta+\int_{a}^{\infty}k_0(\theta-a)p(\theta|y)d\theta)\]</div>
+<div class="arithmatex">\[=k_1\int_{-\infty}^ap(\theta|y)d\theta-k_0\int_{a}^{\infty}p(\theta|y)d\theta\]</div>
+<p>$<span class="arithmatex">\(=(k_1+k_0)\int_{-\infty}^ap(\theta|y)d\theta-k_0\)</span>$.</p>
+<p>This calculus shows that <span class="arithmatex">\(L(a|y)\)</span> has zero derivative at any a for which <span class="arithmatex">\(\int_{-\infty}^ap(\theta|y)d\theta=k_0/(k_0+k_1)\)</span>. Also second derivative is positive, that is minimizing value.</p>
+<h2 id="4-7">4-7.</h2>
+<p>Denote posterior mean <span class="arithmatex">\(m(y)=E(\theta|y)\)</span> and consider <span class="arithmatex">\(m(y)\)</span> as an estimatior of <span class="arithmatex">\(\theta\)</span>.</p>
+<p>Unbiasedness means that <span class="arithmatex">\(E(m(y)|\theta)=\theta\)</span>. The marginal Expectation of <span class="arithmatex">\(\theta m(y)\)</span> is <span class="arithmatex">\(E(\theta m(y))=E[E(\theta m(y)|\theta)]=E[\theta^2]\)</span>. Also we can write <span class="arithmatex">\(E(\theta m(y))=E[E(\theta m(y)|y)]=E[m(y)^2]\)</span>. It follows that <span class="arithmatex">\(E[(m(y))-\theta)^2]=0\)</span>. This can only hold in degenerate problems for which <span class="arithmatex">\(m(y)=\theta\)</span> with probability 1.</p>
+<h2 id="4-9">4-9.</h2>
+<p>Our goal is to show that the Bayes estimate has lower MSE than the maximum likelihood estimate for any value of <span class="arithmatex">\(\theta \in [0,1]\)</span> when sigma is sufficiently large.</p>
+<p>The maximum likelihood estimate which restricted to the interval [0,1], takes value 0 with probability <span class="arithmatex">\(\Phi(-c/\sigma)\)</span> and takes value 1 with probability <span class="arithmatex">\(1-\Phi((1-c)/\sigma)\)</span>; these are just the probabilities that y is less than 0 or greater than 1. For very large <span class="arithmatex">\(\sigma\)</span>, these probabilities both approach <span class="arithmatex">\(\Phi(0) =1/2\)</span>. Thus, the MSE of maximum likelihood estimate is approximately <span class="arithmatex">\(1/2[(1-\theta)^2+\theta^2]=1/2-\theta+\theta^2\)</span>.</p>
+<p>On the other hand, <span class="arithmatex">\(p(\theta|y) \propto \ N(\theta|y,\sigma^2)\)</span> for <span class="arithmatex">\(\theta \in [0,1]\)</span>.
+<span class="arithmatex">\(E(\theta|y)\ is \ \int_0^1N(\theta|y,\sigma^2)d\theta/\int_0^1N(\theta|y,\sigma)d\theta\)</span>.
+For very large <span class="arithmatex">\(\sigma\)</span>, <span class="arithmatex">\(N(\theta|y,\sigma^2)\)</span> is approximately constant over small ranges of <span class="arithmatex">\(\theta\)</span>. So the Bayes estimate is close to <span class="arithmatex">\(\int_0^1\theta d\theta = 1/2\)</span>. Hence, for large <span class="arithmatex">\(\sigma\)</span>, the MSE of the <span class="arithmatex">\(E(\theta|y)\)</span> is about <span class="arithmatex">\((\theta-1/2)^2=1/4-\theta+\theta^2\)</span>.</p>
+<p>The difference in MSE is independent of the truv value of <span class="arithmatex">\(\theta\)</span>. Also, for large <span class="arithmatex">\(\sigma\)</span> the maximum likelihood estimate generally chooses 0 or 1, each with probability almost 1/2, whereas the Bayes estimate chooses 1/2 with probability almost 1.</p>
+<h2 id="4-11">4-11.</h2>
+<p>For this problems, the prior should be a mixture of a spike at <span class="arithmatex">\(\theta=0\)</span> and a flat prior for <span class="arithmatex">\(\theta  \neq 0\)</span>. Let's write prior as</p>
+<p>$<span class="arithmatex">\(p(\theta)=\lambda N(\theta|0,\tau_1^2)+(1-\lambda)N(\theta|0,\tau_2^2)\)</span>$,</p>
+<p>work through the algebra, and then take the limit <span class="arithmatex">\(\tau_1 \rightarrow 0\)</span> and <span class="arithmatex">\(\tau_2 \rightarrow \infty\)</span>.</p>
+<p><span class="arithmatex">\(p(\theta|y) \propto p(\theta)N(\bar{y}|\theta,\sigma^2/n)\)</span></p>
+<p><span class="arithmatex">\(\propto \lambda N(\theta|0,\tau_1^2)N(\bar{y}|\theta,\sigma^2/n)+(1-\lambda)N(\theta|0,\tau_2^2)N(\bar{y}|\theta,\sigma^2/n)\)</span></p>
+<p><span class="arithmatex">\(\propto \lambda N(\bar{y}|0,\tau_1^2+\sigma^2/n)N(\theta|\frac{\frac{n}{\sigma^2}\bar{y}^2}{\frac{1}{\tau_1^2}+\frac{n}{\sigma^2}},\frac{1}{\frac{1}{\tau_1^2}+\frac{n}{\sigma^2}})\)</span> +
+<span class="arithmatex">\((1-\lambda)N(\bar{y}|0,\tau_2^2+\sigma^2/n)N(\theta|\frac{\frac{n}{\sigma^2}\bar{y}^2}{\frac{1}{\tau_2^2}+\frac{n}{\sigma^2}},\frac{1}{\frac{1}{\tau_2^2}+\frac{n}{\sigma^2}})\)</span></p>
+<p>In last step, we have replaced the factorization <span class="arithmatex">\(p(\theta)p(y|\theta)\)</span> by the factorization <span class="arithmatex">\(p(y)p(\theta|y)\)</span>. </p>
+<p>The result is a mixture of two mormal densities in <span class="arithmatex">\(\theta\)</span>/. In the limit <span class="arithmatex">\(\tau_1 \rightarrow 0\)</span> and <span class="arithmatex">\(\tau_2 \rightarrow \infty\)</span>, this is </p>
+<p>$<span class="arithmatex">\(p(\theta|y) = \lambda N(\bar{y}|0,\sigma^2/n)N(\theta|0,-\tau_1^2)_(1-\lambda) N(\theta|\bar{y},\sigma^2/n)\)</span>$.</p>
+<p>The estimate <span class="arithmatex">\(\hat\theta\)</span> cannot be the posterior mean. Since the two normal densities have much different variances, it would also not make sense to use a posterior mode estimate. </p>
+<p>The mode of the hump of the posterior which has greater mass is more reasonable estimate.</p>
+<p>That is, </p>
+<div class="arithmatex">\[Set\ \hat\theta=0\ if: \lambda N(\bar{y}|0,\sigma^2/n) &gt; (1-\lambda)N(\bar{y}|0,\tau_2^2)\]</div>
+<p>$<span class="arithmatex">\(\lambda\frac{1}{\sqrt{2\pi/n\sigma}}exp(-\frac{1}{2}\frac{n}{\sigma^2}y^2) &gt; (1-\lambda)\frac{1}{\sqrt{2\pi\tau_2}}\)</span>$,</p>
+<p>and set <span class="arithmatex">\(\hat\theta=\bar{y}\)</span> o.w.</p>
+<p>For condition on above to be equivalent to "if <span class="arithmatex">\(\bar{y} &lt; 1.96\sigma/\sqrt{n}\)</span>", as specified, we must have </p>
+<div class="arithmatex">\[0.146\lambda\frac{1}{\sqrt{2\pi/n\sigma}}=(1-\lambda)\frac{1}{\sqrt{2\pi\tau_2}}\]</div>
+<p>$<span class="arithmatex">\(\frac{\lambda}{1-\lambda} = \frac{\sigma}{0.146\sqrt{n/\tau_2}}\)</span>$.</p>
+<p>Since we consider the limit <span class="arithmatex">\(\tau_2 \rightarrow \infty\)</span>, this means that <span class="arithmatex">\(\lambda\)</span> goes to 0. That would be acceptable, nbut the more serious problem here is that the limiting value for <span class="arithmatex">\(\lambda \tau_2\)</span> depends on n, and thus the prior for <span class="arithmatex">\(\theta\)</span> depends on n. Prior cannot depend on the data, so there is no prior for which the given estimate $\hat\theta $ is a reasonable posterior summary.</p>
+<h2 id="ex">Ex.</h2>
+<pre><code class="language-r">library(ggplot2)
+library(gridExtra)
+library(tidyr)
+library(MASS)
+df1 &lt;- data.frame(
+  x = c(-0.86, -0.30, -0.05, 0.73),
+  n = c(5, 5, 5, 5),
+  y = c(0, 1, 3, 5)
+)
+A = seq(-1.5, 7, length.out = 100)
+B = seq(-5, 35, length.out = 100)
+# make vectors that contain all pairwise combinations of A and B
+cA &lt;- rep(A, each = length(B))
+cB &lt;- rep(B, length(A))
+# a helper function to calculate the log likelihood
+logl &lt;- function(df, a, b)
+  df['y']*(a + b*df['x']) - df['n']*log1p(exp(a + b*df['x']))
+# calculate likelihoods: apply logl function for each observation
+# ie. each row of data frame of x, n and y
+p &lt;- apply(df1, 1, logl, cA, cB) %&gt;% rowSums() %&gt;% exp()
+
+
+nsamp &lt;- 1000
+samp_indices &lt;- sample(length(p), size = nsamp,
+                       replace = T, prob = p/sum(p))
+samp_A &lt;- cA[samp_indices[1:nsamp]]
+samp_B &lt;- cB[samp_indices[1:nsamp]]
+# add random jitter, see BDA3 p. 76
+samp_A &lt;- samp_A + runif(nsamp, A[1] - A[2], A[2] - A[1])
+samp_B &lt;- samp_B + runif(nsamp, B[1] - B[2], B[2] - B[1])
+
+#Compute LD50 conditional beta &gt;0
+bpi &lt;- samp_B &gt; 0
+samp_ld50 &lt;- -samp_A[bpi]/samp_B[bpi]
+</code></pre>
+<pre><code class="language-r">xl &lt;- c(-1.5, 7)
+yl &lt;- c(-5, 35)
+pos &lt;- ggplot(data = data.frame(cA ,cB, p), aes(x = cA, y = cB)) +
+  geom_raster(aes(fill = p, alpha = p), interpolate = T) +
+  geom_contour(aes(z = p), colour = 'black', size = 0.2) +
+  coord_cartesian(xlim = xl, ylim = yl) +
+  labs(x = 'alpha', y = 'beta') +
+  scale_fill_gradient(low = 'yellow', high = 'red', guide = F) +
+  scale_alpha(range = c(0, 1), guide = F)
+sam &lt;- ggplot(data = data.frame(samp_A, samp_B)) +
+  geom_point(aes(samp_A, samp_B), color = 'blue', size = 0.3) +
+  coord_cartesian(xlim = xl, ylim = yl) +
+  labs(x = 'alpha', y = 'beta')
+his &lt;- ggplot() +
+  geom_histogram(aes(samp_ld50), binwidth = 0.04,
+                 fill = 'steelblue', color = 'black') +
+  coord_cartesian(xlim = c(-0.8, 0.8)) +
+  labs(x = 'LD50 = -alpha/beta')
+bioassayfun &lt;- function(w, df) {
+  z &lt;- w[1] + w[2]*df$x
+  -sum(df$y*(z) - df$n*log1p(exp(z)))
+}
+w0 &lt;- c(0,0)
+optim_res &lt;- optim(w0, bioassayfun, gr = NULL, df1, hessian = T)
+w &lt;- optim_res$par
+S &lt;- solve(optim_res$hessian)
+dmvnorm &lt;- function(x, mu, sig)
+  exp(-0.5*(length(x)*log(2*pi) + log(det(sig)) + (x-mu)%*%solve(sig, x-mu)))
+
+p &lt;- apply(cbind(cA, cB), 1, dmvnorm, w, S)
+</code></pre>
+<pre><code class="language-r"># sample from the multivariate normal 
+normsamp &lt;- mvrnorm(nsamp, w, S)
+bpi &lt;- normsamp[,2] &gt; 0
+normsamp_ld50 &lt;- -normsamp[bpi,1]/normsamp[bpi,2]
+
+pos_norm &lt;- ggplot(data = data.frame(cA ,cB, p), aes(x = cA, y = cB)) +
+  geom_raster(aes(fill = p, alpha = p), interpolate = T) +
+  geom_contour(aes(z = p), colour = 'black', size = 0.2) +
+  coord_cartesian(xlim = xl, ylim = yl) +
+  labs(x = 'alpha', y = 'beta') +
+  scale_fill_gradient(low = 'yellow', high = 'red', guide = F) +
+  scale_alpha(range = c(0, 1), guide = F)
+
+sam_norm &lt;- ggplot(data = data.frame(samp_A=normsamp[,1], samp_B=normsamp[,2])) +
+  geom_point(aes(samp_A, samp_B), color = 'blue', size = 0.3) +
+  coord_cartesian(xlim = xl, ylim = yl) +
+  labs(x = 'alpha', y = 'beta')
+
+his_norm &lt;- ggplot() +
+  geom_histogram(aes(normsamp_ld50), binwidth = 0.04,
+                 fill = 'steelblue', color = 'black') +
+  coord_cartesian(xlim = c(-0.8, 0.8)) +
+  labs(x = 'LD50 = -alpha/beta, beta &gt; 0')
+
+grid.arrange(pos, sam, his, pos_norm, sam_norm, his_norm, ncol = 3)
+</code></pre>
+<p><img alt="" src="../HW4_files/figure-html/unnamed-chunk-3-1.png" /><!-- --></p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

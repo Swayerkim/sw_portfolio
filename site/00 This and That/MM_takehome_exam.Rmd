@@ -1,0 +1,57 @@
+---
+title: "R Notebook"
+output: 
+  html_document:
+    keep_md:  true
+---
+
+##MatheMaticals Statistics 1st take home exam
+
+
+
+####For each  $n \geq 1$, let $X_n$ be a random variable with the Binomial $(n,p_n)$ distribution. Suppose that $p_n \rightarrow 0$ and $n{p_n} \ rightarrow \inf$ as $n \rightarrow \infty$ for sime $0< \lambda<  \infty$
+
+
+#####**Problem 1.** Show that there exist $\{ {{\pi}_k} \}_{k \geq 0}$such that
+
+$\sum_{k=0}^{\infty}|p_{n,k}-\pi_k|^2 \rightarrow 0\  as\ n \rightarrow \infty $,
+
+where $p_{n,k} \equiv P(X_n = k),\  k \geq 0,\ n \geq 1 $.
+
+Under Assumption, we can use Binomial and Poisson's mgfs link.
+
+mgf of $X_n$ is computed as 
+
+$M_{X_n}(t) = E[e^{tX_n}]= \sum_{x_n}^ne^{tx_n}\dbinom{n}{x_n}p_n^{x_n}(1-p_n)^{n-x_n}$
+
+Let   $x_n = k$,
+
+$M_{X_n}(t)=\sum_{x_n}^ne^{tk}\dbinom{n}{k}p_n^{k}(1-p_n)^{n-k}$
+
+$=\sum_{k=0}^n\dbinom{n}{k}(p_ne^t)^k(1-p_n)^{n-k}= (p_ne^t+(1-p_n))^n,\ ((a+b)^n=\sum_{k}^n\dbinom{n}{k}a^{k}b^{n-k} )$
+
+
+Mgf of $Poisson(\lambda)$ is expressed like $M_Y(t)=e^{\lambda(e^t-1)}$
+
+Because $p_n \rightarrow 0$ and $n{p_n} \rightarrow \inf$ as $n \rightarrow \infty$ for sime $0< \lambda<  \infty$, 
+
+$lim_{n\rightarrow \infty}M_{X_n}(t)=lim_{n\rightarrow \infty}(p_ne^t+(1-p_n))^n= lim_{n\rightarrow \infty}(1+\frac{np(e^t-1)}{n})^n= e^{\lambda(e^t-1)}$
+
+
+Then $lim_{n\rightarrow \infty}E[e^{tk}]= lim_{n\rightarrow \infty}\sum_{k}^ne^{tk}p_{n,k}$. 
+
+So, $ lim_{n \rightarrow \infty}(\sum_{k=0}^n({e^{tk}}p_{n,k}- \frac{e^{\lambda(e^t-1)}}{(n+1)e^{tk}}))=0$
+
+$\sum_{k=0}^\infty|p_{n,k}-{\pi}_k|^2 \rightarrow 0\ as\ n \rightarrow \infty$
+
+
+$morbidity_{ij} = \beta_0 + \beta_1(low\ temperature_{ij})+\beta_2(low\ temperature_{ij} - \psi)_{+} + \epsilon_{ij}$
+
+$where,\ (high\ temperature_{ij} - \psi)_{+}= (high\ temperature_{ij}-\psi)\times I(high\ temperature_{ij} > \psi), \epsilon_{ij} \sim N(0,\sigma^2)$
+
+$mortality$
+
+
+$\psi_{heat,i}=\beta_0 + \beta_1(high\ temperature_i)+ \beta_2(max\ humidity_i)+ \mathbf{\beta_3}ses_i^T + \epsilon_i$
+
+$where\ \epsilon_i \sim N(0,\sigma^2),\ ses\ is\ Socioeconomic\ Status$

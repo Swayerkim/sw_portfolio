@@ -12,3 +12,19 @@ nav:
   - Home: index.md
   - CPA Data Analysis:
       - Likelihood: 000 CPA Data Analysis/likelihood.md
+
+nav:
+  - Home: index.md
+  - Likelihood: likelihood.md
+nav:  - Home: index.md  - Likelihood: likelihood.md
+
+git add .
+git commit -m "add likelihood"
+git push
+
+git add .git commit -m "add likelihood"git push
+mkdocs.yml
+mkdocs.yml
+^X
+
+

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>R Notebook - Swayer</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "R Notebook";
+        var mkdocs_page_input_path = "00 This and That/02_Why_MLE_.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Swayer
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CPA Data Analysis</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../000%20CPA%20Data%20Analysis/likelihood/">Likelihood</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Swayer</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">R Notebook</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="arithmatex">\[f(x;\theta) = L(\theta;x)= \prod_{i=1}^nf(x_i;\theta),\ \ \ \theta \in \Omega\]</div>
+<div class="arithmatex">\[\hat\theta_{mle}=max_{\theta}(\theta)=max_{\theta}\prod_{i=1}^nf(x_i;\theta)\]</div>
+<div class="arithmatex">\[\hat\theta_{mle}=max_{\theta}logL(\theta)=max_{\theta}\sum_{i=1}^nlogf(x_i;\theta)\]</div>
+<div class="arithmatex">\[Mle\ can\ be\ obtained\ by\ solving\ this\ equation\ \frac{\partial{l(\theta)}}{\partial{\theta}}=0,\ where\ l(\theta)=logL(\theta)\]</div>
+<div class="arithmatex">\[Actually\ need\ to\ check\ \frac{\partial^2l(\theta)}{\partial{\theta}}|_{\theta=\hat{\theta}}&lt;0\]</div>
+<div class="arithmatex">\[Assume\ that\ X_1,...,X_n\ satisfy\ the \ regularity\ conditions\ (R0)-(R2),\ where\ {\theta}_0\ is\ the\ true\ parameter,\\ and\ further\ that\ f(x;\theta)\ is\ differentiable\ with\ respect\ to\ {\theta}\ in {\Theta}.\\ Then,\ \frac{\partial{l(\theta)}}{\partial{\theta}}=0\ is\ a\ solution\ \hat\theta_n \xrightarrow{P} {\theta}_0\]</div>
+<div class="arithmatex">\[(R0)-(R5)\ are\ satisfied,\ suppose\ further\ that\ 0&lt;I(\theta)&lt;\infty,\\ Then\ any\ consistent\ sequence\ if\ solutions\ of\ the\ MLE\ equations\ satisfies\\ 
+\sqrt{n}(\hat\theta_n-\theta_0)\xrightarrow{D}N(0,\frac{1}{I(\theta_0)}\]</div>
+<div class="arithmatex">\[Applying\ the\ Taylor\ Expansion\ on\ l'(\hat\theta_n),\\
+l'(\hat\theta_n)= l'(\theta_0)+l''(\theta_0)(\hat\theta_n-\theta_0)+\frac{1}{2!}l'''(\theta_n^*)(\hat\theta_n-\theta_0)^2\ when\ \theta_n^*\ is\ between\ {\theta_0} \&amp;\ \hat\theta_n \]</div>
+<div class="arithmatex">\[Because\ l'(\hat\theta_n)=0,\\ (\hat\theta_n-\theta_0)=\frac{-l'(\theta_0)}{l''(\theta_0)+\frac{1}{2}l'''(\theta_n^*)(\hat\theta_n-\theta_0)}\\
+\rightarrow \sqrt{n}(\hat\theta_n-\theta_0) = \frac{\frac{1}{\sqrt{n}}l'(\theta_0)}{\frac{-1}{n}l''(\theta_0)-\frac{-1}{2n}l'''(\theta_n^*)(\hat\theta_n-\theta_0)}= \frac{A_n}{B_n+C_n} \]</div>
+<div class="arithmatex">\[A_n \xrightarrow{d} N(0,I(\theta_0)),\\
+B_n \xrightarrow{p} I(\theta_0),\\
+C_n\ is\ from\ the\ condition\ (R5)\ \&amp;\ \hat\theta_n\xrightarrow{p}\theta_0,\\
+Bounded*0 \xrightarrow{p} 0\\
+So,\ \frac{A_n}{B_n+C_n}=\frac{1}{I(\theta_0)}N(0,I(\theta_0))= N(0,\frac{1}{I(\theta_0)})\]</div>
+<div class="arithmatex">\[The\ joint\ pdf\ is\\
+L(\theta;x_1,..,x_n)={\theta}^n exp(-\theta\sum_{i=1}^nx_i),\ for,\ i=1,..,n.\\
+From\ the\ factorization\ theorem,\ Y_1 = \sum_{i=1}^nX_i\ is\ sufficient(does\ not\ depend\ on\ \theta).\\
+The\ log\ of\ the\ likelihood\ is\\
+l(\theta)=nlog\theta-\theta\sum_{i=1}^nx_i.\\
+Then\ the\ MLE\ Y_2=\frac{1}{\bar{X}}=n/Y_1\ is\ a\ function\ of\ sufficient\ statistic\ Y_1.
+\]</div>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
