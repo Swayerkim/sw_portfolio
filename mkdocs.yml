@@ -1,9 +1,14 @@
 site_name: Swayer
 theme: readthedocs
 
-extra_javascript: 
-    - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js
 
 markdown_extensions:
-    - mdx_math:
-        enable_dollar_delimiter: True
+  - pymdownx.arithmatex:
+      generic: true
+
+nav:
+  - Home: index.md
+  - CPA Data Analysis:
+      - Likelihood: 000 CPA Data Analysis/likelihood.md

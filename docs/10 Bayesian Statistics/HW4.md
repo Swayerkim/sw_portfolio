@@ -1,4 +1,11 @@
-
+---
+title: "R Notebook"
+output: 
+  html_document:
+    keep_md:  true
+---
+ 
+ 
 # Bayes Statistics HW4
 
 ## 4-2 
