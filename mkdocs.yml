@@ -19,3 +19,13 @@ nav:
   - 09 Graduate Mathematical Statistics: "09 Graduate Mathematical Statistics/index.md"
   - 10 Bayesian Statistics: "10 Bayesian Statistics/index.md"
   - 99 Ybigta ML: "99 Ybigta ML/index.md"
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
