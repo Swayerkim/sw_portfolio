@@ -1,20 +1,8 @@
-
-nav:
-  - Home: index.md
-  - CPA Data Analysis:
-      - Likelihood: "000 CPA Data Analysis/likelihood.md"
-
-nav:
-  - Home: index.md
-  - CPA Data Analysis:
-      - Likelihood: "000 CPA Data Analysis/likelihood.md"
-site_name: sw_portfolio
+site_name: Swayer
 theme: readthedocs
 
 nav:
   - Home: index.md
   - Likelihood: likelihood.md
-
-markdown_extensions:
-  - toc:
-      permalink: true
+  - CPA Data Analysis:
+      - Likelihood: CPA Data Analysis/likelihood.md
