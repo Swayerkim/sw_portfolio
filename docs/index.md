@@ -1,5 +1,5 @@
 # Swayer
 
-## Latest Post
+Latest post:
 
---8<-- "CPA Data Analysis/likelihood.md"
+[Likelihood 글 보러가기](CPA%20Data%20Analysis/likelihood/)
