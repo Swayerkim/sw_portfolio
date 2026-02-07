@@ -4,9 +4,7 @@ theme: readthedocs
 nav:
   - Home: index.md
 
-  - CPA Data Analysis:
-      - Likelihood: "CPA Data Analysis/likelihood.md"
-
+  - CPA Data Analysis: "CPA Data Analysis/likelihood.md"
   - 00 This and That: "00 This and That/index.md"
   - 01 Mathematical Statistics: "01 Mathematical Statistics/index.md"
   - 02 ESL: "02 ESL/index.md"
