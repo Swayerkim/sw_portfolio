@@ -1,6 +1,12 @@
+site_name: Swayer
+theme: readthedocs
+
 nav:
   - Home: index.md
-  - Likelihood: likelihood.md
+
+  - CPA Data Analysis:
+      - Likelihood: "CPA Data Analysis/likelihood.md"
+
   - 00 This and That: "00 This and That/index.md"
   - 01 Mathematical Statistics: "01 Mathematical Statistics/index.md"
   - 02 ESL: "02 ESL/index.md"
@@ -13,5 +19,3 @@ nav:
   - 09 Graduate Mathematical Statistics: "09 Graduate Mathematical Statistics/index.md"
   - 10 Bayesian Statistics: "10 Bayesian Statistics/index.md"
   - 99 Ybigta ML: "99 Ybigta ML/index.md"
-  - CPA Data Analysis: "CPA Data Analysis/index.md"
-  - 과제: 과제.md
