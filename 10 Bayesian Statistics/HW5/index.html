@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>R Notebook - Swayer</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "R Notebook";
+        var mkdocs_page_input_path = "10 Bayesian Statistics/HW5.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Swayer
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CPA Data Analysis</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../000%20CPA%20Data%20Analysis/likelihood/">Likelihood</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Swayer</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">R Notebook</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="bayes-statistics-hw5">Bayes Statistics HW5</h1>
+<h2 id="5-4">5-4.</h2>
+<h3 id="5-4a">5-4a</h3>
+<p>Yes. The joint distribution is </p>
+<p>$<span class="arithmatex">\(p(\theta_1,..,\theta_{2J}) = {2J \choose J}(\prod_{j=1}^JN(\theta_{p(j)}|1,1)N(\theta_{p(j)}|-1,1))\)</span>$,</p>
+<p>where the sum is over all permutations p of (1,...,2J). The density above is obviously invariant permutations of the indexex (1,...,2J).</p>
+<h3 id="5-4b">5-4b</h3>
+<p>The covariance of <span class="arithmatex">\(\theta_i, \theta_j\)</span> is negative. If <span class="arithmatex">\(\theta_i\)</span> is large, then it probably comes from the N(1,1) distribution, which means that it is more likely than not that <span class="arithmatex">\(\theta_j\)</span> from the N(-1,1) distribution, which means that <span class="arithmatex">\(\theta_j\)</span> will probably be negative. Conversely, if <span class="arithmatex">\(\theta_i\)</span> is negative, <span class="arithmatex">\(\theta_j\)</span> is most likely positive.</p>
+<p>Then, <span class="arithmatex">\((\theta_1,..,\theta_{2J})\)</span> can't be written as a mixture form.</p>
+<h3 id="5-4c">5-4c</h3>
+<p>As <span class="arithmatex">\(J \rightarrow \infty\)</span>, the negative <span class="arithmatex">\(Cor(\theta_i,\theta_j)\)</span> approaches zero, and the joint distribution approaches iid. To put it another way, the distinction disappears between independently assigning each <span class="arithmatex">\(\theta_j\)</span> to one of two groups, and picking exactly half of the <span class="arithmatex">\(\theta_j\)</span>'s each group.</p>
+<h2 id="5-5">5-5</h2>
+<p>Let <span class="arithmatex">\(\mu(\phi) =E(\theta_j|\phi)\)</span>.</p>
+<div class="arithmatex">\[cov(\theta_i,\theta_j) = E(cov(\theta_i,\theta_j|\phi))+cov(E(\theta_i|\phi),E(\theta_j|\phi))\]</div>
+<div class="arithmatex">\[0+cov(\mu(\phi)),\mu(\phi))\]</div>
+<div class="arithmatex">\[=var(\mu(\phi)) \geq 0.\]</div>
+<h2 id="5-7">5-7</h2>
+<h3 id="5-7a">5-7(a)</h3>
+<p>From formula (2.7), <span class="arithmatex">\(E(y) = E(E(y|\theta)) = \theta = \alpha/\beta\)</span>. Because <span class="arithmatex">\(y|\theta \sim Pois(\theta), E(y|\theta) = \theta\)</span>. </p>
+<p>From formula (2.8), </p>
+<p>$<span class="arithmatex">\(var(y)=E(var(y|\theta))+var(E(y|\theta))=E(\theta)+var(\theta)=\alpha/\beta+\alpha/\beta^2 = \alpha/\beta^2(\beta+1),\ var(y|\theta)=\theta\)</span>$.</p>
+<h3 id="5-7b">5-7(b)</h3>
+<p>To solve this problems, <span class="arithmatex">\(n,s, \bar{y}\)</span> are essentially treated like constants.</p>
+<p>From (2.7) and (3.3),</p>
+<div class="arithmatex">\[E(\sqrt{n}(\mu-\bar{y})/s|y)=E(E(\sqrt{n}(\mu-\bar{y})/s|\sigma,y)|y) =E((\sqrt{n}/s)E(\mu-\bar{y}|\sigma,y|y)=E((\sqrt{n}/s\cdot0|y) =E(0|y)=0.\]</div>
+<p>We must have <span class="arithmatex">\(n &gt; 1\)</span> for <span class="arithmatex">\(s\)</span> to be defined, but in order for the expectation to exist, we must have <span class="arithmatex">\(n &gt;2\)</span>. </p>
+<p>We can compute from (2.8), (3.3), and (3.5) that</p>
+<div class="arithmatex">\[var(\sqrt{n}(\mu-\bar{y}/s|y)=var(E(\sqrt{n}(\mu-\bar{y}/s|\sigma,y|y)+E(var(\sqrt{n}(\mu-\bar{y})/s|\sigma,y)|y)\]</div>
+<div class="arithmatex">\[=var(0|y)+E((n/s^2)var(\mu|\sigma,y)|y)\]</div>
+<div class="arithmatex">\[E((n/s^2)\sigma^2/n|y)\]</div>
+<p>$<span class="arithmatex">\(E(\sigma^2|y)/s^2 =\frac{n-1}{n-3}\)</span>$.</p>
+<p>For this to work, we need  <span class="arithmatex">\(n &gt; 3\)</span>.</p>
+<h2 id="5-8">5-8</h2>
+<p>Let <span class="arithmatex">\(p_m(\theta|y)\)</span> denote the posterior density of <span class="arithmatex">\(\theta\)</span> corresponding to the prior density <span class="arithmatex">\(p_m(\theta)\)</span>.If <span class="arithmatex">\(p(\theta) = \sum_n\lambda_mp_m(\theta),\)</span> the posterior density of <span class="arithmatex">\(\theta\)</span> is proportional to <span class="arithmatex">\(\sum_m\lambda_mp_m(\theta)p(y|\theta)=\sum_m\lambda_mp_m(y)p_m(\theta|y):\)</span> mixture of the posterior densities <span class="arithmatex">\(p_m(\theta|y)\)</span> with weights proportional to <span class="arithmatex">\(\lambda_mp_m(y)\)</span>.</p>
+<p>Since each <span class="arithmatex">\(p_m(\theta)\)</span> is conjugate for the model for y given <span class="arithmatex">\(\theta\)</span>, the preceding computation demonstrates that the class of finite mixture prior densities is also conjugate.</p>
+<p>Consider an example : <span class="arithmatex">\(p_1(\theta) \sim N(1,0.5^2), p_2(\theta) \sim N(-1,0.5^2)\)</span>, and suppose <span class="arithmatex">\(\lambda_1=0.9, \lambda_2=0.1\)</span>. We know that <span class="arithmatex">\(p_1(\theta|y) \sim N(1.5/14,1/14)\)</span> and <span class="arithmatex">\(p_2(\theta|y) \sim N(-6.5/14,1/14)\)</span>. We also know <span class="arithmatex">\(p(\theta|y)\)</span> will be a weighted sum of these conditional posterior densities with weights <span class="arithmatex">\(\lambda_mp_m(y)/\sum_k\lambda_kp_k(y)\)</span> for <span class="arithmatex">\(m=1,2\)</span>.</p>
+<p><span class="arithmatex">\(p_1(y) = N(-0.25|1,0.5^2+1/10)=0.072\)</span>, and <span class="arithmatex">\(p_2(y) = N(-0.25|-1,0.5^2+1/10)=0.302\)</span>.</p>
+<p>So the weights for <span class="arithmatex">\(p_1(\theta|y)\)</span> and <span class="arithmatex">\(p_2(y)\)</span> are not 0.9 and 0.1 but are, <span class="arithmatex">\(\frac{0.9\cdot0.072}{0.9\cdot0.072+0.1\cdot0.302}=0.68\)</span> and <span class="arithmatex">\(\frac{0.1\cdot0.302}{0.9\cdot0.072+0.1\cdot0.302}=0.32\)</span>.</p>
+<pre><code class="language-r">theta &lt;- seq(-3,3,.01)
+prior &lt;- c (0.9, 0.1)
+dens &lt;- prior[1]*dnorm(theta,1,0.5) +
+prior[2]*dnorm(theta,-1,0.5)
+plot (theta, dens, ylim=c(0,1.1*max(dens)),
+type=&quot;l&quot;, xlab=&quot;theta&quot;, ylab=&quot;&quot;, xaxs=&quot;i&quot;,
+yaxs=&quot;i&quot;, yaxt=&quot;n&quot;, bty=&quot;n&quot;, cex=2)
+mtext (&quot;prior density&quot;, cex=2, 3)
+</code></pre>
+<p><img alt="" src="../HW5_files/figure-html/unnamed-chunk-1-1.png" /><!-- --></p>
+<pre><code class="language-r">marg &lt;- dnorm(-.25,c(1,-1),sqrt(c(0.5,0.5)^2+1/10))
+posterior &lt;- prior*marg/sum(prior*marg)
+dens &lt;- posterior[1]*dnorm(theta,1.5/14,sqrt(1/14)) +
+posterior[2]*dnorm(theta,-6.5/14,sqrt(1/14))
+plot (theta, dens, ylim=c(0,1.1*max(dens)),
+type=&quot;l&quot;, xlab=&quot;theta&quot;, ylab=&quot;&quot;, xaxs=&quot;i&quot;,
+yaxs=&quot;i&quot;, yaxt=&quot;n&quot;, bty=&quot;n&quot;, cex=2)
+mtext (&quot;posterior density&quot;, cex=2, 3)
+</code></pre>
+<p><img alt="" src="../HW5_files/figure-html/unnamed-chunk-1-2.png" /><!-- --></p>
+<h2 id="5-9">5-9</h2>
+<h3 id="5-9a">5-9a</h3>
+<p>Consider the limit <span class="arithmatex">\((\alpha+\beta) \rightarrow \infty\)</span> with <span class="arithmatex">\(\alpha/\beta\)</span> fixed at any nonzero value. The likelihood is </p>
+<div class="arithmatex">\[p(y|\alpha,\beta) \propto \prod_{j=1}^J\frac{[\alpha\cdots(\alpha+y_i-1)][\beta\cdot n_j-y_j-1)]}{(\alpha+\beta)\cdots(\alpha+\beta+n_j-1)}\]</div>
+<div class="arithmatex">\[\approx \prod_{j=1}^J\frac{\alpha^{y_j}\beta^{n_j-y_j}}{(\alpha+\beta)^n_j}\]</div>
+<p>$<span class="arithmatex">\(=\prod_{j=1}^J(\frac{\alpha}{\alpha+\beta})^y_j(\frac{\beta}{\alpha+\beta})^{n_j-y_j}\)</span>$,</p>
+<p>which is constants, so the pior density determindes whether the posterior density has a finite integral in this limit. A uniform prior density on <span class="arithmatex">\(log(\alpha+\beta)\)</span> has an infinite integral in this limit, and so the posterior density does also in this case.</p>
+<h3 id="5-9b">5-9b</h3>
+<div class="arithmatex">\[\begin{equation*}
+\begin{vmatrix}
+\frac{\beta}{(\alpha+\beta)^2} &amp; -\frac{\alpha}{(\alpha+\beta)^2} \\
+-\frac{1}{2}(\alpha+\beta)^{-3/2} &amp; -\frac{1}{2}(\alpha+\beta)^{-3/2} \\
+\end{vmatrix}
+\end{equation*} = constant \cdot (\alpha+\beta)^{-5/2}\]</div>
+<h2 id="5-12">5-12</h2>
+<p>Applying formula (2.7) and (2.8),</p>
+<div class="arithmatex">\[E(\theta_j|\tau,y) = E[E(\theta_j|\mu,\tau,y)|\tau,y] = E[\frac{\frac{1}{\sigma_j^2}y_j+\frac{1}{\tau^2}\mu}{\frac{1}{\sigma_j^2}+\frac{1}{\tau^2}}|\tau,y]=\frac{\frac{1}{\sigma_j^2}y_j+\frac{1}{\tau^2}\hat\mu}{\frac{1}{\sigma_j^2}+\frac{1}{\tau^2}}\]</div>
+<p>$<span class="arithmatex">\(var(\theta_j|\tau,y) = E[var(\theta_j|\mu,\tau,y)|\tau,y]+var[E(\theta_j|\mu,\tau,y)|\tau,y]=\frac{1}{\frac{1}{\sigma^2}+\frac{1}{\tau^2}}+(\frac{\frac{1}{\tau^2}}{\frac{1}{\sigma^2}+\frac{1}{\tau^2}})^2V_\mu\)</span>$, where expressions for <span class="arithmatex">\(\hat\mu=E(\mu|\tau,y)\)</span> and <span class="arithmatex">\(V_\mu=var(\mu|\tau,y)\)</span> are given in (5.20).</p>
+<h2 id="ex-hierarchical-model-for-rats-experiment">Ex: Hierarchical model for Rats experiment</h2>
+<pre><code class="language-r">library(ggplot2)
+theme_set(theme_minimal())
+library(gridExtra)
+library(tidyr)
+library(latex2exp)
+y &lt;- c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,
+        2,1,5,2,5,3,2,7,7,3,3,2,9,10,4,4,4,4,4,4,4,10,4,4,4,5,11,12,
+        5,5,6,5,6,6,6,6,16,15,15,9,4)
+n &lt;- c(20,20,20,20,20,20,20,19,19,19,19,18,18,17,20,20,20,20,19,19,18,18,25,24,
+       23,20,20,20,20,20,20,10,49,19,46,27,17,49,47,20,20,13,48,50,20,20,20,20,
+       20,20,20,48,19,19,19,22,46,49,20,20,23,19,22,20,20,20,52,46,47,24,14)
+x &lt;- seq(0.0001, 0.9999, length.out = 1000)
+</code></pre>
+<pre><code class="language-r">bdens &lt;- function(n, y, x)
+    dbeta(x, y+1, n-y+1)
+df_sep &lt;- mapply(bdens, n, y, MoreArgs = list(x = x)) %&gt;%
+  as.data.frame() %&gt;% cbind(x) %&gt;% gather(ind, p, -x)
+labs1 &lt;- paste('posterior of', c('theta_j', 'theta_71'))
+plot_sep &lt;- ggplot(data = df_sep) +
+  geom_line(aes(x = x, y = p, color = (ind=='V71'), group = ind)) +
+  labs(x = expression(theta), y = '', title = 'Separate model', color = '') +
+  scale_y_continuous(breaks = NULL) +
+  scale_color_manual(values = c('blue','red'), labels = labs1) +
+  theme(legend.background = element_blank(), legend.position = c(0.8,0.9))
+# The last one is for emphasize colored red
+plot_sep
+</code></pre>
+<p><img alt="" src="../HW5_files/figure-html/unnamed-chunk-3-1.png" /><!-- --></p>
+<pre><code class="language-r">df_pool &lt;- data.frame(x = x, p = dbeta(x, sum(y)+1, sum(n)-sum(y)+1))
+plot_pool &lt;- ggplot(data = df_pool) +
+  geom_line(aes(x = x, y = p, color = '1')) +
+  labs(x = expression(theta), y = '', title = 'Pooled model', color = '') +
+  scale_y_continuous(breaks = NULL) +
+  scale_color_manual(values = 'red', labels = 'Posterior of common theta') +
+  theme(legend.background = element_blank(), legend.position = c(0.7,0.9))
+grid.arrange(plot_sep, plot_pool)
+</code></pre>
+<p><img alt="" src="../HW5_files/figure-html/unnamed-chunk-4-1.png" /><!-- --></p>
+<pre><code class="language-r">A &lt;- seq(0.5, 6, length.out = 100)
+B &lt;- seq(3, 33, length.out = 100)
+cA &lt;- rep(A, each = length(B))
+cB &lt;- rep(B, length(A))
+lpfun &lt;- function(a, b, y, n) log(a+b)*(-5/2) +
+  sum(lgamma(a+b)-lgamma(a)-lgamma(b)+lgamma(a+y)+lgamma(b+n-y)-lgamma(a+b+n))
+lp &lt;- mapply(lpfun, cA, cB, MoreArgs = list(y, n))
+df_marg &lt;- data.frame(x = cA, y = cB, p = exp(lp - max(lp)))
+</code></pre>
+<pre><code class="language-r">title1 &lt;- TeX('The marginal of $\\alpha$ and $\\beta$')
+ggplot(data = df_marg, aes(x = x, y = y)) +
+  geom_raster(aes(fill = p, alpha = p), interpolate = T) +
+  geom_contour(aes(z = p), colour = 'black', size = 0.2) +
+  coord_cartesian(xlim = c(1,5), ylim = c(4, 26)) +
+  labs(x = TeX('$\\alpha$'), y = TeX('$\\beta$'), title = title1) +
+  scale_fill_gradient(low = 'yellow', high = 'red', guide = F) +
+  scale_alpha(range = c(0, 1), guide = F)
+</code></pre>
+<p><img alt="" src="../HW5_files/figure-html/unnamed-chunk-6-1.png" /><!-- --></p>
+<pre><code class="language-r">nsamp &lt;- 100
+samp_indices &lt;- sample(length(df_marg$p), size = nsamp,
+                       replace = T, prob = df_marg$p/sum(df_marg$p))
+samp_A &lt;- cA[samp_indices[1:nsamp]]
+samp_B &lt;- cB[samp_indices[1:nsamp]]
+df_psamp &lt;- mapply(function(a, b, x) dbeta(x, a, b),
+                  samp_A, samp_B, MoreArgs = list(x = x)) %&gt;%
+  as.data.frame() %&gt;% cbind(x) %&gt;% gather(ind, p, -x)
+</code></pre>
+<pre><code class="language-r">indtonum &lt;- function(x) strtoi(substring(x,2))
+title2 &lt;- TeX('Beta($\\alpha,\\beta$) given posterior draws of $\\alpha$ and $\\beta$')
+plot_psamp &lt;- ggplot(data = subset(df_psamp, indtonum(ind) &lt;= 20)) +
+  geom_line(aes(x = x, y = p, group = ind), color='forestgreen') +
+  labs(x = expression(theta), y = '', title = title2) +
+  scale_y_continuous(breaks = NULL)
+df_psampmean &lt;- spread(df_psamp, ind, p) %&gt;% subset(select = -x) %&gt;%
+    rowMeans() %&gt;% data.frame(x = x, p = .)
+</code></pre>
+<pre><code class="language-r">title3 &lt;- TeX('Population distribution (prior) for $\\theta_j$')
+plot_psampmean &lt;- ggplot(data = df_psampmean) +
+  geom_line(aes(x = x, y = p), color='forestgreen') +
+  labs(x = expression(theta), y = '', title = title3) +
+  scale_y_continuous(breaks = NULL)
+grid.arrange(plot_psamp, plot_psampmean)
+</code></pre>
+<p><img alt="" src="../HW5_files/figure-html/unnamed-chunk-9-1.png" /><!-- --></p>
+<pre><code class="language-r">plot_sep7 &lt;- ggplot(data = subset(df_sep, indtonum(ind)%%7==0)) +
+  geom_line(aes(x = x, y = p, color = (ind=='V49'), group = ind)) +
+  labs(x = expression(theta), y = '', title = 'Separate model', color = '') +
+  scale_y_continuous(breaks = NULL) +
+  scale_color_manual(values = c('blue', 'red'), guide = F) +
+  theme(legend.background = element_blank(), legend.position = c(0.8,0.9))
+bdens2 &lt;- function(n, y, a, b, x)
+  rowMeans(mapply(dbeta, a + y, n - y + b, MoreArgs = list(x = x)))
+df_hier &lt;- mapply(bdens2, n, y, MoreArgs = list(samp_A, samp_B, x)) %&gt;%
+  as.data.frame() %&gt;% cbind(x) %&gt;% gather(ind, p, -x)
+</code></pre>
+<pre><code class="language-r">plot_hier7 &lt;- ggplot(data = subset(df_hier, indtonum(ind)%%7==0)) +
+  geom_line(aes(x = x, y = p, color = (ind=='V49'), group = ind)) +
+  labs(x = expression(theta), y = '', title = 'Hierarchical model', color = '') +
+  scale_color_manual(values = c('blue', 'red'), guide = F) +
+  scale_y_continuous(breaks = NULL) +
+  theme(legend.background = element_blank(), legend.position = c(0.8,0.9))
+grid.arrange(plot_sep7, plot_hier7)
+</code></pre>
+<p><img alt="" src="../HW5_files/figure-html/unnamed-chunk-11-1.png" /><!-- --></p>
+<pre><code class="language-r">qq_separate&lt;-data.frame(id=1:length(n), n=n, y=y,
+               q10=qbeta(0.1,y+1,n-y+1), q90=qbeta(0.9,y+1,n-y+1))
+qh &lt;- function(q, n, y) colMeans(mapply(function(q, n, y, a, b)
+    mapply(qbeta, q, a + y, n - y + b), q, n, y, MoreArgs = list(samp_A, samp_B)))
+qq_hier &lt;- data.frame(id=1:length(n), n=n, y=y,
+                      qh(0.05, n, y), qh(0.95, n, y))
+ggplot(data=qq_separate[seq(1,length(n),by=3),], aes(x=jitter(n,amount=1),ymin=q10,ymax=q90)) + geom_linerange() + xlim(c(0,60))
+</code></pre>
+<p><img alt="" src="../HW5_files/figure-html/unnamed-chunk-12-1.png" /><!-- --></p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

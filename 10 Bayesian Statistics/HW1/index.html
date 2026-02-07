@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>R Notebook - Swayer</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "R Notebook";
+        var mkdocs_page_input_path = "10 Bayesian Statistics/HW1.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Swayer
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CPA Data Analysis</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../000%20CPA%20Data%20Analysis/likelihood/">Likelihood</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Swayer</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">R Notebook</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="bayesian-statistics-hw1">Bayesian Statistics HW1</h2>
+<h4 id="11">1.1</h4>
+<p><strong>(a) For <span class="arithmatex">\(\sigma=2\)</span>, write the formula for the marginal probability density for <span class="arithmatex">\(Y\)</span> and sketch it.</strong></p>
+<div class="arithmatex">\[f(y)= \sum_\theta{f(y,\theta)}=\sum_\theta{P(\theta)f(y|\theta)}\]</div>
+<div class="arithmatex">\[=P(\theta=1)f(y|\theta=1)+P(\theta=2)f(y|\theta=2)\]</div>
+<div class="arithmatex">\[0.5N(Y|1,2^2)+0.5N(Y|2,2^2)\]</div>
+<pre><code class="language-r">y &lt;- seq(-20,20,0.01)
+py &lt;- 0.5*dnorm(y,1,2)+0.5*dnorm(y,2,2)
+plot(y,py,type='l',main='p(y)',xlab='y',ylab='p(y)')
+</code></pre>
+<p><img alt="" src="../HW1_files/figure-html/unnamed-chunk-1-1.png" /><!-- --></p>
+<p><strong>(b) What is <span class="arithmatex">\(P(\theta=1|y=1)\)</span> again supposing <span class="arithmatex">\(\sigma=2\)</span>?</strong></p>
+<p>By bayes theorem, </p>
+<p>$<span class="arithmatex">\(P(\theta=1|y=1)=\frac{P(\theta=1,y=1)}{f(y=1)}\)</span>$
+$<span class="arithmatex">\(=\frac{P(\theta=1)f(y=1|\theta=1)}{\sum_\theta{P(\theta)f(y=1|\theta)}}\)</span>$
+$<span class="arithmatex">\(=\frac{0.5N(1|1,2^2)}{0.5N(1|1,2^2)+0.5N(1|2,2^2)}\)</span>$
+$<span class="arithmatex">\(=\frac{1}{1+exp(-1/8)}\)</span>$
+<strong>(c) Describe how the posterior density of <span class="arithmatex">\(\theta\)</span> changes in shape as <span class="arithmatex">\(\sigma\)</span> as increased and as it is decreased.</strong></p>
+<p>If as <span class="arithmatex">\(\sigma \rightarrow \infty\)</span>,</p>
+<div class="arithmatex">\[P(\theta=1|y) = \frac{P(\theta=1)f(y|1,\sigma^2)}{P(\theta=1)f(y|1,\sigma^2)+P(\theta=2)f(y|2,\sigma^2)}$$
+$$=\frac{P(\theta=1)exp(-\frac{(y-1)^2}{2\sigma^2})}{P(\theta=1)exp(-\frac{(y-1)^2}{2\sigma^2})+P(\theta=2)exp(-\frac{(y-2)^2}{2\sigma^2})}\]</div>
+<div class="arithmatex">\[\rightarrow P(\theta=1)\]</div>
+<p>As <span class="arithmatex">\(\sigma \rightarrow \infty\)</span>,</p>
+<div class="arithmatex">\[P(\theta=1|y)=\frac{exp(-\frac{(y-1)^2}{2\sigma^2})}{exp(-\frac{(y-1)^2}{2\sigma^2})+exp(-\frac{(y-2)^2}{2\sigma^2})}$$
+$$= \frac{1}{1+exp(-\frac{(2y-3)}{2\sigma^2})}\]</div>
+<div class="arithmatex">\[ 0, \ y&gt;3/2\]</div>
+<p>$<span class="arithmatex">\(1,\ y&lt; 3/2\)</span>$
+posterior density <span class="arithmatex">\(P(\theta|y)\)</span> goes to prior <span class="arithmatex">\(P(\theta)\)</span> if <span class="arithmatex">\(\sigma\)</span> goes to infinity, </p>
+<p>and if <span class="arithmatex">\(\sigma\)</span> goes to zero, posterior density <span class="arithmatex">\(P(\theta|y)\)</span> will have high variability which depends on data.</p>
+<h4 id="12-show-that-18-and-19-hold-if-u-is-a-vector">1.2 Show that (1.8) and (1.9) hold if <em>u</em> is a vector</h4>
+<p>Suppose <span class="arithmatex">\(\mathbf{U} = (U_1,..,U_n)^T \in \mathbf{R^n}\)</span> is n-dimensional random vector.</p>
+<p>Then <span class="arithmatex">\(E(\mathbf{U})= (E(U_1),..,E(U_n))^T=(E(E(U_1|V)),..,E(E(U_n|V)))^T\)</span>. Then (1.8) still holds for vector <span class="arithmatex">\(\mathbf{U}\)</span>'s components.</p>
+<p>(1.9) also holds for diagonal elements <span class="arithmatex">\(V(U_i)=E(V(U_i|V))+V(E(U_i|V))\)</span> and also for off diagonal elements.</p>
+<div class="arithmatex">\[E(Cov(U_i,U_j|V))+Cov(E(U_i|V),E(U_j|V))\]</div>
+<p>$<span class="arithmatex">\(=E(E(U_i,U_j|V)-E(U_i|V)(E(U_j|V)) + E(E(U_i|V)E(U_j|V))-E(E(U_i|V)E(U_j|V))\)</span>$
+$<span class="arithmatex">\(=E(U_i,U_j)-E(E(U_i|V)E(U_j|V))+E(E(U_i|V)E(U_j|V))-E(E(U_i|V)E(U_j|V))\)</span>$
+$<span class="arithmatex">\(=E(U_i,U_j)-E(U_i)E(U_j)=Cov(U_i,U_j)\)</span>$.</p>
+<h4 id="13">1.3</h4>
+<div class="arithmatex">\[P(child\ is\ Xx| child\ has\ brown\ eyes\ \&amp;\ parents\ have\ brown\ eyes )\]</div>
+<div class="arithmatex">\[=\frac{0\cdot(1-p)^4+\frac{1}{2}\cdot4p(1-p)^3+\frac{1}{2}\cdot4p^2(1-p)^2}
+{1\cdot(1-p)^4+1\cdot4p(1-p)^3+\frac{3}{4}4p^2(1-p)^2}\]</div>
+<div class="arithmatex">\[=\frac{2p(1-p)+2p^2}{(1-p)^2+4p(1-p)+3p^2} = \frac{2p}{1+2p}\]</div>
+<div class="arithmatex">\[P(Judy\ is\ Xx|n\ children\ all\ have\ brown\ eyes\ \&amp;\ all\ previous\ information)$$
+$$= 
+\frac{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n}{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n}+\frac{1}{1+2p}\cdot1\]</div>
+<div class="arithmatex">\[P(Judy's\ child\ is\ Xx| all\ the\ given\ information)$$
+$$=\frac{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n}{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n+\frac{1}{1+2p}}(\frac{2}{3})+\frac{\frac{1}{1+2p}}{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n+\frac{1}{1+2p}}(\frac{1}{2})\]</div>
+<div class="arithmatex">\[P(Grandchild\ is\ xx| all\ the\ given\ information)\]</div>
+<div class="arithmatex">\[=\frac{\frac{2}{3}\frac{2p}{1+2p}\cdot(\frac{3}{4})^n+\frac{1}{2}\frac{1}{1+2p}}
+{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n+\frac{1}{1+2p}}(\frac{1}{4}2p(1-p)+\frac{1}{2}p^2)\]</div>
+<div class="arithmatex">\[=\frac{\frac{2}{3}\frac{2p}{1+2p}\cdot(\frac{3}{4})^n+\frac{1}{2}\frac{1}{1+2p}}
+{\frac{2p}{1+2p}\cdot(\frac{3}{4})^n+\frac{1}{1+2p}}(\frac{1}{2}p)\]</div>
+<h4 id="14">1.4</h4>
+<p>(a).</p>
+<div class="arithmatex">\[P(favorite\ wins|point\ spreads=8)=\frac{8}{12}\]</div>
+<div class="arithmatex">\[P(favorite\ wins\ by\ at\ least\ 8| point\ spread=8)=\frac{5}{12}\]</div>
+<p>$<span class="arithmatex">\(P(favorite\ wins\ by\ at\ least\ 8|point\ spread=8\ and\ favorite\ wins)=\frac{5}{8}\)</span>$
+(b). Let d= (outcome-point spread). Then <span class="arithmatex">\(d \approx N(\bar{d}=-1.25,s^2=(10.1^2))\)</span></p>
+<div class="arithmatex">\[P(favorite\ wins|point\ spreads=8)=P(d\geq0)=0.45\]</div>
+<div class="arithmatex">\[P(favorite\ wins\ by\ at\ least\ 8| point\ spread=8)=P(d\geq8)=0.18\]</div>
+<div class="arithmatex">\[P(favorite\ wins\ by\ at\ least\ 8|point\ spread=8\ and\ favorite\ wins)=\frac{0.18}{0.45}=0.4\]</div>
+<h4 id="15">1.5</h4>
+<p>(a).</p>
+<p>Our goal is guessing probability <span class="arithmatex">\(P(election\ is\ tied|given\ information)\)</span>.</p>
+<p>Assume that in two party, each candidate receives between 30% - 70% of the vote that follows Uniform distribution (<span class="arithmatex">\(\frac{y}{n} \sim Unif(0.3,0.7)\)</span>).</p>
+<p>Then we can express </p>
+<p>$<span class="arithmatex">\(P(election\ is\ tied|n)= P(\frac{y}{n}=0.5) = 1/0.4n,\ n\ is\ even,\ o.w\ zero\)</span>$
+n is the total number of votes and y be the number received by candidate.</p>
+<p>We can write <span class="arithmatex">\(P(election\ is\ tied,n=even)= P(election\ is\ tied|n=even)P(n=even)= \frac{1}{0.8n}\)</span></p>
+<p>National election has 435 individual districts, then the probability of at least one of them being tied is, </p>
+<div class="arithmatex">\[P(at\ least\ one\ election\ is\ tied)=1-(1-\frac{1}{0.8n})^{435} \approx \frac{435}{0.8n}\]</div>
+<p>as n goes to infinity.</p>
+<p>(b).</p>
+<p>Given information implies <span class="arithmatex">\(\hat{P}(election\ decided\ within\ 100\ votes)=\frac{49}{20597}\)</span> and </p>
+<p>vote gap written as <span class="arithmatex">\(|2y-n| \leq 100\)</span>.</p>
+<p>Let <span class="arithmatex">\(d=\ 2y-n,\)</span></p>
+<div class="arithmatex">\[P(election\ is\ tied\ within\ 100\ votes)=P(d=0|d \leq 100)P(d \leq 100)\]</div>
+<p>$<span class="arithmatex">\(=\frac{1}{100-(-100)+1}\frac{49}{20597} = \frac{1}{201}\frac{49}{20597}\)</span>$.</p>
+<p>By using (a), </p>
+<div class="arithmatex">\[P(at\ least\ one\ election\ is\ tied)$$
+$$= 1- (1-P(election\ is\ tied\ within\ 100\ votes))^{435} \approx 435 \times\frac{49}{201\times20597}= 0.00514\]</div>
+<h4 id="16">1.6</h4>
+<div class="arithmatex">\[P(identical\ twins| twin\ brother)$$
+$$= \frac{P(identical\ twins)P(twin\ brother|identical\ twins)}{\sum_{twins}P(twins)P(twin\ brother|twins)} = \frac{\frac{1}{300}\frac{1}{2}}{\frac{1}{300}\frac{1}{2}+\frac{1}{125}\frac{1}{4}}=\frac{5}{11}\]</div>
+<h4 id="18">1.8</h4>
+<p>(a).</p>
+<p>Person A already saw rolled die, then his belief about probability about issue is updated and will be biased. This situation seens to have subjectivity, but i think, if two people A and B's are both rational persons, A &amp; B build same probablity about 6 appears as 1/6.</p>
+<p>(b).</p>
+<p>A and B have different belief about soccer. B's knowledge about soccer affect hisb belief about probability, then B allocate probablity about Brazil's win more higher than A, who will allocate probability about all countries equally.</p>
+<h4 id="19">1.9</h4>
+<p>(a).</p>
+<pre><code class="language-r">simulation = function(seed=NULL){
+  if(!is.null(seed)){
+    set.seed(seed)
+  }
+time &lt;- cumsum(rexp(50,1/10))
+time &lt;- time[time &lt;= 420]
+patients &lt;- length(time)
+wait_pat &lt;- 0
+wait_time &lt;- 0
+doc &lt;- c(0,0,0)
+
+for (i in (1:length(time))){
+  wait &lt;- max(min(doc)-time[i],0)
+  wait_time &lt;- wait_time + wait
+  wait_pat &lt;- wait_pat + (wait &gt; 0)
+  doc_start &lt;- max(c(min(doc),time[i]))
+  doc_end &lt;- doc_start + runif(1,5,20)
+  doc[which.min(doc)] = doc_end
+}
+
+result &lt;- c('patients'=patients,'wait_pat'=wait_pat,
+            'avg_wait_time'=avg_wait_time &lt;- ifelse(wait_pat==0,0,wait_time/wait_pat)
+            ,'hospital_closed'=hospital_closed &lt;- max(max(doc,420))
+)
+return(result)
+
+}
+
+simulation(2020311194)
+</code></pre>
+<pre><code>##        patients        wait_pat   avg_wait_time hospital_closed 
+##       47.000000        4.000000        3.958816      428.354702
+</code></pre>
+<p>(b).</p>
+<pre><code class="language-r">iteration &lt;- replicate(100,simulation())
+
+q25 &lt;- apply(iteration,1,quantile,0.25)
+q75 &lt;- apply(iteration,1,quantile,0.75)
+
+q25; q75
+</code></pre>
+<pre><code>##        patients        wait_pat   avg_wait_time hospital_closed 
+##       39.000000        3.000000        2.885335      420.000000
+</code></pre>
+<pre><code>##        patients        wait_pat   avg_wait_time hospital_closed 
+##       46.000000        8.000000        5.363889      430.994808
+</code></pre>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>R Notebook - Swayer</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "R Notebook";
+        var mkdocs_page_input_path = "10 Bayesian Statistics/HW3.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Swayer
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CPA Data Analysis</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../000%20CPA%20Data%20Analysis/likelihood/">Likelihood</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Swayer</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">R Notebook</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="bayes-statistics-hw3">Bayes Statistics HW3</h1>
+<h2 id="1">1</h2>
+<h3 id="1-a-write-the-marginal-posterior-distribution-for-alpha">1-(a) Write the marginal posterior distribution for <span class="arithmatex">\(\alpha\)</span></h3>
+<p>Lets denote <span class="arithmatex">\(p(\theta)\)</span> as <span class="arithmatex">\(Dirichlet(a_1,..,a_n)\)</span>.</p>
+<p>Then posterior distribution is <span class="arithmatex">\(p(\theta|y) = Dirichlet(y_1+a_1,..,y_n+a_n\)</span>.</p>
+<p>By the properties of Dirichlet, marginal posterior dist of (<span class="arithmatex">\(\theta_1,\theta_2,1-\theta_1-\theta_2\)</span>) is also Dirichlet : <span class="arithmatex">\(p(\theta_1,\theta_2|y) \propto \theta_1^{y_1+a_1-1}\theta_2^{y_2+a_2-1}(1-\theta_1-\theta_2)^{y_{rest}+a_{rest}-1}\)</span>, where <span class="arithmatex">\(y_{rest}=y_3+..y_J\)</span>, <span class="arithmatex">\(a_{rest}=a_3+..a_J\)</span>.</p>
+<p>do a variable transformation to <span class="arithmatex">\((\alpha,\beta)=(\frac{\theta_1}{\theta_1+\theta_2},\theta_1+\theta_2)\)</span>.</p>
+<p>Jacobian is <span class="arithmatex">\(|1/\beta|\)</span>, </p>
+<div class="arithmatex">\[p(\alpha,\beta|y) \propto \beta(\alpha\beta)^{y_1+a_1-1}((1-\alpha)\beta)^{y_2+a_2-1}(1-\beta)^{y_{rest}+a_{rest}-1}\]</div>
+<div class="arithmatex">\[= \alpha^{y_1+a_1-1}(1-\alpha)^{y_2+a_2-1}\beta_{y_1+y_2+a_1+a_2-1}(1-\beta)^{y_{rest}+a_{rest}-1}\]</div>
+<p>$<span class="arithmatex">\(\propto Beta(\alpha|y_1+a_1,y_2+a_2)Beta(\beta|y_1+y_2+a_1+a_2,y+{rest}+a_{rest})\)</span>$
+Posterior density is separated by two factors for <span class="arithmatex">\(\alpha\)</span> and <span class="arithmatex">\(\beta\)</span>, they are independent, </p>
+<p>therefore <span class="arithmatex">\(\alpha|y \sim Beta(y_1+a_2,y_2+a_2)\)</span>.</p>
+<h3 id="1-b-show-that-this-distribution-is-identical-to-the-posterior-distribution-for-alpha-obtained-by-treating-y_1-as-an-observation-from-the-binomial-distribution-with-probability-alpha-and-sample-size-y_1y_2-ignoring-the-data-y_3j_j">(1-b) show that this distribution is identical to the posterior distribution for <span class="arithmatex">\(\alpha\)</span> obtained by treating <span class="arithmatex">\(y_1\)</span> as an observation from the binomial distribution with probability <span class="arithmatex">\(\alpha\)</span> and sample size <span class="arithmatex">\(y_1+y_2\)</span>, ignoring the data <span class="arithmatex">\(y_3,...,j_J.\)</span></h3>
+<p>The <span class="arithmatex">\(Beta(y_1+a_1,y_2+a_2)\)</span> posterior distribution also be derived from a <span class="arithmatex">\(Beta(a_1,a_2)\)</span> prior dist and a binomial observation <span class="arithmatex">\(y_1\)</span> with sample size <span class="arithmatex">\(y_1+y_2\)</span>.</p>
+<h2 id="2">2</h2>
+<p>Assume independent uniform prior distributions on the multinomial parameters. </p>
+<p>Then the posteriors are independent multinomial :</p>
+<p>$<span class="arithmatex">\((\pi_1,\pi_2,\pi_3)|y \sim Dirichlet(295,308,39)\)</span>$
+$<span class="arithmatex">\((\pi_1^*,\pi_2^*,\pi_3^*)|y \sim Dirichlet(289,333,20)\)</span>$,</p>
+<p>and <span class="arithmatex">\(\alpha_1=\frac{\pi_1}{\pi_1+\pi_2},\alpha_2=\frac{\pi_1^*}{\pi_1^*+\pi_2^*}\)</span>. From the properties of Dirichlet distribution, </p>
+<p><span class="arithmatex">\(\alpha_1|y \sim Beta(295,308)\)</span>
+<span class="arithmatex">\(\alpha_2|y \sim Beta(289,333)\)</span>.</p>
+<pre><code class="language-r">set.seed(2020311194)
+alpha.1 &lt;- rbeta(2000,295,308)
+alpha.2 &lt;- rbeta(2000,289,333)
+diff &lt;- alpha.2- alpha.1
+hist(diff,xlab=&quot;alpha2-alpha1&quot;,yaxt=&quot;n&quot;, breaks = seq(-.15,.09,.01),cex=2)
+</code></pre>
+<p><img alt="" src="../HW3_files/figure-html/unnamed-chunk-1-1.png" /><!-- --></p>
+<pre><code class="language-r">print (mean(diff&gt;0))
+</code></pre>
+<pre><code>## [1] 0.191
+</code></pre>
+<p>This is histogram of 2000 draws from posterior. Based on histogram, posterior probability that there was a shift toward Bush is 19.4%.</p>
+<p>If we use normal approximations for the dist of <span class="arithmatex">\(\alpha_1\)</span> and  <span class="arithmatex">\(\alpha_2\)</span> with means and st.d computed from relevant beta dist, can get the same answer.</p>
+<h2 id="3">3</h2>
+<h3 id="3-a">3-(a)</h3>
+<p>Data dist is <span class="arithmatex">\(p(y|\mu_c,\mu_t,\sigma_c,\sigma_t)= \prod_{i=1}^32N(y_{ci}|\mu_c,\sigma_c^2)\prod_{i=1}^{36}N(y_{ti}|\mu_t,\sigma_t^2)\)</span>.</p>
+<p><span class="arithmatex">\((\mu_c,\sigma_c)\)</span> are independent of <span class="arithmatex">\((\mu_t,\sigma_t)\)</span> in the posterior.</p>
+<p>So in this model, we can analyze two separately. </p>
+<p>The marginal posterior for <span class="arithmatex">\(\mu_c\)</span> and <span class="arithmatex">\(\mu_t\)</span> are :</p>
+<div class="arithmatex">\[\mu_c|y \sim t_{31}(1.013,0.24^2/32)\]</div>
+<p>$<span class="arithmatex">\(\mu_t|y \sim t_{35}(1.173,0.20^2/36)\)</span>$.</p>
+<h3 id="3-b">3-(b)</h3>
+<pre><code class="language-r">mu.c &lt;- 1.013 + (0.24/sqrt(32))*rt(1000,31)
+mu.t &lt;- 1.173 + (0.20/sqrt(36))*rt(1000,35)
+dif &lt;- mu.t - mu.c
+hist (dif, xlab=&quot;mu_t - mu_c&quot;, yaxt=&quot;n&quot;,
+breaks=seq(-.1,.4,.02), cex=2)
+</code></pre>
+<p><img alt="" src="../HW3_files/figure-html/unnamed-chunk-2-1.png" /><!-- --></p>
+<pre><code class="language-r">print (sort(dif)[c(25,976)])
+</code></pre>
+<pre><code>## [1] 0.05868759 0.26396430
+</code></pre>
+<p>Based on histogram, 95% posterior interval for average treatment effect is [0.05,0.27]</p>
+<h2 id="4">4</h2>
+<h3 id="4-ab">4-(a),(b)</h3>
+<p>Set Uniform prior for our model's prior. In binomial model, Uniform can be noninformative prior.</p>
+<p>Let Uniform prior(<span class="arithmatex">\(Beta(1/2,1/2)\)</span>) as our prior. </p>
+<p>Then <span class="arithmatex">\(p(p_0) \propto 1,\ p(p_1) \propto 1\)</span>, </p>
+<p><span class="arithmatex">\(p(p_0,p_1|n_i,y_i) \propto p(p_0,p_1)\prod_{i=1}^2f(y_i|p_0,p_1)\)</span></p>
+<p><span class="arithmatex">\(\propto p_0^{39}(1-p_0)^{674}p_1^{22}(1-p_1)^{680}\)</span>.</p>
+<p>Two experiments are independent, they can dealt seperately.</p>
+<p><span class="arithmatex">\(p(p_0) \sim Beta(40,675)\)</span></p>
+<p><span class="arithmatex">\(p(p_1) \sim Beta(23,681)\)</span></p>
+<pre><code class="language-r">set.seed(2020311194)
+p0 &lt;- rbeta(1000,40,675)
+p1 &lt;- rbeta(1000,22,680)
+
+hist(p0, breaks=20, col='grey', yaxt='n',main=&quot;p0&quot;)
+</code></pre>
+<p><img alt="" src="../HW3_files/figure-html/unnamed-chunk-3-1.png" /><!-- --></p>
+<pre><code class="language-r">hist(p1, breaks=20, col='grey', yaxt='n',main=&quot;p1&quot;)
+</code></pre>
+<p><img alt="" src="../HW3_files/figure-html/unnamed-chunk-3-2.png" /><!-- --></p>
+<pre><code class="language-r">odds_r &lt;- (p1/(1-p1))/(p0/(1-p0))
+
+hist(odds_r,breaks=30,col='grey',yaxt='n',main='Odds Ratio')
+</code></pre>
+<p><img alt="" src="../HW3_files/figure-html/unnamed-chunk-3-3.png" /><!-- --></p>
+<h3 id="4-c">4-(c)</h3>
+<pre><code class="language-r">#Compare Jeffrey and Uniform prior
+set.seed(2020311194)
+p0 &lt;- rbeta(1000,39.5,674.5)
+p1 &lt;- rbeta(1000,21.5,679.5)
+
+odds_r1 &lt;- (p1/(1-p1))/(p0/(1-p0))
+mean(odds_r) ; mean(odds_r1)
+</code></pre>
+<pre><code>## [1] 0.564724
+</code></pre>
+<pre><code>## [1] 0.559396
+</code></pre>
+<pre><code class="language-r">var(odds_r) ; var(odds_r1)
+</code></pre>
+<pre><code>## [1] 0.02306329
+</code></pre>
+<pre><code>## [1] 0.0235932
+</code></pre>
+<pre><code class="language-r">quantile(odds_r,c(0.25,0.5,0.75,0.99)) ; quantile(odds_r1,c(0.25,0.5,0.75,0.99))
+</code></pre>
+<pre><code>##       25%       50%       75%       99% 
+## 0.4557233 0.5458081 0.6511201 1.0087703
+</code></pre>
+<pre><code>##       25%       50%       75%       99% 
+## 0.4500328 0.5366413 0.6471813 1.0028043
+</code></pre>
+<p>Comparing with Jeffrey's prior and my choice, difference is small.</p>
+<h2 id="5">5</h2>
+<h3 id="5-a">5-(a)</h3>
+<p><span class="arithmatex">\(p(\sigma^2|y) \sim Inv-\chi^2(n-1,s^2),\ p(\mu|\sigma^2,y) \sim N(\bar{y},\sigma^2/n)\)</span> with n=5, <span class="arithmatex">\(\bar{y}\)</span>=10.4, <span class="arithmatex">\(s^2\)</span> = 1.3.</p>
+<h3 id="5-b">5-(b)</h3>
+<div class="arithmatex">\[p(\mu,\sigma^2|y) \propto \frac{1}{\sigma^2}\prod_{i=1}^n(\Phi(\frac{y_i+0.5-\mu}{\sigma})-\Phi(\frac{y_i-0.5-\mu}{\sigma}))\]</div>
+<h3 id="5-c">5-(c)</h3>
+<pre><code class="language-r">post.a &lt;- function(mu,sd,y){
+ldens &lt;- 0
+for (i in 1:length(y)) ldens &lt;- ldens +
+log(dnorm(y[i],mu,sd))
+ldens}
+post.b &lt;- function(mu,sd,y){
+ldens &lt;- 0
+for (i in 1:length(y)) ldens &lt;- ldens +
+log(pnorm(y[i]+0.5,mu,sd) - pnorm(y[i]-0.5,mu,sd))
+ldens}
+summ &lt;- function(x){c(mean(x),sqrt(var(x)),
+quantile(x, c(.025,.25,.5,.75,.975)))}
+nsim &lt;- 2000
+y &lt;- c(10,10,12,11,9)
+n &lt;- length(y)
+ybar &lt;- mean(y)
+s2 &lt;- sum((y-mean(y))^2)/(n-1)
+mugrid &lt;- seq(3,18,length=200)
+logsdgrid &lt;- seq(-2,4,length=200)
+contours &lt;- c(.0001,.001,.01,seq(.05,.95,.05))
+logdens &lt;- outer (mugrid, exp(logsdgrid), post.a, y)
+dens &lt;- exp(logdens - max(logdens))
+contour (mugrid, logsdgrid, dens, levels=contours,
+xlab=&quot;mu&quot;, ylab=&quot;log sigma&quot;, label=0, cex=2)
+mtext (&quot;Posterior density, ignoring rounding&quot;, 3)
+</code></pre>
+<p><img alt="" src="../HW3_files/figure-html/unnamed-chunk-5-1.png" /><!-- --></p>
+<pre><code class="language-r">sd &lt;- sqrt((n-1)*s2/rchisq(nsim,4))
+mu &lt;- rnorm(nsim,ybar,sd/sqrt(n))
+print (rbind (summ(mu),summ(sd)))
+</code></pre>
+<pre><code>##                               2.5%        25%       50%       75%     97.5%
+## [1,] 10.384610 0.8058220 9.0456124 10.0022985 10.384453 10.770302 11.779308
+## [2,]  1.439714 0.8063883 0.6947574  0.9888535  1.239987  1.640318  3.426055
+</code></pre>
+<pre><code class="language-r">logdens &lt;- outer (mugrid, exp(logsdgrid), post.b, y)
+dens &lt;- exp(logdens - max(logdens))
+contour (mugrid, logsdgrid, dens, levels=contours,
+xlab=&quot;mu&quot;, ylab=&quot;log sigma&quot;, labex=0, cex=2)
+</code></pre>
+<pre><code>## Warning in plot.window(xlim, ylim, ...): &quot;labex&quot; is not a graphical parameter
+</code></pre>
+<pre><code>## Warning in title(...): &quot;labex&quot; is not a graphical parameter
+</code></pre>
+<pre><code>## Warning in axis(side = side, at = at, labels = labels, ...): &quot;labex&quot; is not a
+## graphical parameter
+
+## Warning in axis(side = side, at = at, labels = labels, ...): &quot;labex&quot; is not a
+## graphical parameter
+</code></pre>
+<pre><code>## Warning in box(...): &quot;labex&quot; is not a graphical parameter
+</code></pre>
+<pre><code class="language-r">mtext (&quot;Posterior density, accounting for rounding&quot;,
+cex=2, 3)
+</code></pre>
+<p><img alt="" src="../HW3_files/figure-html/unnamed-chunk-5-2.png" /><!-- --></p>
+<pre><code class="language-r">dens.mu &lt;- apply(dens,1,sum)
+muindex &lt;- sample (1:length(mugrid), nsim, replace=T,
+prob=dens.mu)
+mu &lt;- mugrid[muindex]
+sd &lt;- rep (NA,nsim)
+for (i in (1:nsim)) sd[i] &lt;- exp (sample
+(logsdgrid, 1, prob=dens[muindex[i],]))
+print (rbind (summ(mu),summ(sd)))
+</code></pre>
+<pre><code>##                             2.5%        25%       50%       75%     97.5%
+## [1,] 10.3702 0.6956568 8.8793970 10.0100503 10.386935 10.763819 11.668342
+## [2,]  1.3473 0.7143081 0.5929691  0.9043828  1.186318  1.556144  3.208582
+</code></pre>
+<h3 id="5-d">5-(d)</h3>
+<pre><code class="language-r">z &lt;- matrix (NA, nsim, length(y))
+for (i in 1:length(y)){
+lower &lt;- pnorm (y[i]-.5, mu, sd)
+upper &lt;- pnorm (y[i]+.5, mu, sd)
+z[,i] &lt;- qnorm (lower + runif(nsim)*(upper-lower), mu, sd)}
+mean ((z[,1]-z[,2])^2)
+</code></pre>
+<pre><code>## [1] 0.1582345
+</code></pre>
+<h2 id="7">7</h2>
+<p>Poisson's parameter is relative with frequency of some event. We are given that total number of bicycles and others is <span class="arithmatex">\(b+v\)</span>. The likelihood we are trying to find is <span class="arithmatex">\(p(b|b+v)\)</span>.</p>
+<p>Using Bayes' Rule, we can derive likelihood.</p>
+<div class="arithmatex">\[p(b|b+v) = \frac{p(b+v|b)p(b)}{p(b+v)}$$
+$$=\frac{p(v)p(b)}{p(b+v)}\]</div>
+<div class="arithmatex">\[=\frac{Pois(\theta_v)Pois(\theta_v)}{Pois(\theta_b+\theta_v)}\]</div>
+<p>Sum of Pois dist is also Pois dist, then we can get that denominator.</p>
+<div class="arithmatex">\[p(b|b+v) = \frac{\frac{e^{-\theta_v}\theta_v^v}{v!}\frac{e^{-\theta_b}\theta_b^b}{b!}}{\frac{e^{-(\theta_b+\theta_v)(\theta_b+\theta_v)^{b+v}}}{(b+v)!}}$$
+$$=\frac{(b+v)!}{b!v!}(\frac{\theta_b}{\theta_b+\theta_v})^b(\frac{\theta_v}{\theta_b+\theta_v})^v$$
+$$=\frac{(b+v)!}{b!v!}(\frac{\theta_b}{\theta_b+\theta_v})^b(1-\frac{\theta_b}{\theta_b+\theta_v})^v\]</div>
+<p>This is a binomial distribution with <span class="arithmatex">\(b+v\)</span> trials and prop <span class="arithmatex">\(\frac{\theta_b}{\theta_b+\theta_v}\)</span>.</p>
+<h2 id="9">9</h2>
+<div class="arithmatex">\[p(\mu,\sigma^2|y) \propto p(y|\mu,\sigma^2)p(\mu,\sigma^2)\]</div>
+<p>$$ \propto \sigma^{-1}(\sigma^2)^{-((\nu_0+n)/2+1)}exp(-\frac{\nu_0\sigma^2_0+(n-1)s^2+\frac{n\kappa_0(\bar{y}-\mu_0)^2}{n_\kappa{_0}}+(n+\kappa_0)(\mu-\frac{\mu_0\kappa_0+n\bar{y}}{n+\kappa_0})^2}{2\sigma^2}) $$.</p>
+<p>So, <span class="arithmatex">\(\mu,\sigma^2|y \sim N-Inv-\chi^2(\frac{\mu_0\kappa_0+n\bar{y}}{n+\kappa_0},\frac{\sigma^2_n}{n+\kappa_0};n+\nu_0,\sigma^2_n),\ where\ \sigma^2_n =\frac{\nu_0\sigma^2_0+(n-1)s^2+\frac{n\kappa_0(\bar{y}-\mu_0)^2}{n+\kappa_0}}{n+\nu_0}\)</span>.</p>
+<h2 id="10">10</h2>
+<p><span class="arithmatex">\(p(\sigma^2_j|y) \propto (\sigma^2_j)^{-n/2-1/2}exp(-(n-1)s^2/2\sigma^2_j)\)</span> for each j.</p>
+<p>Thus <span class="arithmatex">\(p(1/\sigma^2_j|y) \propto (1/\sigma^2_j)^{n/2-3/2}exp(-(n-1)s^2/2\sigma^2_j)\)</span>, </p>
+<p>which implies that <span class="arithmatex">\((n-1)s^2/\sigma^2_j\)</span> has a <span class="arithmatex">\(\chi^2_{n-1}\)</span> distribution.</p>
+<p>Two independent <span class="arithmatex">\(\chi^2\)</span> divided by each degree of freedom, it is F distribution.</p>
+<p>By this fact, <span class="arithmatex">\(\frac{s_1^2/\sigma^2_1}{s_2^2/\sigma^2_2}\)</span> has the <span class="arithmatex">\(F_{n_1-1,n_2-1}\)</span> distribution.</p>
+<h2 id="normal-model-with-unknown-mean-and-variance">Normal model with unknown mean and variance</h2>
+<pre><code class="language-r">library(ggplot2)
+theme_set(theme_minimal())
+library(grid)
+library(gridExtra)
+library(tidyr)
+y &lt;- c(93, 112, 122, 135, 122, 150, 118, 90, 124, 114)
+n &lt;- length(y)
+s2 &lt;- var(y)
+my &lt;- mean(y)
+rsinvchisq &lt;- function(n, nu, s2, ...) nu*s2 / rchisq(n , nu, ...)
+dsinvchisq &lt;- function(x, nu, s2){
+  exp(log(nu/2)*nu/2 - lgamma(nu/2) + log(s2)/2*nu - log(x)*(nu/2+1) - (nu*s2/2)/x)
+}
+#' Sample 1000 random numbers from p(sigma2|y)
+ns &lt;- 1000
+sigma2  &lt;- rsinvchisq(ns, n-1, s2)
+#' Sample from p(mu|sigma2,y)
+mu &lt;- my + sqrt(sigma2/n)*rnorm(length(sigma2))
+#' Create a variable sigma and
+#' sample from predictive distribution p(ynew|y) for each draw of (mu, sigma)
+sigma &lt;- sqrt(sigma2)
+ynew &lt;- rnorm(ns, mu, sigma)
+#' For mu, sigma and ynew compute the density in a grid
+#' ranges for the grids
+t1l &lt;- c(90, 150)
+t2l &lt;- c(10, 60)
+nl &lt;- c(50, 185)
+t1 &lt;- seq(t1l[1], t1l[2], length.out = ns)
+t2 &lt;- seq(t2l[1], t2l[2], length.out = ns)
+xynew &lt;- seq(nl[1], nl[2], length.out = ns)
+
+#' Compute the exact marginal density of mu
+# multiplication by 1./sqrt(s2/n) is due to the transformation of
+# variable z=(x-mean(y))/sqrt(s2/n), see BDA3 p. 21
+pm &lt;- dt((t1-my) / sqrt(s2/n), n-1) / sqrt(s2/n)
+
+#' Estimate the marginal density using samples
+#' and ad hoc Gaussian kernel approximation
+pmk &lt;- density(mu, adjust = 2, n = ns, from = t1l[1], to = t1l[2])$y
+
+#' Compute the exact marginal density of sigma
+# the multiplication by 2*t2 is due to the transformation of
+# variable z=t2^2, see BDA3 p. 21
+ps &lt;- dsinvchisq(t2^2, n-1, s2) * 2*t2
+
+#' Estimate the marginal density using samples
+#' and ad hoc Gaussian kernel approximation
+psk &lt;- density(sigma, n = ns, from = t2l[1], to = t2l[2])$y
+
+#' Compute the exact predictive density
+# multiplication by 1./sqrt(s2/n) is due to the transformation of variable
+# see BDA3 p. 21
+p_new &lt;- dt((xynew-my) / sqrt(s2*(1+1/n)), n-1) / sqrt(s2*(1+1/n))
+
+#' Evaluate the joint density in a grid.
+#' Note that the following is not normalized, but for plotting
+#' contours it does not matter.
+# Combine grid points into another data frame
+# with all pairwise combinations
+dfj &lt;- data.frame(t1 = rep(t1, each = length(t2)),
+                  t2 = rep(t2, length(t1)))
+dfj$z &lt;- dsinvchisq(dfj$t2^2, n-1, s2) * 2*dfj$t2 * dnorm(dfj$t1, my, dfj$t2/sqrt(n))
+# breaks for plotting the contours
+cl &lt;- seq(1e-5, max(dfj$z), length.out = 6)
+
+#' ### Demo 3.1 Visualise the joint and marginal densities
+#' Visualise the joint density and marginal densities of the posterior
+#' of normal distribution with unknown mean and variance.
+#' 
+#' Create a plot of the marginal density of mu
+dfm &lt;- data.frame(t1, Exact = pm, Empirical = pmk) %&gt;% gather(grp, p, -t1)
+margmu &lt;- ggplot(dfm) +
+  geom_line(aes(t1, p, color = grp)) +
+  coord_cartesian(xlim = t1l) +
+  labs(title = 'Marginal of mu', x = '', y = '') +
+  scale_y_continuous(breaks = NULL) +
+  theme(legend.background = element_blank(),
+        legend.position = c(0.75, 0.8),
+        legend.title = element_blank())
+
+#' Create a plot of the marginal density of sigma
+dfs &lt;- data.frame(t2, Exact = ps, Empirical = psk) %&gt;% gather(grp, p, -t2)
+margsig &lt;- ggplot(dfs) +
+  geom_line(aes(t2, p, color = grp)) +
+  coord_cartesian(xlim = t2l) +
+  coord_flip() +
+  labs(title = 'Marginal of sigma', x = '', y = '') +
+  scale_y_continuous(breaks = NULL) +
+  theme(legend.background = element_blank(),
+        legend.position = c(0.75, 0.8),
+        legend.title = element_blank())
+</code></pre>
+<pre><code>## Coordinate system already present. Adding new coordinate system, which will replace the existing one.
+</code></pre>
+<pre><code class="language-r">#' Create a plot of the joint density
+joint1labs &lt;- c('Samples','Exact contour')
+joint1 &lt;- ggplot() +
+  geom_point(data = data.frame(mu,sigma), aes(mu, sigma, col = '1'), size = 0.1) +
+  geom_contour(data = dfj, aes(t1, t2, z = z, col = '2'), breaks = cl) +
+  coord_cartesian(xlim = t1l,ylim = t2l) +
+  labs(title = 'Joint posterior', x = '', y = '') +
+  scale_y_continuous(labels = NULL) +
+  scale_x_continuous(labels = NULL) +
+  scale_color_manual(values=c('blue', 'black'), labels = joint1labs) +
+  guides(color = guide_legend(nrow  = 1, override.aes = list(
+    shape = c(16, NA), linetype = c(0, 1), size = c(2, 1)))) +
+  theme(legend.background = element_blank(),
+        legend.position = c(0.5, 0.9),
+        legend.title = element_blank())
+
+#' Combine the plots
+#+ blank, fig.show='hide'
+# blank plot for combining the plots
+bp &lt;- grid.rect(gp = gpar(col = 'white'))
+</code></pre>
+<p><img alt="" src="../HW3_files/figure-html/unnamed-chunk-7-1.png" /><!-- --></p>
+<pre><code class="language-r">#+ combined
+grid.arrange(joint1, margsig, margmu, bp, nrow = 2)
+</code></pre>
+<p><img alt="" src="../HW3_files/figure-html/unnamed-chunk-7-2.png" /><!-- --></p>
+<pre><code class="language-r">#' ### Demo 3.2 Visualise factored distribution
+#' Visualise factored sampling and the corresponding
+#' marginal and conditional densities.
+#' 
+
+#' Create another plot of the joint posterior
+# data frame for the conditional of mu and marginal of sigma
+dfc &lt;- data.frame(mu = t1, marg = rep(sigma[1], length(t1)),
+                  cond = sigma[1] + dnorm(t1 ,my, sqrt(sigma2[1]/n)) * 100) %&gt;%
+  gather(grp, p, marg, cond)
+# legend labels for the following plot
+joint2labs &lt;- c('Exact contour plot', 'Sample from joint post.',
+               'Cond. distribution of mu', 'Sample from the marg. of sigma')
+joint2 &lt;- ggplot() +
+  geom_contour(data = dfj, aes(t1, t2, z = z, col = '1'), breaks = cl) +
+  geom_point(data = data.frame(m = mu[1], s = sigma[1]), aes(m , s, color = '2')) +
+  geom_line(data = dfc, aes(mu, p, color = grp), linetype = 'dashed') +
+  coord_cartesian(xlim = t1l,ylim = t2l) +
+  labs(title = 'Joint posterior', x = '', y = '') +
+  scale_x_continuous(labels = NULL) +
+  scale_color_manual(values=c('blue', 'darkgreen','darkgreen','black'), labels = joint2labs) +
+  guides(color = guide_legend(nrow  = 2, override.aes = list(
+    shape = c(NA, 16, NA, NA), linetype = c(1, 0, 1, 1)))) +
+  theme(legend.background = element_blank(),
+        legend.position = c(0.5, 0.85),
+        legend.title = element_blank())
+
+#' Create another plot of the marginal density of sigma
+margsig2 &lt;- ggplot(data = data.frame(t2, ps)) +
+  geom_line(aes(t2, ps), color = 'blue') +
+  coord_cartesian(xlim = t2l) +
+  coord_flip() +
+  labs(title = 'Marginal of sigma', x = '', y = '') +
+  scale_y_continuous(labels = NULL)
+</code></pre>
+<pre><code>## Coordinate system already present. Adding new coordinate system, which will replace the existing one.
+</code></pre>
+<pre><code class="language-r">#' Combine the plots
+grid.arrange(joint2, margsig2, ncol = 2)
+</code></pre>
+<p><img alt="" src="../HW3_files/figure-html/unnamed-chunk-7-3.png" /><!-- --></p>
+<pre><code class="language-r">#' ### Demo 3.3 Visualise the marginal distribution of mu
+#' Visualise the marginal distribution of mu as a mixture of normals.
+#' 
+
+#' Calculate conditional pdfs for each sample
+condpdfs &lt;- sapply(t1, function(x) dnorm(x, my, sqrt(sigma2/n)))
+
+#' Create a plot of some of them
+# data frame of 25 first samples
+dfm25 &lt;- data.frame(t1, t(condpdfs[1:25,])) %&gt;% gather(grp, p, -t1)
+condmu &lt;- ggplot(data = dfm25) +
+  geom_line(aes(t1, p, group = grp), linetype = 'dashed') +
+  labs(title = 'Conditional distribution of mu for first 25 samples', y = '', x = '') +
+  scale_y_continuous(breaks = NULL)
+
+#' create a plot of their mean
+dfsam &lt;- data.frame(t1, colMeans(condpdfs), pm) %&gt;% gather(grp,p,-t1)
+# labels
+mulabs &lt;- c('avg of sampled conds', 'exact marginal of mu')
+meanmu &lt;- ggplot(data = dfsam) +
+  geom_line(aes(t1, p, size = grp, color = grp)) +
+  labs(y = '', x = 'mu') +
+  scale_y_continuous(breaks = NULL) +
+  scale_size_manual(values = c(2, 0.8), labels = mulabs) +
+  scale_color_manual(values = c('orange', 'black'), labels = mulabs) +
+  theme(legend.position = c(0.8, 0.8),
+        legend.background = element_blank(),
+        legend.title = element_blank())
+
+#' Combine the plots
+grid.arrange(condmu, meanmu, ncol = 1)
+</code></pre>
+<p><img alt="" src="../HW3_files/figure-html/unnamed-chunk-7-4.png" /><!-- --></p>
+<pre><code class="language-r">#' ### Demo 3.4 Visualise posterior predictive distribution.
+#' Visualise sampling from the posterior predictive distribution.
+
+#' Calculate each predictive pdf with given mu and sigma
+ynewdists &lt;- sapply(xynew, function(x) dnorm(x, mu, sigma))
+
+#' Create plot of the joint posterior with a draw
+#' from the posterior predictive distribution, highlight the first sample
+#' create a plot of the joint density
+# data frame of dirst draw from sample the predictive along with the exact value for plotting
+dfp &lt;- data.frame(xynew, draw = ynewdists[1,], exact = p_new)
+# data frame for plotting the samples
+dfy &lt;- data.frame(ynew, p = 0.02*max(ynewdists))
+# legend labels
+pred1labs &lt;- c('Sample from the predictive distribution', 'Predictive distribution given the posterior sample')
+pred2labs &lt;- c('Samples from the predictive distribution', 'Exact predictive distribution')
+joint3labs &lt;- c('Samples', 'Exact contour')
+joint3 &lt;- ggplot() +
+  geom_point(data = data.frame(mu, sigma), aes(mu, sigma, col = '1'), size = 0.1) +
+  geom_contour(data = dfj, aes(t1, t2, z = z, col = '2'), breaks = cl) +
+  geom_point(data = data.frame(x = mu[1], y = sigma[1]), aes(x, y), color = 'red') +
+  coord_cartesian(xlim = t1l,ylim = t2l) +
+  labs(title = 'Joint posterior', x = 'mu', y = 'sigma') +
+  scale_color_manual(values=c('blue', 'black'), labels = joint3labs) +
+  guides(color = guide_legend(nrow  = 1, override.aes = list(
+    shape = c(16, NA), linetype = c(0, 1), size = c(2, 1)))) +
+  theme(legend.background = element_blank(),
+        legend.position=c(0.5 ,0.9),
+        legend.title = element_blank())
+
+#' Create a plot of the predicitive distribution and the respective sample
+pred1 &lt;- ggplot() +
+  geom_line(data = dfp, aes(xynew, draw, color = '2')) +
+  geom_point(data = dfy, aes(ynew[1], p, color = '1')) +
+  coord_cartesian(xlim = nl, ylim = c(0,0.04)) +
+  labs(title = 'Posterior predictive distribution', x = 'ytilde', y = '') +
+  scale_y_continuous(breaks = NULL) +
+  scale_color_manual(values = c('red', 'blue'), labels = pred1labs) +
+  guides(color = guide_legend(nrow = 2, override.aes = list(
+    linetype = c(0, 1), shape=c(16, NA), labels = pred1labs))) +
+  theme(legend.background = element_blank(),
+        legend.position = c(0.5 ,0.9),
+        legend.title = element_blank())
+
+#' Create a plot for all ynews
+pred2 &lt;- ggplot() +
+  geom_line(data = dfp, aes(xynew, draw, color = '2')) +
+  geom_point(data = dfy, aes(ynew, p, color = '1'), alpha = 0.05) +
+  coord_cartesian(xlim = nl, ylim = c(0,0.04)) +
+  labs(x = 'ytilde', y = '') +
+  scale_y_continuous(breaks=NULL) +
+  scale_color_manual(values=c('darkgreen','blue'),labels=pred2labs) +
+  guides(color = guide_legend(nrow = 2, override.aes=list(
+    linetype = c(0, 1), shape = c(16, NA), alpha = c(1, 1) ,labels = pred2labs))) +
+  theme(legend.background = element_blank(),
+        legend.position = c(0.5 ,0.9),
+        legend.title = element_blank())
+
+#' Combine the plots
+grid.arrange(joint3, pred1, bp, pred2, nrow = 2)
+</code></pre>
+<p><img alt="" src="../HW3_files/figure-html/unnamed-chunk-7-5.png" /><!-- --></p>
+<h2 id="estimating-the-speed-of-light-using-normal-model">Estimating the speed of light using normal model</h2>
+<h2 id="binomial-regression-and-grid-sampling-with-bioassay-data">Binomial regression and grid sampling with bioassay data</h2>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

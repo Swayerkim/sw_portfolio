@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Intermediate Applied Statistics Quiz II - Swayer</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Intermediate Applied Statistics Quiz II";
+        var mkdocs_page_input_path = "07 Intermediate Applied Statistics/Quiz2.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Swayer
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CPA Data Analysis</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../000%20CPA%20Data%20Analysis/likelihood/">Likelihood</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Swayer</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Intermediate Applied Statistics Quiz II</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="intermediate-applied-statistics-quiz-ii">Intermediate Applied Statistics Quiz II</h1>
+<h3 id="1-1-covid-19-table-1-s1-data-pearson-p-value-or-95-ci">1. 첨부된 논문1은 혈액형과 COVID-19의 감염에 대한 분석이다. Table 1, S1에는 Data와 이를 요약한 Pearson 카이제곱 검정통계량, p-value, OR, 95% CI등이 나와 있다. 이들이 어떻게 구해진 것인지 하나의 예 를 들어 보이시오.</h3>
+<p><img alt="" src="../07_photo3.png" /></p>
+<p>위의 테이블에서 하나의 그룹을 택하여 같은 통계량이 나오는지를 확인해보자.</p>
+<p>이를 확인해보면 우한지역의 Normal control 집단은 총 3694명과, Patients 집단은 1775명으로 이루어져있다.</p>
+<p>각 혈액형 그룹내에서 control과 treatment를 비교하고싶다면, 그때의 행렬은 <span class="arithmatex">\(2 \times 2\)</span>형태에 열은 특정 혈액형집단과 그에 대한 여집합집단으로 이루어져야한다.</p>
+<pre><code class="language-r">library(epitools)
+a &lt;- matrix(c(469,1775-469,920,3694-920),2,2)
+chisq.test(a)
+</code></pre>
+<pre><code>## 
+##  Pearson's Chi-squared test with Yates' continuity correction
+## 
+## data:  a
+## X-squared = 1.3777, df = 1, p-value = 0.2405
+</code></pre>
+<pre><code class="language-r">odds.ratio &lt;- (469/1306)/(920/2774)
+oddsratio.wald(a)
+</code></pre>
+<pre><code>## $data
+##           Outcome
+## Predictor  Disease1 Disease2 Total
+##   Exposed1      469      920  1389
+##   Exposed2     1306     2774  4080
+##   Total        1775     3694  5469
+## 
+## $measure
+##           odds ratio with 95% C.I.
+## Predictor  estimate     lower    upper
+##   Exposed1   1.0000        NA       NA
+##   Exposed2   1.0828 0.9515635 1.232136
+## 
+## $p.value
+##           two-sided
+## Predictor  midp.exact fisher.exact chi.square
+##   Exposed1         NA           NA         NA
+##   Exposed2  0.2280304    0.2324257  0.2274537
+## 
+## $correction
+## [1] FALSE
+## 
+## attr(,&quot;method&quot;)
+## [1] &quot;Unconditional MLE &amp; normal approximation (Wald) CI&quot;
+</code></pre>
+<p>위의 코드는 B형 혈액형을 기준으로 Control과 Treatment 집단을 나누어 통계량값을 구해본 결과이다.</p>
+<p>확인해보면, Oddsratio와 Pearson chi-square Statistics, oddsraio의 CI 등이 같게 나옴을 확인할 수 있다.</p>
+<h3 id="2-2-covid-19-comment">2. 첨부된 논문2는 온도 및 습도의 COVID-19의 전파력과의 관계에 대한 분석이다. 분석방법 전반에 걸쳐 comment하시오.</h3>
+<p>위의 논문을 살펴보면, 코로나바이러스가 고온 혹은 다습한 날씨에서 transmission하는 전파력이 낮아진다는 주장을 하고 있다.</p>
+<p>연구진들은 역학조사데이터를 얻고 나서 특정기간(3일) 동안 약 100여 곳의 도시들의 습도와 온도 데이터를 얻어 재생산지수와 독립변수들 간의 관계를 파악하고자 몇가지 회귀분석을 사용하였다. </p>
+<p>COVID-19가 지금 큰 영향을 전 세계에 주고 있지만, 이 바이러스가 발현하게 된 시기는 그닥 긴 시기가 아닌데, 연구진들은 분석을 할 떄, 2020년 1월 중순에서 3일동안,  21일 부터 23일까지의 온도와 습도를 얻어 이들의 평균치를 사용하여 재생산지수와의 관계를 분석하였다.</p>
+<p>물론 코로나사태 이후 동안 오랜기간이 지났던 것 은 아니지만, panel regression에 적용할 때 조금 더 오랜기간동안의 습도와 온도들의 평균치를 사용할 수 있지 않았나에 대한 생각이 들었다.</p>
+<p>논문의 앞 부분에는 인플루엔자의 전파력을 설명하면서, 코로나와 타 바이러스(사스, 인플루엔자)가 온도와 습도로 인해 변하는 영향력이 비슷하다고 언급을 한 부분이 있었는데, </p>
+<p>연구분석을 위해 데이터를 조금 더 오랜기간 동안 측정하여 분석을 하거나, 이 전 바이러스의 전파력에 대한 연구에서 측정단위를 정하는 부분에서 조금 더 참고를 하거나 이에 대한 설명이 추가로 되어있었다면 더 좋았을 것이라 생각한다.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
