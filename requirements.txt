@@ -3,3 +3,9 @@ mkdocs-material
 mkdocs-material
 mkdocs-material
 pymdown-extensions
+mkdocs-jupyter
+jupyter
+ipykernel
+matplotlib
+numpy
+pandas

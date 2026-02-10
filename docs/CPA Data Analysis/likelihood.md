@@ -19,4 +19,15 @@ $$
 
 이를 최대화하면 MLE는 $\hat{\mu} = \bar{X}$ 이다.
 
-git add .
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+plt.plot(x, y)
+plt.title("Sine Curve")
+
+plt.show()
+```
