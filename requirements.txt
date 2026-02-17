@@ -1,11 +1,9 @@
-mkdocs
 mkdocs-material
-mkdocs-material
-mkdocs-material
-pymdown-extensions
 mkdocs-jupyter
-jupyter
-ipykernel
-matplotlib
-numpy
+pymdown-extensions
+yfinance
+scikit-learn
 pandas
+numpy
+matplotlib
+ipykernel
