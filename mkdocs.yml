@@ -26,8 +26,6 @@ markdown_extensions:
       generic: true
   - pymdownx.superfences
 
-  - pymdownx.arithmatex:
-      generic: true
 
 extra_javascript:
   - javascripts/mathjax.js
@@ -38,5 +36,5 @@ extra_javascript:
 plugins:
   - search
   - mkdocs-jupyter:
-      execute: true
+      execute: false
       include_source: true
